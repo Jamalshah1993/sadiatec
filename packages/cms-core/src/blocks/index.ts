@@ -15,6 +15,12 @@ import { TeamGridBlockConfig } from './team-grid/config'
 import { EventListBlockConfig } from './event-list/config'
 import { GalleryBlockConfig } from './gallery/config'
 import { HoursLocationBlockConfig } from './hours-location/config'
+import { CaseStudiesGridBlockConfig } from './case-studies-grid/config'
+import { CompanyProfileBlockConfig } from './company-profile/config'
+import { ComplianceGridBlockConfig } from './compliance-grid/config'
+import { DownloadsGridBlockConfig } from './downloads-grid/config'
+import { BlogTeaserBlockConfig } from './blog-teaser/config'
+import { NewsListBlockConfig } from './news-list/config'
 
 export const allBlockConfigs: Block[] = [
   HeroBlockConfig,
@@ -32,6 +38,12 @@ export const allBlockConfigs: Block[] = [
   EventListBlockConfig,
   GalleryBlockConfig,
   HoursLocationBlockConfig,
+  CaseStudiesGridBlockConfig,
+  CompanyProfileBlockConfig,
+  ComplianceGridBlockConfig,
+  DownloadsGridBlockConfig,
+  BlogTeaserBlockConfig,
+  NewsListBlockConfig,
 ]
 
 export type { HeroBlockProps, HeroInlineStat, HeroKeywordPill, HeroCta } from './hero/types'
@@ -49,6 +61,12 @@ export type { TeamGridBlockProps } from './team-grid/types'
 export type { EventListBlockProps } from './event-list/types'
 export type { GalleryBlockProps } from './gallery/types'
 export type { HoursLocationBlockProps } from './hours-location/types'
+export type { CaseStudiesGridBlockProps, CaseStudyCardItem, CaseStudiesLayout } from './case-studies-grid/types'
+export type { CompanyProfileBlockProps, CompanyProfileRow, CompanyProfileCta } from './company-profile/types'
+export type { ComplianceGridBlockProps, LicenseCard, ComplianceIcon } from './compliance-grid/types'
+export type { DownloadsGridBlockProps, DownloadItem } from './downloads-grid/types'
+export type { BlogTeaserBlockProps, BlogPostTeaser } from './blog-teaser/types'
+export type { NewsListBlockProps, NewsItem } from './news-list/types'
 
 export { HeroBlock } from './hero/component'
 export { RichTextBlock } from './rich-text/component'

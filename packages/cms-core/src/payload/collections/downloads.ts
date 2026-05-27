@@ -13,6 +13,7 @@ export const DownloadsCollection: CollectionConfig = {
     { name: 'description', type: 'textarea', localized: true },
     { name: 'file', type: 'upload', relationTo: 'media', required: true },
     { name: 'category', type: 'text', localized: true },
+    { name: 'meta', type: 'text', localized: true, admin: { description: 'e.g. 12 pages, Excel file, PDF' } },
     slugField,
     { name: 'active', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },
     aiVisibleField,

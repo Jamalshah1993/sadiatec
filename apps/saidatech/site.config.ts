@@ -52,7 +52,7 @@ const siteConfig: SiteConfig = {
     seminars: true,
     gallery: false,
     testimonials: true,
-    downloads: false,
+    downloads: true,
     news: true,
     team: true,
     locations: false,

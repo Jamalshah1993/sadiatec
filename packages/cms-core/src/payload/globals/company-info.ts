@@ -23,6 +23,7 @@ export const CompanyInfoGlobal: GlobalConfig = {
     { name: 'registrationNumber', type: 'text', admin: { description: 'Corporate registration number' } },
     { name: 'foundedYear', type: 'number' },
     { name: 'capital', type: 'text', admin: { description: 'e.g. ¥10,000,000' } },
+    { name: 'licenseNumber', type: 'text', admin: { description: 'e.g. Aichi Labour Bureau dispatch license number' } },
     { name: 'employeeCount', type: 'number', admin: { description: 'Approximate headcount' } },
     {
       name: 'description',

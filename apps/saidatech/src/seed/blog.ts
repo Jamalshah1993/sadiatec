@@ -128,4 +128,101 @@ export async function seedBlog(payload: Payload): Promise<void> {
     active: true,
     aiVisible: true,
   })
+
+  // ── Homepage teaser posts ──
+  await upsertBySlug(payload, 'blog', 'dispatch-vs-outsourcing-manufacturing-hr', {
+    title: {
+      en: 'Dispatch vs. Outsourcing for Manufacturing HR',
+      ja: '製造業HR：派遣と業務委託の違いを徹底解説',
+      bn: 'ম্যানুফ্যাকচারিং এইচআর: ডিসপ্যাচ বনাম আউটসোর্সিং',
+    },
+    subtitle: {
+      en: 'Know which model fits your production line before you sign a contract',
+      ja: '契約前に自社の生産ラインに合ったモデルを選ぶ',
+      bn: 'চুক্তি সই করার আগে আপনার প্রোডাকশন লাইনে কোন মডেল উপযুক্ত তা জানুন',
+    },
+    excerpt: {
+      en: 'Japanese manufacturers face a recurring dilemma: dispatch for flexibility or outsource for cost control? This article maps the legal, operational, and cost differences so HR teams can make the right call.',
+      ja: '日本の製造業は「柔軟性のための派遣か、コスト管理のための業務委託か」という課題に直面しています。法的・運用・コストの違いを整理し、HR担当者が正しい判断を下せるよう解説します。',
+      bn: 'জাপানি উৎপাদনকারীরা বারবার একটি দ্বিধায় পড়েন: নমনীয়তার জন্য ডিসপ্যাচ নাকি খরচ নিয়ন্ত্রণের জন্য আউটসোর্স? এই নিবন্ধে আইনি, পরিচালনাগত এবং ব্যয়ের পার্থক্য ম্যাপ করা হয়েছে।',
+    },
+    category: {
+      en: 'Staffing Basics',
+      ja: '人材活用基礎',
+      bn: 'স্টাফিং বেসিক্স',
+    },
+    readTime: 8,
+    author: {
+      name: 'Saidatech Editorial Team',
+      jobTitle: { en: 'HR Strategy', ja: 'HR戦略', bn: 'এইচআর কৌশল' },
+    },
+    content: { en: richTextStub('Full article coming soon.'), ja: richTextStub('全文は近日公開予定です。'), bn: richTextStub('সম্পূর্ণ নিবন্ধ শীঘ্রই আসছে।') },
+    publishedAt: '2026-05-01',
+    active: true,
+    aiVisible: true,
+  })
+
+  await upsertBySlug(payload, 'blog', 'specified-skills-type-2-2026', {
+    title: {
+      en: 'Specified Skills Type 2: 2026 Update',
+      ja: '特定技能2号：2026年最新アップデート',
+      bn: 'বিশেষায়িত দক্ষতা টাইপ ২: ২০২৬ আপডেট',
+    },
+    subtitle: {
+      en: 'What the expanded SSW-2 pathway means for employers and candidates',
+      ja: '拡大された特定技能2号が雇用主と求職者に与える意味',
+      bn: 'বিস্তৃত এসএসডাব্লিউ-২ পথ নিয়োগকর্তা এবং প্রার্থীদের জন্য কী অর্থ রাখে',
+    },
+    excerpt: {
+      en: 'The 2026 expansion of Specified Skilled Worker Type 2 status opens permanent residency pathways across 11 industrial sectors. Here is what HR teams need to prepare for before the new rules take effect.',
+      ja: '2026年の特定技能2号拡大により、11産業分野で永住への道が開かれます。新制度施行前にHR担当者が準備すべきことを解説します。',
+      bn: '২০২৬ সালের বিশেষায়িত দক্ষ কর্মী টাইপ ২ স্ট্যাটাসের সম্প্রসারণ ১১টি শিল্প খাতে স্থায়ী বাসিন্দার পথ খুলে দেয়। নতুন নিয়ম কার্যকর হওয়ার আগে এইচআর দলের কী প্রস্তুতি নেওয়া দরকার তা এখানে।',
+    },
+    category: {
+      en: 'Foreign Workers',
+      ja: '外国人材',
+      bn: 'বিদেশী কর্মী',
+    },
+    readTime: 10,
+    author: {
+      name: 'Saidatech Editorial Team',
+      jobTitle: { en: 'Visa & Compliance', ja: 'ビザ・コンプライアンス', bn: 'ভিসা ও সম্মতি' },
+    },
+    content: { en: richTextStub('Full article coming soon.'), ja: richTextStub('全文は近日公開予定です。'), bn: richTextStub('সম্পূর্ণ নিবন্ধ শীঘ্রই আসছে।') },
+    publishedAt: '2026-04-18',
+    active: true,
+    aiVisible: true,
+  })
+
+  await upsertBySlug(payload, 'blog', 'workplace-improvements-boost-retention', {
+    title: {
+      en: '5 Workplace Improvements That Boost Retention',
+      ja: '定着率を高める5つの職場改善策',
+      bn: '৫টি কর্মক্ষেত্র উন্নতি যা ধরে রাখার হার বাড়ায়',
+    },
+    subtitle: {
+      en: 'Small, low-cost changes that make foreign workers want to stay for year two and beyond',
+      ja: '外国人材が2年目以降も働き続けたいと思う低コストの小さな改善策',
+      bn: 'ছোট, কম খরচের পরিবর্তন যা বিদেশী কর্মীদের দ্বিতীয় বছর এবং তার পরেও থাকতে চাওয়ায়',
+    },
+    excerpt: {
+      en: 'Turnover among foreign workers spikes at the 12-month mark. But companies that implement five specific workplace practices see retention rates jump by up to 40%. The changes are simpler than most HR teams expect.',
+      ja: '外国人労働者の離職率は12ヶ月目に急増します。しかし、5つの職場改善策を実施した企業は定着率が最大40%向上。その変化はほとんどのHR担当者が想像するよりシンプルです。',
+      bn: 'বিদেশী কর্মীদের টার্নওভার ১২ মাসের সময়সীমায় বৃদ্ধি পায়। কিন্তু যে কোম্পানিগুলি পাঁচটি নির্দিষ্ট কর্মক্ষেত্র অনুশীলন বাস্তবায়ন করে তারা ধরে রাখার হার ৪০% পর্যন্ত বাড়তে দেখে।',
+    },
+    category: {
+      en: 'Retention',
+      ja: '定着・採用',
+      bn: 'ধরে রাখা',
+    },
+    readTime: 6,
+    author: {
+      name: 'Saidatech Editorial Team',
+      jobTitle: { en: 'Workplace Culture', ja: '職場文化', bn: 'কর্মক্ষেত্র সংস্কৃতি' },
+    },
+    content: { en: richTextStub('Full article coming soon.'), ja: richTextStub('全文は近日公開予定です。'), bn: richTextStub('সম্পূর্ণ নিবন্ধ শীঘ্রই আসছে।') },
+    publishedAt: '2026-04-05',
+    active: true,
+    aiVisible: true,
+  })
 }

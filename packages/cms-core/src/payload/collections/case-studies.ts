@@ -25,6 +25,10 @@ export const CaseStudiesCollection: CollectionConfig = {
     { name: 'challenge', type: 'richText', localized: true },
     { name: 'solution', type: 'richText', localized: true },
     { name: 'outcome', type: 'richText', localized: true },
+    { name: 'role', type: 'text', localized: true, admin: { description: 'e.g. HR Director • TechGlobal Inc.' } },
+    { name: 'metricValue', type: 'text', localized: true, admin: { description: 'e.g. 100%, 14 Days, 1st' } },
+    { name: 'metricCaption', type: 'text', localized: true, admin: { description: 'e.g. Fluency & confidence achieved' } },
+    { name: 'photo', type: 'upload', relationTo: 'media', admin: { description: 'Avatar / headshot (distinct from featured image)' } },
     { name: 'featuredImage', type: 'upload', relationTo: 'media' },
     {
       name: 'results',

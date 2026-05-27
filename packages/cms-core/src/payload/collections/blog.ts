@@ -32,6 +32,7 @@ export const BlogCollection: CollectionConfig = {
         { name: 'jobTitle', type: 'text', localized: true },
       ],
     },
+    { name: 'readTime', type: 'number', admin: { description: 'Estimated read time in minutes', position: 'sidebar' } },
     { name: 'publishedAt', type: 'date', required: true, admin: { position: 'sidebar' } },
     slugField,
     { name: 'active', type: 'checkbox', defaultValue: true, admin: { position: 'sidebar' } },

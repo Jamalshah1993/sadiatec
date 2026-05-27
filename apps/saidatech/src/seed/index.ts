@@ -1,10 +1,12 @@
 import { getPayload } from 'payload'
 import config from '../../payload.config'
 import { upsertGlobal } from '@saidatech/cms-core/seed'
+import { seedBlog } from './blog'
+import { seedCaseStudies } from './case-studies'
+import { seedDownloads } from './downloads'
+import { seedNews } from './news'
 import { seedHome } from './pages/home'
 import { seedServicesPage, seedServices } from './services'
-import { seedCaseStudies } from './case-studies'
-import { seedBlog } from './blog'
 import { seedSeminars } from './seminars'
 import { seedJobs } from './jobs'
 import { seedFAQs } from './faqs'
@@ -28,12 +30,19 @@ async function seed() {
 
   if (shouldSeed) {
     payload.logger.info('🌱 Seeding initial data...');
-    
+
+    // Seed collections BEFORE pages so home.ts can query their IDs
+    await seedCaseStudies(payload);
+    await seedBlog(payload);
+    await seedDownloads();
+    await seedNews(payload);
+
+    // Pages (home queries blog IDs seeded above)
     await seedHome(payload);
     await seedServicesPage(payload);
     await seedServices(payload);
-    await seedCaseStudies(payload);
-    await seedBlog(payload);
+
+    // Remaining collections
     await seedSeminars(payload);
     await seedJobs(payload);
     await seedFAQs(payload);

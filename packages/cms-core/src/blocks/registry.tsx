@@ -30,6 +30,18 @@ import { GalleryBlock } from './gallery/component'
 import { adaptGalleryBlock } from './gallery/adapter'
 import { HoursLocationBlock } from './hours-location/component'
 import { adaptHoursLocationBlock } from './hours-location/adapter'
+import { CaseStudiesGridBlock } from './case-studies-grid/component'
+import { adaptCaseStudiesGridBlock } from './case-studies-grid/adapter'
+import { CompanyProfileBlock } from './company-profile/component'
+import { adaptCompanyProfileBlock } from './company-profile/adapter'
+import { ComplianceGridBlock } from './compliance-grid/component'
+import { adaptComplianceGridBlock } from './compliance-grid/adapter'
+import { DownloadsGridBlock } from './downloads-grid/component'
+import { adaptDownloadsGridBlock } from './downloads-grid/adapter'
+import { BlogTeaserBlock } from './blog-teaser/component'
+import { adaptBlogTeaserBlock } from './blog-teaser/adapter'
+import { NewsListBlock } from './news-list/component'
+import { adaptNewsListBlock } from './news-list/adapter'
 
 export type BlockRenderer = (raw: unknown) => ReactNode
 
@@ -49,4 +61,10 @@ export const blockRegistry: Record<string, BlockRenderer> = {
   'event-list':          (raw) => <EventListBlock          {...adaptEventListBlock(raw)} />,
   'gallery':             (raw) => <GalleryBlock            {...adaptGalleryBlock(raw)} />,
   'hours-location':      (raw) => <HoursLocationBlock      {...adaptHoursLocationBlock(raw)} />,
+  'case-studies-grid':   (raw) => <CaseStudiesGridBlock    {...adaptCaseStudiesGridBlock(raw)} />,
+  'company-profile':     (raw) => <CompanyProfileBlock     {...adaptCompanyProfileBlock(raw)} />,
+  'compliance-grid':     (raw) => <ComplianceGridBlock     {...adaptComplianceGridBlock(raw)} />,
+  'downloads-grid':      (raw) => <DownloadsGridBlock      {...adaptDownloadsGridBlock(raw)} />,
+  'blog-teaser':         (raw) => <BlogTeaserBlock         {...adaptBlogTeaserBlock(raw)} />,
+  'news-list':           (raw) => <NewsListBlock           {...adaptNewsListBlock(raw)} />,
 }

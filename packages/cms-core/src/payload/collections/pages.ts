@@ -18,6 +18,12 @@ import { TeamGridBlockConfig } from '../../blocks/team-grid/config'
 import { EventListBlockConfig } from '../../blocks/event-list/config'
 import { GalleryBlockConfig } from '../../blocks/gallery/config'
 import { HoursLocationBlockConfig } from '../../blocks/hours-location/config'
+import { CaseStudiesGridBlockConfig } from '../../blocks/case-studies-grid/config'
+import { CompanyProfileBlockConfig } from '../../blocks/company-profile/config'
+import { ComplianceGridBlockConfig } from '../../blocks/compliance-grid/config'
+import { DownloadsGridBlockConfig } from '../../blocks/downloads-grid/config'
+import { BlogTeaserBlockConfig } from '../../blocks/blog-teaser/config'
+import { NewsListBlockConfig } from '../../blocks/news-list/config'
 
 function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
   return [
@@ -36,6 +42,11 @@ function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
     ...(siteConfig.features.events ? [EventListBlockConfig] : []),
     ...(siteConfig.features.gallery ? [GalleryBlockConfig] : []),
     ...(siteConfig.features.locations ? [HoursLocationBlockConfig] : []),
+    ...(siteConfig.features.caseStudies ? [CaseStudiesGridBlockConfig] : []),
+    ...(siteConfig.features.company ? [CompanyProfileBlockConfig, ComplianceGridBlockConfig] : []),
+    ...(siteConfig.features.downloads ? [DownloadsGridBlockConfig] : []),
+    ...(siteConfig.features.blog ? [BlogTeaserBlockConfig] : []),
+    NewsListBlockConfig,
   ]
 }
 
