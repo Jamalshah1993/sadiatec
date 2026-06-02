@@ -10,7 +10,7 @@ import { BentoGridBlock } from './bento-grid/component'
 import { adaptBentoGridBlock } from './bento-grid/adapter'
 import { CaseStudyCarouselBlock } from './case-study-carousel/component'
 import { adaptCaseStudyCarouselBlock } from './case-study-carousel/adapter'
-import { TimelineBlock } from './timeline/component'
+import { OpeningsProcessBlock } from './timeline/component'
 import { adaptTimelineBlock } from './timeline/adapter'
 import { LogoCloudBlock } from './logo-cloud/component'
 import { adaptLogoCloudBlock } from './logo-cloud/adapter'
@@ -51,7 +51,7 @@ export const blockRegistry: Record<string, BlockRenderer> = {
   'services-grid':       (raw) => <ServicesGridBlock       {...adaptServicesGridBlock(raw)} />,
   'bento-grid':          (raw) => <BentoGridBlock          {...adaptBentoGridBlock(raw)} />,
   'case-study-carousel': (raw) => <CaseStudyCarouselBlock  {...adaptCaseStudyCarouselBlock(raw)} />,
-  'timeline':            (raw) => <TimelineBlock           {...adaptTimelineBlock(raw)} />,
+  'timeline':            (raw) => <OpeningsProcessBlock    {...adaptTimelineBlock(raw)} />,
   'logo-cloud':          (raw) => <LogoCloudBlock          {...adaptLogoCloudBlock(raw)} />,
   'cta-banner':          (raw) => <CTABannerBlock          {...adaptCTABannerBlock(raw)} />,
   'rich-text':           (raw) => <RichTextBlock           {...adaptRichTextBlock(raw)} />,

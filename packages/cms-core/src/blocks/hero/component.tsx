@@ -19,7 +19,7 @@ const PILL_POSITIONS = [
   'top-[50%] right-[2%]',
   'top-[70%] left-[6%]',
   'top-[72%] right-[18%]',
-  'top-[14%] left-[55%]',
+  'top-[20%] left-[38%]',
   'top-[40%] left-[46%]',
   'top-[62%] left-[48%]',
   'top-[86%] left-[28%]',

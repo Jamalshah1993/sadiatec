@@ -26,128 +26,130 @@ function Logo({ dark }: { dark: boolean }) {
   )
 }
 
-// 🛠️ Updated to take the entire item object so it can display the featured layout elements
+// 🛠️ Updated with an invisible padding bridge to prevent closing on hover
 function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
   const columns = item.megaColumns ?? []
 
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[1100px] max-w-[95vw]
-        bg-white rounded-2xl shadow-2xl border border-neutral-100 p-8 z-50
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-[1100px] max-w-[95vw] z-50
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
-        transition-all duration-200 origin-top pointer-events-none group-hover/item:pointer-events-auto
-        grid grid-cols-12 gap-8 text-left"
+        transition-all duration-200 origin-top pointer-events-none group-hover/item:pointer-events-auto"
     >
-      {/* 🖼️ Left Featured Image Slot (Spans 3 of 12 columns for a clean portrait look) */}
-      <div className="col-span-3 relative rounded-2xl overflow-hidden min-h-[380px] bg-neutral-50">
-        {item.featuredImageUrl ? (
-          <img
-            src={item.featuredImageUrl}
-            alt={item.featuredImageAlt || 'Featured Service'}
-            className="object-cover w-full h-full absolute inset-0"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-xs text-neutral-400 italic bg-neutral-50/50">
-            No Image Selected
-          </div>
-        )}
-      </div>
+      {/* ⚡ The pt-3 above is the invisible bridge across the gap. The styled contents live inside here: */}
+      <div className="bg-white rounded-2xl shadow-2xl border border-neutral-100 p-8 grid grid-cols-12 gap-8 text-left">
+        {/* 🖼️ Left Featured Image Slot */}
+        <div className="col-span-3 relative rounded-2xl overflow-hidden min-h-[380px] bg-neutral-50">
+          {item.featuredImageUrl ? (
+            <img
+              src={item.featuredImageUrl}
+              alt={item.featuredImageAlt || 'Featured Service'}
+              className="object-cover w-full h-full absolute inset-0"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-xs text-neutral-400 italic bg-neutral-50/50">
+              No Image Selected
+            </div>
+          )}
+        </div>
 
-      {/* 📊 Dynamic Columns Container (Spans 9 of 12 columns) */}
-      <div 
-        className="col-span-9 grid grid-cols-3 gap-8"
-      >
-        {columns.map((col, ci) => {
-          // Check if this column is the "MORE SERVICES" sidebar panel
-          const isSidebar = col.heading?.toLowerCase().includes('more')
+        {/* 📊 Dynamic Columns Container */}
+        <div className="col-span-9 grid grid-cols-3 gap-8">
+          {columns.map((col, ci) => {
 
-          if (isSidebar) {
+            // 🌟 FIX: Check if it's the 3rd column (index 2) OR if it includes 'more'
+            const isSidebar = ci === 2 || col.heading?.toLowerCase().includes('more')
+
+            if (isSidebar) {
+              return (
+                <div key={ci} className="flex flex-col bg-slate-50/50 border-l border-neutral-100 pl-8 -my-8 py-8 rounded-r-2xl">
+                  {col.heading && (
+                    <p className="mb-5 text-[11px] font-bold uppercase tracking-wider text-amber-600">
+                      {col.heading}
+                    </p>
+                  )}
+                  <ul className="space-y-2.5">
+                    {(col.items ?? []).map((subItem) => (
+                      <li key={subItem.href}>
+                        <Link
+                          href={subItem.href}
+                          className="group flex items-center gap-3 rounded-xl bg-white border border-neutral-100/80 
+                            px-4 py-3 text-sm font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.02)]
+                            hover:text-amber-600 hover:border-amber-200 hover:shadow-md transition-all duration-200"
+                        >
+                          <svg 
+                            className="h-3.5 w-3.5 text-slate-400 group-hover:text-amber-500 transition-colors shrink-0" 
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                          </svg>
+                          <span className="leading-tight truncate">{subItem.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+
             return (
-              <div key={ci} className="flex flex-col bg-slate-50/50 border-l border-neutral-100 pl-8 -my-8 py-8 rounded-r-2xl">
+              <div key={ci} className="flex flex-col space-y-6">
                 {col.heading && (
-                  <p className="mb-5 text-[11px] font-bold uppercase tracking-wider text-amber-600">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
                     {col.heading}
                   </p>
                 )}
-                <ul className="space-y-2.5">
+                <ul className="space-y-6">
                   {(col.items ?? []).map((subItem) => (
                     <li key={subItem.href}>
                       <Link
                         href={subItem.href}
-                        className="group flex items-center gap-3 rounded-xl bg-white border border-neutral-100/80 
-                          px-4 py-3 text-sm font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.02)]
-                          hover:text-amber-600 hover:border-amber-200 hover:shadow-md transition-all duration-200"
+                        className="group block text-left navigation-item-wrapper focus:outline-none"
                       >
-                        {/* Elegant Top-Left/North-East Arrow Icon matching image_b3c3c1.jpg */}
-                        <svg 
-                          className="h-3.5 w-3.5 text-slate-400 group-hover:text-amber-500 transition-colors shrink-0" 
-                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                        </svg>
-                        <span className="leading-tight truncate">{subItem.label}</span>
+                        <span className="block text-[15px] font-bold text-gray-900 group-hover:text-amber-600 transition-colors leading-snug">
+                          {subItem.label}
+                        </span>
+                        {subItem.description && (
+                          <p className="mt-1 text-xs text-gray-500 font-normal leading-relaxed group-hover:text-gray-600 transition-colors">
+                            {subItem.description}
+                          </p>
+                        )}
                       </Link>
                     </li>
                   ))}
                 </ul>
               </div>
             )
-          }
-
-          // Main Services Grid Columns (Columns 1 and 2)
-          return (
-            <div key={ci} className="flex flex-col space-y-6">
-              {col.heading && (
-                <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
-                  {col.heading}
-                </p>
-              )}
-              <ul className="space-y-6">
-                {(col.items ?? []).map((subItem) => (
-                  <li key={subItem.href}>
-                    <Link
-                      href={subItem.href}
-                      className="group block text-left navigation-item-wrapper focus:outline-none"
-                    >
-                      <span className="block text-[15px] font-bold text-gray-900 group-hover:text-amber-600 transition-colors leading-snug">
-                        {subItem.label}
-                      </span>
-                      {subItem.description && (
-                        <p className="mt-1 text-xs text-gray-500 font-normal leading-relaxed group-hover:text-gray-600 transition-colors">
-                          {subItem.description}
-                        </p>
-                      )}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        })}
+          })}
+        </div>
       </div>
     </div>
   )
 }
+
+// 🛠️ Updated standard dropdown with uniform rounding on all corners
 function DropdownPanel({ items }: { items: { label: string; href: string }[] }) {
   return (
-    <ul
-      className="absolute top-full left-0 mt-0 min-w-[220px] rounded-b-xl bg-white
-        shadow-xl border border-neutral-100 py-2 z-50
+    <div
+      className="absolute top-full left-0 pt-3 min-w-[220px] z-50
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top-left pointer-events-none group-hover/item:pointer-events-auto"
     >
-      {items.map((child) => (
-        <li key={child.href}>
-          <Link
-            href={child.href}
-            className="block px-5 py-2.5 text-sm text-gray-700 hover:text-amber-600
-              hover:bg-amber-50 transition-colors"
-          >
-            {child.label}
-          </Link>
-        </li>
-      ))}
-    </ul>
+      {/* 🌟 Changed from rounded-b-xl to rounded-xl to get curves on all 4 corners like the 2nd screenshot */}
+      <ul className="rounded-xl bg-white shadow-xl border border-neutral-100 py-2.5 overflow-hidden">
+        {items.map((child) => (
+          <li key={child.href}>
+            <Link
+              href={child.href}
+              className="block px-5 py-2.5 text-sm text-gray-700 hover:text-amber-600
+                hover:bg-amber-50 transition-colors"
+            >
+              {child.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 
@@ -228,17 +230,47 @@ export function HeaderClient({
             </ul>
           </nav>
 
-          {/* Right: locale switcher + CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <LocaleSwitcher locales={locales} localeLabels={localeLabels} />
+          {/* Right: inline flag switcher + CTA */}
+          <div className="hidden md:flex items-center gap-5">
 
+            {/* 🗺️ Inline Flag Matrix matching image_4b0e87.jpg */}
+            <div className="flex items-center gap-3" aria-label="Language selection">
+              {locales.map((loc) => {
+                const isActive = locale === loc
+                const flagIcon = localeLabels[loc] || loc
+
+                return (
+                  <Link
+                    key={loc}
+                    href="/"
+                    locale={loc} /* 👈 next-intl auto-handles prefix transitions on this Link */
+                    className={[
+                      'text-xl p-1 rounded-md transition-all duration-200 hover:scale-115 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
+                      isActive
+                        ? 'opacity-100 drop-shadow-md scale-105 filter-none'
+                        : 'opacity-40 hover:opacity-80 saturated-50'
+                    ].join(' ')}
+                    title={`Switch to ${loc.toUpperCase()}`}
+                  >
+                    <span className="inline-block transform-gpu select-none leading-none">
+                      {flagIcon}
+                    </span>
+                  </Link>
+                )
+              })}
+            </div>
+
+            {/* Separator line between flags and CTA */}
+            <div className={`h-5 w-px ${scrolled ? 'bg-gray-200' : 'bg-white/20'}`} />
+
+            {/* CTA Action button */}
             {ctaLabel && (
               <Link href={ctaHref}>
                 <button
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-amber-500
-                    px-6 py-2.5 text-sm font-bold text-white shadow-md
-                    transition-all duration-200 hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-lg"
+          px-6 py-2.5 text-sm font-bold text-white shadow-md
+          transition-all duration-200 hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   {ctaLabel}
                 </button>
