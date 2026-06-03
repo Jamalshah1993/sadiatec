@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Link } from '@/i18n/routing'
 import { LocaleSwitcher } from './LocaleSwitcher'
 import { MobileMenu } from './MobileMenu'
@@ -26,7 +27,7 @@ function Logo({ dark }: { dark: boolean }) {
   )
 }
 
-// 🛠️ Updated with an invisible padding bridge to prevent closing on hover
+// 🛠️ MegaMenuPanel
 function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
   const columns = item.megaColumns ?? []
 
@@ -36,9 +37,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top pointer-events-none group-hover/item:pointer-events-auto"
     >
-      {/* ⚡ The pt-3 above is the invisible bridge across the gap. The styled contents live inside here: */}
       <div className="bg-white rounded-2xl shadow-2xl border border-neutral-100 p-8 grid grid-cols-12 gap-8 text-left">
-        {/* 🖼️ Left Featured Image Slot */}
         <div className="col-span-3 relative rounded-2xl overflow-hidden min-h-[380px] bg-neutral-50">
           {item.featuredImageUrl ? (
             <img
@@ -53,11 +52,8 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
           )}
         </div>
 
-        {/* 📊 Dynamic Columns Container */}
         <div className="col-span-9 grid grid-cols-3 gap-8">
           {columns.map((col, ci) => {
-
-            // 🌟 FIX: Check if it's the 3rd column (index 2) OR if it includes 'more'
             const isSidebar = ci === 2 || col.heading?.toLowerCase().includes('more')
 
             if (isSidebar) {
@@ -127,7 +123,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
   )
 }
 
-// 🛠️ Updated standard dropdown with uniform rounding on all corners
+// 🛠️ DropdownPanel
 function DropdownPanel({ items }: { items: { label: string; href: string }[] }) {
   return (
     <div
@@ -135,7 +131,6 @@ function DropdownPanel({ items }: { items: { label: string; href: string }[] }) 
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top-left pointer-events-none group-hover/item:pointer-events-auto"
     >
-      {/* 🌟 Changed from rounded-b-xl to rounded-xl to get curves on all 4 corners like the 2nd screenshot */}
       <ul className="rounded-xl bg-white shadow-xl border border-neutral-100 py-2.5 overflow-hidden">
         {items.map((child) => (
           <li key={child.href}>
@@ -162,6 +157,7 @@ export function HeaderClient({
   locale,
 }: HeaderClientProps) {
   const [scrolled, setScrolled] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -170,15 +166,34 @@ export function HeaderClient({
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const navTextClass = scrolled ? 'text-gray-700 hover:text-amber-600' : 'text-white/90 hover:text-white'
-  const chevronClass = scrolled ? 'text-gray-400' : 'text-white/60'
+  // 1. Strip language directories out (/ja/about -> /about, /en -> /)
+  const strippedPath = pathname.replace(/^\/(en|ja|bn)(?=\/|$)/, '') || '/'
+  
+  // 2. Identify whether we are currently visiting the homepage path
+  const isHomepage = strippedPath === '/'
+
+  // 3. Force dark text styling and white backgrounds everywhere *except* an unscrolled homepage
+  const shouldShowDarkHeader = scrolled || !isHomepage
+
+  const navTextClass = shouldShowDarkHeader 
+    ? 'text-gray-700 hover:text-amber-600' 
+    : 'text-white/90 hover:text-white'
+    
+  const chevronClass = shouldShowDarkHeader ? 'text-gray-400' : 'text-white/60'
+
+  function isActive(item: ResolvedNavItem): boolean {
+    const hasChildren = (item.children?.length ?? 0) > 0 || (item.megaMenu && (item.megaColumns?.length ?? 0) > 0)
+    return hasChildren
+      ? strippedPath.startsWith(item.href)
+      : strippedPath === item.href
+  }
 
   return (
     <header
       className={[
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm'
+        shouldShowDarkHeader
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-neutral-100'
           : 'bg-transparent',
       ].join(' ')}
     >
@@ -191,7 +206,7 @@ export function HeaderClient({
             aria-label="Sadia Tec Home"
             className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 rounded-sm"
           >
-            <Logo dark={scrolled} />
+            <Logo dark={shouldShowDarkHeader} />
           </Link>
 
           {/* Desktop nav */}
@@ -201,14 +216,21 @@ export function HeaderClient({
                 const hasMega = item.megaMenu && (item.megaColumns ?? []).length > 0
                 const hasDropdown = !hasMega && (item.children ?? []).length > 0
 
+                const active = isActive(item)
+                const activeTextClass = shouldShowDarkHeader
+                  ? 'text-amber-600 font-bold'
+                  : 'text-white font-bold'
+                const isLeaf = !hasMega && !hasDropdown
+
                 return (
                   <li key={item.href} className="relative group/item">
                     <Link
                       href={item.href}
+                      aria-current={active && isLeaf ? 'page' : undefined}
                       className={[
                         'inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-semibold',
                         'transition-colors duration-200 min-h-[44px]',
-                        navTextClass,
+                        active ? activeTextClass : navTextClass,
                       ].join(' ')}
                     >
                       {item.label}
@@ -233,20 +255,20 @@ export function HeaderClient({
           {/* Right: inline flag switcher + CTA */}
           <div className="hidden md:flex items-center gap-5">
 
-            {/* 🗺️ Inline Flag Matrix matching image_4b0e87.jpg */}
+            {/* Inline Flag Matrix */}
             <div className="flex items-center gap-3" aria-label="Language selection">
               {locales.map((loc) => {
-                const isActive = locale === loc
+                const isCurrentLocale = locale === loc
                 const flagIcon = localeLabels[loc] || loc
 
                 return (
                   <Link
                     key={loc}
-                    href="/"
-                    locale={loc} /* 👈 next-intl auto-handles prefix transitions on this Link */
+                    href={strippedPath} /* 👈 Changed from "/" so it re-targets your exact current inner route position */
+                    locale={loc}
                     className={[
                       'text-xl p-1 rounded-md transition-all duration-200 hover:scale-115 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
-                      isActive
+                      isCurrentLocale
                         ? 'opacity-100 drop-shadow-md scale-105 filter-none'
                         : 'opacity-40 hover:opacity-80 saturated-50'
                     ].join(' ')}
@@ -261,7 +283,7 @@ export function HeaderClient({
             </div>
 
             {/* Separator line between flags and CTA */}
-            <div className={`h-5 w-px ${scrolled ? 'bg-gray-200' : 'bg-white/20'}`} />
+            <div className={`h-5 w-px ${shouldShowDarkHeader ? 'bg-gray-200' : 'bg-white/20'}`} />
 
             {/* CTA Action button */}
             {ctaLabel && (
@@ -269,8 +291,8 @@ export function HeaderClient({
                 <button
                   type="button"
                   className="inline-flex items-center justify-center rounded-full bg-amber-500
-          px-6 py-2.5 text-sm font-bold text-white shadow-md
-          transition-all duration-200 hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-lg"
+                    px-6 py-2.5 text-sm font-bold text-white shadow-md
+                    transition-all duration-200 hover:bg-amber-600 hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   {ctaLabel}
                 </button>
@@ -286,7 +308,7 @@ export function HeaderClient({
               ctaHref={ctaHref}
               locales={locales}
               localeLabels={localeLabels}
-              scrolled={scrolled}
+              scrolled={shouldShowDarkHeader}
             />
           </div>
         </div>
