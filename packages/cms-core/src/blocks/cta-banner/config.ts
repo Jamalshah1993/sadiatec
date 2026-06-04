@@ -22,6 +22,43 @@ export const CTABannerBlockConfig: Block = {
       fields: [
         { name: 'label', type: 'text', localized: true },
         { name: 'href', type: 'text' },
+        {
+          name: 'variant',
+          type: 'select',
+          defaultValue: 'outline',
+          options: [
+            { label: 'Solid', value: 'solid' },
+            { label: 'Outline', value: 'outline' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'primaryButtonVariant',
+      type: 'select',
+      defaultValue: 'solid',
+      options: [
+        { label: 'Solid', value: 'solid' },
+        { label: 'Outline', value: 'outline' },
+      ],
+    },
+    {
+      name: 'backgroundStyle',
+      type: 'select',
+      defaultValue: 'brand',
+      options: [
+        { label: 'Brand', value: 'brand' },
+        { label: 'Dark', value: 'dark' },
+        { label: 'Light', value: 'light' },
+      ],
+    },
+    {
+      name: 'layout',
+      type: 'select',
+      defaultValue: 'centered',
+      options: [
+        { label: 'Centered', value: 'centered' },
+        { label: 'Split (text left, CTA right)', value: 'split' },
       ],
     },
     {

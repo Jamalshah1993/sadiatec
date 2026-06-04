@@ -2,6 +2,14 @@
   "nav": {
     "home": "ホーム",
     "about": "会社概要",
+    "aboutLinks": {
+      "about": "会社情報",
+      "ceoMessage": "代表メッセージ",
+      "overview": "組織概要",
+      "business": "事業内容",
+      "gallery": "ギャラリー",
+      "history": "沿革"
+    },
     "services": "サービス",
     "jobs": "求人",
     "seminars": "セミナー",

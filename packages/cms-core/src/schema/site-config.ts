@@ -80,6 +80,7 @@ const featuresSchema = z.object({
   recruit: z.boolean(),
   faq: z.boolean(),
   contact: z.boolean(),
+  about: z.boolean(),
 })
 
 const navSchema = z.object({

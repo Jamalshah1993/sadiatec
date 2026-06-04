@@ -2,6 +2,14 @@
   "nav": {
     "home": "হোম",
     "about": "আমাদের সম্পর্কে",
+    "aboutLinks": {
+      "about": "সম্পর্কে",
+      "ceoMessage": "সিইও-র বার্তা",
+      "overview": "সংগঠন পরিচিতি",
+      "business": "ব্যবসায়িক বিষয়বস্তু",
+      "gallery": "গ্যালারি",
+      "history": "ইতিহাস"
+    },
     "services": "সেবাসমূহ",
     "jobs": "চাকরি",
     "seminars": "সেমিনার",

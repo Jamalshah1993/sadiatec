@@ -136,10 +136,10 @@ export async function Header({ locale }: { locale: string }) {
     const tNav = await getTranslations({ locale, namespace: 'nav' })
 
     const aboutSubLinks: ResolvedNavChild[] = [
-      { label: tNav('aboutLinks.ceoMessage'), href: '/about/ceo-message' },
-      { label: tNav('aboutLinks.overview'), href: '/about/overview' },
-      { label: tNav('aboutLinks.business'), href: '/about/business' },
-      { label: tNav('aboutLinks.history'), href: '/about/history' },
+      { label: tNav('aboutLinks.ceoMessage'), href: '/ceo-message' },
+      { label: tNav('aboutLinks.overview'), href: '/organization-overview' },
+      { label: tNav('aboutLinks.business'), href: '/business-contents' },
+      { label: tNav('aboutLinks.history'), href: '/history' },
       { label: tNav('aboutLinks.gallery'), href: '/gallery' },
     ]
 
