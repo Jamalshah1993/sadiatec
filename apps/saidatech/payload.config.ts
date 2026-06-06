@@ -22,17 +22,25 @@ const db =
 
 const baseConfig = buildCmsConfig(siteConfig, undefined, db)
 
+const allowedOrigins = [
+  process.env.NEXT_PUBLIC_SERVER_URL,
+  'http://localhost:3000',
+  'http://localhost:3001',
+].filter(Boolean) as string[]
+
 const finalConfig = {
   ...baseConfig,
+   serverURL: process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000',
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
   admin: {
     ...baseConfig.admin,
-    // Tell Payload where to find and auto-generate the file map at runtime
     importMap: {
       baseDir: path.resolve(__dirname, './src/app/(payload)'),
     },
     ...(process.env.NODE_ENV === 'development' ? {
       autoLogin: {
-        email: 'admin@payloadcms.com', 
+        email: 'admin@payloadcms.com',
         password: 'test',
         prefillOnly: true,
       }
@@ -42,8 +50,7 @@ const finalConfig = {
 
 // ✅ Type-safe check: Ensure Payload config gets an importMap wrapper if it demands one
 if ('importMap' in baseConfig) {
-  delete (finalConfig as any).importMa
-
+  delete (finalConfig as any).importMap
 }
 
 // 🚨 IMPORTANT: Storage Configuration (Local for now)
