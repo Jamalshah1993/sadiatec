@@ -42,7 +42,15 @@ const finalConfig = {
 
 // ✅ Type-safe check: Ensure Payload config gets an importMap wrapper if it demands one
 if ('importMap' in baseConfig) {
-  delete (finalConfig as any).importMap
+  delete (finalConfig as any).importMa
+
+}
+
+// 🚨 IMPORTANT: Storage Configuration (Local for now)
+finalConfig.upload = {
+  ...finalConfig.upload,
+  // Using default local storage (files saved in /public/media)
+  // No s3Storage plugin = local disk storage
 }
 
 export default buildConfig(finalConfig)
