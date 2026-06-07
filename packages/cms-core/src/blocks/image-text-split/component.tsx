@@ -103,7 +103,7 @@ export function ImageTextSplitBlock({
   )
 
   return (
-    <section className={`py-16 md:py-24 overflow-hidden ${bg}`}>
+    <section className={`pt-28 pb-16 md:pt-24 md:pb-24 overflow-hidden ${bg}`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Changed layout wrapper to evaluate animation triggers collectively when viewed */}

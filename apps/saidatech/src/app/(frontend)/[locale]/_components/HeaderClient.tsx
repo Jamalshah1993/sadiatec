@@ -157,6 +157,7 @@ export function HeaderClient({
   locale,
 }: HeaderClientProps) {
   const [scrolled, setScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -166,13 +167,12 @@ export function HeaderClient({
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // 1. Strip language directories out (/ja/about -> /about, /en -> /)
-  const strippedPath = pathname.replace(/^\/(en|ja|bn)(?=\/|$)/, '') || '/'
-  
-  // 2. Identify whether we are currently visiting the homepage path
-  const isHomepage = strippedPath === '/'
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [pathname])
 
-  // 3. Force dark text styling and white backgrounds everywhere *except* an unscrolled homepage
+  const strippedPath = pathname.replace(/^\/(en|ja|bn)(?=\/|$)/, '') || '/'
+  const isHomepage = strippedPath === '/'
   const shouldShowDarkHeader = scrolled || !isHomepage
 
   const navTextClass = shouldShowDarkHeader 
@@ -191,7 +191,7 @@ export function HeaderClient({
   return (
     <header
       className={[
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-20',
         shouldShowDarkHeader
           ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-neutral-100'
           : 'bg-transparent',
@@ -264,7 +264,7 @@ export function HeaderClient({
                 return (
                   <Link
                     key={loc}
-                    href={strippedPath} /* 👈 Changed from "/" so it re-targets your exact current inner route position */
+                    href={strippedPath}
                     locale={loc}
                     className={[
                       'text-xl p-1 rounded-md transition-all duration-200 hover:scale-115 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400',
@@ -309,6 +309,7 @@ export function HeaderClient({
               locales={locales}
               localeLabels={localeLabels}
               scrolled={shouldShowDarkHeader}
+              onOpenChange={setIsMobileMenuOpen}
             />
           </div>
         </div>

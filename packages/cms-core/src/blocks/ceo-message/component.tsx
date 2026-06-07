@@ -93,7 +93,7 @@ export function CEOMessageBlock({
   )
 
   return (
-    <section className={`pt-24 pb-16 md:pt-32 md:pb-24 ${bg}`}>
+    <section className={`pt-28 pb-16 md:pt-32 md:pb-24 ${bg}`}>
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         
         {/* Changed wrapper div to a motion.div with scroll trigger visibility */}

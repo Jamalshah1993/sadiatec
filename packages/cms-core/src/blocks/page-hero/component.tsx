@@ -1,4 +1,5 @@
 'use client'
+
 // Client boundary: scroll-triggered fade-up animation
 
 import Link from 'next/link'
@@ -27,7 +28,8 @@ function PageTitleVariant({
   breadcrumbItems?: PageHeroBreadcrumbItem[] | undefined
 }) {
   return (
-    <section aria-labelledby="page-title-heading" className="bg-white py-10 md:py-14">
+    /* 🛠️ FIXED: Swapped py-10 for pt-28 pb-10 on mobile to safely slide the headings out from under your sticky nav */
+    <section aria-labelledby="page-title-heading" className="bg-white pt-28 pb-10 md:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         {showBreadcrumb && breadcrumbItems && breadcrumbItems.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-4">
@@ -137,7 +139,8 @@ export function PageHeroBlock({
         />
       )}
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-20 sm:px-6 lg:px-8">
+      {/* 🛠️ FIXED: Tweaked mobile padding top from pt-20 to pt-28 to clear any overlap with your fixed header block layout */}
+      <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-28 md:pt-20 sm:px-6 lg:px-8">
         {/* Changed inner wrapper block to a container motion element */}
         <motion.div 
           variants={containerVariants}

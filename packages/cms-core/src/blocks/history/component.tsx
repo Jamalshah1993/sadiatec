@@ -155,7 +155,7 @@ export function HistoryBlock({
   const lineClass = accentLineMap[accentColor] ?? accentLineMap['brand']
 
   return (
-    <section className="py-16 md:py-24 overflow-hidden">
+    <section className="pt-28 pb-16 md:pt-24 md:pb-24 overflow-hidden">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         
         {/* Animated Section Header */}
