@@ -19,14 +19,15 @@ if (!uri) {
 const db =
   uri.startsWith('file:') || uri.endsWith('.db')
     ? sqliteAdapter({ client: { url: uri } })
-    : postgresAdapter({ 
-        pool: { 
+    : postgresAdapter({
+        pool: {
           connectionString: uri,
           max: 3,
           idleTimeoutMillis: 10000,
           connectionTimeoutMillis: 10000,
           ssl: true,
-        } 
+        },
+         push: false,
       })
 
 const baseConfig = buildCmsConfig(siteConfig, undefined, db)

@@ -66,7 +66,7 @@ export function buildCmsConfig(
   const alwaysOn: CollectionConfig[] = [
     PagesCollection(siteConfig),
     MediaCollection,
-    ServicesCollection,
+    ServicesCollection(siteConfig),
     FAQsCollection,
     NewsCollection,
     UsersCollection,

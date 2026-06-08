@@ -34,7 +34,7 @@ import { GalleryGridBlockConfig } from '../../blocks/gallery-grid/config'
 import { HistoryBlockConfig } from '../../blocks/history/config'
 import { PlacementStatisticsBlockConfig } from '../../blocks/placement-statistics/config'
 
-function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
+export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
   return [
     HeroBlockConfig,
     StatsBlockConfig,
