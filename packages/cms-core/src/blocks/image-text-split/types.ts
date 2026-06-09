@@ -11,4 +11,5 @@ export interface ImageTextSplitBlockProps {
   imageSplit?: '40/60' | '50/50' | '60/40'
   backgroundStyle?: 'white' | 'light' | 'dark'
   verticalAlign?: 'top' | 'center'
+  
 }

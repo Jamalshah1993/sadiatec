@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { getCachedPayload } from '@/lib/payload'
 import { blockRegistry } from '@saidatech/cms-core/blocks'
 import siteConfig from '../../../../../../site.config'
@@ -101,15 +102,68 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = result.docs[0]
   if (!service) notFound()
 
+  // Extract blocks layout array
   const blocks = (service['layout'] ?? []) as RawBlock[]
+  
+  // Extract Service fields
+  const titleText = typeof service['title'] === 'string' ? service['title'] : ''
+  const excerptText = typeof service['excerpt'] === 'string' ? service['excerpt'] : null
+  const bodyText = typeof service['body'] === 'string' ? service['body'] : null
+
+  // Resolve Thumbnail Image Object
+  const thumbnail = service['thumbnail'] as Record<string, unknown> | null | undefined
+  const thumbnailUrl = thumbnail && typeof thumbnail['url'] === 'string' ? thumbnail['url'] : null
+  const thumbnailAlt = thumbnail && typeof thumbnail['alt'] === 'string' ? thumbnail['alt'] : titleText
 
   return (
-    <>
-      {blocks.map((block, index) => {
-        const renderer = blockRegistry[block.blockType]
-        if (!renderer) return null
-        return <div key={block.id ?? index}>{renderer(block)}</div>
-      })}
-    </>
+    <main className="w-full pt-14 md:pt-24 bg-white">
+      
+      {/* Header Container Area */}
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 border-b border-neutral-100">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center">
+          
+          {/* 🛠️ FIXED: Image is now placed first (Left Side on desktop screen layouts) */}
+          {thumbnailUrl && (
+            <div className="relative flex items-center justify-start shrink-0">
+              <div className="relative w-40 h-24 sm:w-48 sm:h-28">
+                <Image
+                  src={thumbnailUrl}
+                  alt={thumbnailAlt}
+                  fill
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Right Side: Title & Excerpt Text Info values */}
+          <div className="max-w-3xl flex-1">
+            <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text,#111827)] sm:text-4xl">
+              {titleText}
+            </h1>
+            {excerptText && (
+              <p className="mt-3 text-base leading-relaxed text-[var(--color-muted,#4b5563)] sm:text-lg">
+                {excerptText}
+              </p>
+            )}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Optional rich body section field wrapper */}
+      
+
+      {/* Dynamic layout engine page block elements mapping renderer */}
+      <div className="w-full">
+        {blocks.map((block, index) => {
+          const renderer = blockRegistry[block.blockType]
+          if (!renderer) return null
+          return <div key={block.id ?? index}>{renderer(block)}</div>
+        })}
+      </div>
+
+    </main>
   )
 }

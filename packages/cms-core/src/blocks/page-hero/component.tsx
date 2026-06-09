@@ -28,7 +28,6 @@ function PageTitleVariant({
   breadcrumbItems?: PageHeroBreadcrumbItem[] | undefined
 }) {
   return (
-    /* 🛠️ FIXED: Swapped py-10 for pt-28 pb-10 on mobile to safely slide the headings out from under your sticky nav */
     <section aria-labelledby="page-title-heading" className="bg-white pt-28 pb-10 md:py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         {showBreadcrumb && breadcrumbItems && breadcrumbItems.length > 0 && (
@@ -139,9 +138,7 @@ export function PageHeroBlock({
         />
       )}
 
-      {/* 🛠️ FIXED: Tweaked mobile padding top from pt-20 to pt-28 to clear any overlap with your fixed header block layout */}
       <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-28 md:pt-20 sm:px-6 lg:px-8">
-        {/* Changed inner wrapper block to a container motion element */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -214,11 +211,12 @@ export function PageHeroBlock({
             )}
           </motion.div>
 
-          {/* right: profile card with a staggered elegant entry */}
+          {/* right: profile card with transparent look */}
           {hasCard && profileCard && (
             <motion.aside 
               variants={fadeUpVariants}
-              className="shrink-0 w-full lg:w-72 lg:mt-16 rounded-2xl bg-[var(--color-neutral-900)]/90 backdrop-blur-sm border border-white/10 p-5 shadow-xl"
+              /* 🛠️ FIXED: Removed deep panel colors and replaced with transparent styling + subtle border outline */
+              className="shrink-0 w-full lg:w-72 lg:mt-16 rounded-2xl bg-transparent border border-white/20 p-5 shadow-lg backdrop-blur-xs"
             >
               {profileCard.badgeText && (
                 <span className="mb-3 inline-block rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-white">
@@ -232,8 +230,8 @@ export function PageHeroBlock({
                 <dl className="flex flex-col gap-2">
                   {profileCard.rows.map((row, i) => (
                     <div key={i} className="flex flex-col gap-0.5">
-                      <dt className="text-xs text-white/50 font-medium">{row.label}</dt>
-                      <dd className="text-sm text-white/90">{row.value}</dd>
+                      <dt className="text-xs text-white/60 font-medium">{row.label}</dt>
+                      <dd className="text-sm text-white font-semibold">{row.value}</dd>
                     </div>
                   ))}
                 </dl>

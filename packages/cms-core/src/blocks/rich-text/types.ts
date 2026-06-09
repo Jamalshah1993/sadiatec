@@ -1,4 +1,5 @@
-export interface RichTextBlockProps {
-  content: unknown
-  maxWidth: 'prose' | 'wide' | 'full'
+export type RichTextBlockProps = {
+  content?: any        // Lexical rich text data
+  maxWidth?: string
+  id?: string
 }

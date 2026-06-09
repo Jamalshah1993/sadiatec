@@ -14,6 +14,7 @@ function CardItem({ item }: { item: AffiliateItem }) {
   const inner = (
     <div className="flex h-full flex-col items-center gap-4 rounded-2xl border border-[var(--color-neutral-200,#e5e7eb)] bg-[var(--color-surface)] p-6 text-center shadow-sm transition-shadow duration-150 hover:shadow-md">
       {item.logoUrl ? (
+        /* 🛠️ Real colors preserved inside cards */
         <Image src={item.logoUrl} alt={item.name} width={120} height={60} className="h-12 w-auto object-contain" />
       ) : (
         <div className="flex h-12 w-full items-center justify-center rounded-lg bg-[var(--color-neutral-100,#f5f5f5)]">
@@ -39,7 +40,8 @@ function LogoItem({ item }: { item: AffiliateItem }) {
       alt={item.name}
       width={160}
       height={80}
-      className="h-12 w-auto object-contain grayscale transition-all duration-200 hover:grayscale-0"
+      /* 🛠️ FIXED: Removed grayscale utility classes so full branding color shows instantly */
+      className="h-12 w-auto object-contain transition-transform duration-200 hover:scale-105"
     />
   ) : (
     <span className="text-sm font-semibold text-[var(--color-muted)]">{item.name}</span>
@@ -91,7 +93,8 @@ function MarqueeLogos({ items }: { items: AffiliateItem[] }) {
                 alt={item.name}
                 width={140}
                 height={70}
-                className="h-10 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-200"
+                /* 🛠️ FIXED: Removed grayscale formatting filtering from infinite marquee stream items too */
+                className="h-10 w-auto object-contain transition-transform duration-200 hover:scale-105"
               />
             ) : (
               <span className="text-sm font-semibold text-[var(--color-muted)]">{item.name}</span>
@@ -143,7 +146,7 @@ export function AffiliatesBlock({
         )}
 
         {layout === 'logos' && !isMarquee && (
-          <ul className={`grid gap-8 ${colsClass}`} role="list">
+          <ul className={`grid gap-8 items-center ${colsClass}`} role="list">
             {items.map((item, i) => <LogoItem key={i} item={item} />)}
           </ul>
         )}
