@@ -158,7 +158,7 @@ export default async function CompanyPage({ params }: Props) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
-      <HeroBlock {...heroProps} />
+      
 
       {facts.length > 0 && (
         <Section padding="sm">
@@ -232,7 +232,7 @@ export default async function CompanyPage({ params }: Props) {
         </Section>
       )}
 
-      <CTABannerBlock {...ctaProps} />
+     
     </>
   )
 }

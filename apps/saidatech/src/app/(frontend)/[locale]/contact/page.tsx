@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import siteConfig from '../../../../../site.config'
-import { HeroBlock, CTABannerBlock } from '@saidatech/cms-core/blocks'
-import type { HeroBlockProps, CTABannerBlockProps } from '@saidatech/cms-core/blocks'
+import { PageHeroBlock, CTABannerBlock } from '@saidatech/cms-core/blocks'
+import type { PageHeroBlockProps, CTABannerBlockProps } from '@saidatech/cms-core/blocks'
 import { Container, Section, Heading, Text } from '@saidatech/cms-core/components/ui'
 import { ContactForm } from './_components/ContactForm'
 
@@ -193,14 +193,11 @@ export default async function ContactPage({ params }: Props) {
     ],
   }
 
-  const heroProps: HeroBlockProps = {
+  const heroProps: PageHeroBlockProps = {
     heading: titles[locale],
-    subheading: heroSubheadings[locale],
-    ctaPrimary: { label: titles[locale], href: '/contact' },
+    coloredSubtitle: heroSubheadings[locale],
+    secondaryButton: { label: titles[locale], href: '/contact' },
     overlayOpacity: 40,
-    variant: 'center',
-    minHeight: 'medium',
-    transparentHeader: false,
   }
 
   const ctaProps: CTABannerBlockProps = {
@@ -218,7 +215,7 @@ export default async function ContactPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <HeroBlock {...heroProps} />
+      <PageHeroBlock {...heroProps} />
       <Section>
         <Container>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">

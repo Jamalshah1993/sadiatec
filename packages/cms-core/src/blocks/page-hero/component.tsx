@@ -120,13 +120,20 @@ export function PageHeroBlock({
       className={`relative flex w-full flex-col justify-end overflow-hidden ${mhClass} bg-[var(--color-neutral-900)]`}
     >
       {backgroundImageUrl && (
+        /* 🛠️ FIXED REAL CSS IMAGE BLUR LAYER:
+           - Added `scale-105` to prevent the blurred image edges from showing white gaps.
+           - Switched to an inline `filter: blur(6px)` style so the image blurs flawlessly.
+        */
         <motion.div
           aria-hidden="true"
-          initial={{ scale: 1.05, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          initial={{ scale: 1.1, opacity: 0 }}
+          animate={{ scale: 1.05, opacity: 1 }}
           transition={{ duration: 1.2, ease: 'easeOut' }}
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url('${backgroundImageUrl}')` }}
+          style={{ 
+            backgroundImage: `url('${backgroundImageUrl}')`,
+            filter: 'blur(2px)' 
+          }}
         />
       )}
 
@@ -138,7 +145,7 @@ export function PageHeroBlock({
         />
       )}
 
-      <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-28 md:pt-20 sm:px-6 lg:px-8">
+      <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-28 md:pt-28 sm:px-6 lg:px-8">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -215,8 +222,7 @@ export function PageHeroBlock({
           {hasCard && profileCard && (
             <motion.aside 
               variants={fadeUpVariants}
-              /* 🛠️ FIXED: Removed deep panel colors and replaced with transparent styling + subtle border outline */
-              className="shrink-0 w-full lg:w-72 lg:mt-16 rounded-2xl bg-transparent border border-white/20 p-5 shadow-lg backdrop-blur-xs"
+              className="shrink-0 w-full lg:w-72 lg:mt-16 rounded-2xl bg-white/5 border border-white/20 p-5 shadow-lg backdrop-blur-md"
             >
               {profileCard.badgeText && (
                 <span className="mb-3 inline-block rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-white">

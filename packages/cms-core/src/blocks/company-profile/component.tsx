@@ -1,10 +1,10 @@
-"use client"; // 👈 Added client boundary for Framer Motion scroll hooks
+'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion' // 👈 Imported motion
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { SectionEyebrow } from '../../components/ui'
-import { staggerContainer, fadeInUp } from '../../lib/motion' // 👈 Using your project's shared variants
+import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { CompanyProfileBlockProps } from './types'
 
 export function CompanyProfileBlock({
@@ -13,121 +13,105 @@ export function CompanyProfileBlock({
   rows,
   photoUrl,
   photoAlt,
-  photoFallbackText = 'Office photo coming soon',
+  photoFallbackText = 'Company office',
   yearsBadge,
   viewFullPageCta,
 }: CompanyProfileBlockProps) {
-  if (rows.length === 0) return null
+  if (!rows || rows.length === 0) return null
 
   return (
-    <section
-      aria-labelledby="company-profile-heading"
-      className="bg-white py-20 md:py-28 text-left overflow-hidden"
-    >
-      <motion.div 
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
-      >
-        {/* Section header — left-aligned */}
-        <motion.div className="mb-14" variants={fadeInUp}>
-          {eyebrow && <SectionEyebrow>{eyebrow}</SectionEyebrow>}
-          {heading && (
-            <h2
-              id="company-profile-heading"
-              className="mt-3 text-3xl font-extrabold text-slate-900 md:text-4xl tracking-tight"
+    <section className="bg-white">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {/* Header */}
+          <div className="mb-12">
+            {eyebrow && <SectionEyebrow>{eyebrow}</SectionEyebrow>}
+            {heading && (
+              <h2 className="mt-3 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+                {heading}
+              </h2>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* Left Column - Information */}
+            <motion.div 
+              variants={fadeInUp}
+              className="lg:col-span-7"
             >
-              {heading}
-            </h2>
-          )}
-        </motion.div>
-
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 items-start">
-          
-          {/* Left Side: Information Table */}
-          <motion.div className="lg:col-span-7" variants={fadeInUp}>
-            <dl className="border-t border-neutral-100 divide-y divide-neutral-100">
-              {rows.map((row) => (
-                <div key={row.label} className="flex gap-4 py-5 items-baseline">
-                  <dt className="w-1/3 shrink-0 text-sm font-bold text-slate-900">
-                    {row.label}
-                  </dt>
-                  <dd className="flex-1 text-sm text-slate-600 font-normal leading-relaxed">
-                    {row.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            {/* Solid Navy CTA Button */}
-            {viewFullPageCta && (
-              <div className="mt-10">
-                <Link
-                  href={viewFullPageCta.href}
-                  className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-slate-900 transition-colors"
-                >
-                  {viewFullPageCta.label}
-                  <svg
-                    aria-hidden="true"
-                    className="h-4 w-4 stroke-[2.5]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
+              <div className="border border-gray-100 rounded-2xl overflow-hidden">
+                <dl className="divide-y divide-gray-100">
+                  {rows.map((row, index) => (
+                    <div 
+                      key={index} 
+                      className="flex flex-col sm:flex-row sm:items-center gap-2 px-8 py-6 hover:bg-gray-50 transition-colors"
+                    >
+                      <dt className="w-full sm:w-52 font-semibold text-gray-900 text-base">
+                        {row.label}
+                      </dt>
+                      <dd className="flex-1 text-gray-700 text-[15.5px] leading-relaxed">
+                        {row.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
-            )}
-          </motion.div>
 
-          {/* Right Side: Photo with Floating Corner Badge */}
-          <motion.div className="lg:col-span-5 relative" variants={fadeInUp}>
-            <div className="relative overflow-hidden rounded-2xl border border-neutral-100 shadow-sm">
-              {photoUrl ? (
-                <Image
-                  src={photoUrl}
-                  alt={photoAlt ?? heading ?? 'Company office'}
-                  width={640}
-                  height={480}
-                  className="aspect-[4/3] w-full object-cover"
-                />
-              ) : (
-                /* 🖼️ Fallback Image replacement when photoUrl is missing */
-                <Image
-                  src="/images/company.png" // 👈 Replace this path with your asset's actual filename
-                  alt={photoAlt ?? heading ?? photoFallbackText}
-                  width={640}
-                  height={480}
-                  className="aspect-[4/3] w-full object-cover brightness-[0.98]"
-                />
+              {/* CTA Button */}
+              {viewFullPageCta && (
+                <motion.div variants={fadeInUp} className="mt-10">
+                  <Link
+                    href={viewFullPageCta.href}
+                    className="inline-flex items-center gap-3 rounded-xl bg-gray-900 px-8 py-4 text-base font-semibold text-white hover:bg-black transition-all duration-200 shadow-md hover:shadow-lg"
+                  >
+                    {viewFullPageCta.label}
+                    <span aria-hidden="true" className="text-xl">→</span>
+                  </Link>
+                </motion.div>
               )}
-            </div>
+            </motion.div>
 
-            {/* Floating Experience Badge with subtle pop-in delays */}
-            {yearsBadge && (
-              <motion.div 
-                className="absolute -bottom-6 left-6 rounded-2xl bg-amber-600 px-5 py-4 text-left text-white shadow-xl max-w-[160px]"
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-              >
-                <p className="text-xs font-semibold opacity-90 leading-tight">
-                  {yearsBadge.label}
-                </p>
-                <p className="text-2xl font-black mt-1 tracking-tight leading-none">
-                  {yearsBadge.years}+ years
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
+            {/* Right Column - Image + Badge */}
+            <motion.div 
+              variants={fadeInUp}
+              className="lg:col-span-5 relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border border-gray-100 aspect-[4/3]">
+                <Image
+                  src={photoUrl || '/images/company-placeholder.jpg'}
+                  alt={photoAlt || photoFallbackText}
+                  width={640}
+                  height={480}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-        </div>
-      </motion.div>
+              {/* Floating Years Badge */}
+              {yearsBadge && (
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  className="absolute -bottom-6 -right-4 bg-gradient-to-br from-amber-500 to-orange-600 text-white px-7 py-5 rounded-2xl shadow-2xl flex flex-col items-center min-w-[160px]"
+                >
+                  
+                  <p className="text-4xl font-black tracking-tighter leading-none mt-1">
+                    {yearsBadge.years}+
+                  </p>
+                  <p className="text-sm font-medium">Years</p>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   )
 }
