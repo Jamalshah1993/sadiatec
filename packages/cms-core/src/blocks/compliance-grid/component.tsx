@@ -19,7 +19,7 @@ const ICON_PATHS: Record<ComplianceIcon, string> = {
 
 function LicenseIcon({ icon }: { icon: ComplianceIcon }) {
   return (
-    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#0a1629] text-amber-500">
+    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand-dark text-amber-500">
       <svg
         aria-hidden="true"
         className="h-5 w-5"
@@ -107,7 +107,7 @@ export function ComplianceGridBlock({
 
         {/* Dark Commitments Container Box Panel */}
         {commitments.length > 0 && (
-          <div className="mt-12 overflow-hidden rounded-2xl bg-[#0a1629] p-8 md:p-12 text-left shadow-xl">
+          <div className="mt-12 overflow-hidden rounded-2xl bg-brand-dark p-8 md:p-12 text-left shadow-xl">
             {commitmentsHeading && (
               <h3 className="mb-8 text-base font-bold tracking-wider text-white uppercase">
                 {commitmentsHeading}

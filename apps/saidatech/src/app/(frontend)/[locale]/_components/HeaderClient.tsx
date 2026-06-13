@@ -23,7 +23,7 @@ function Logo({ dark, imageUrl }: { dark: boolean; imageUrl?: string | null | un
   if (!imageUrl) {
     return (
       <span className="text-2xl tracking-wide select-none">
-        <span className={`font-light transition-colors duration-300 ${dark ? 'text-green-500' : 'text-white'}`}>
+        <span className={`font-light transition-colors duration-300 ${dark ? 'text-brand-accent' : 'text-white'}`}>
           Sadiatec
         </span>
       </span>
@@ -78,7 +78,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
               return (
                 <div key={ci} className="flex flex-col bg-slate-50/50 border-l border-neutral-100 pl-8 -my-8 py-8 rounded-r-2xl">
                   {col.heading && (
-                    <p className="mb-5 text-[11px] font-bold uppercase tracking-wider text-green-600">
+                    <p className="mb-5 text-[11px] font-bold uppercase tracking-wider text-brand-accent">
                       {col.heading}
                     </p>
                   )}
@@ -87,12 +87,12 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
                       <li key={subItem.href}>
                         <Link
                           href={subItem.href}
-                          className="group flex items-center gap-3 rounded-xl bg-white border border-neutral-100/80 
+                          className="group flex items-center gap-3 rounded-xl bg-white border border-neutral-100/80
                             px-4 py-3 text-sm font-semibold text-slate-800 shadow-[0_1px_2px_rgba(0,0,0,0.02)]
-                            hover:text-green-600 hover:border-green-200 hover:shadow-md transition-all duration-200"
+                            hover:text-brand-accent hover:border-brand-accent/20 hover:shadow-md transition-all duration-200"
                         >
                           <svg 
-                            className="h-3.5 w-3.5 text-slate-400 group-hover:text-green-500 transition-colors shrink-0" 
+                            className="h-3.5 w-3.5 text-slate-400 group-hover:text-brand-accent transition-colors shrink-0" 
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
                           >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
@@ -120,7 +120,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
                         href={subItem.href}
                         className="group block text-left navigation-item-wrapper focus:outline-none"
                       >
-                        <span className="block text-[15px] font-bold text-gray-900 group-hover:text-green-600 transition-colors leading-snug">
+                        <span className="block text-[15px] font-bold text-gray-900 group-hover:text-brand-accent transition-colors leading-snug">
                           {subItem.label}
                         </span>
                         {subItem.description && (
@@ -154,8 +154,8 @@ function DropdownPanel({ items }: { items: { label: string; href: string }[] }) 
           <li key={child.href}>
             <Link
               href={child.href}
-              className="block px-5 py-2.5 text-sm text-gray-700 hover:text-green-600
-                hover:bg-green-50 transition-colors"
+              className="block px-5 py-2.5 text-sm text-gray-700 hover:text-brand-accent
+                hover:bg-brand-accent/5 transition-colors"
             >
               {child.label}
             </Link>
@@ -194,8 +194,8 @@ export function HeaderClient({
   const isHomepage = strippedPath === '/'
   const shouldShowDarkHeader = scrolled || !isHomepage
 
-  const navTextClass = shouldShowDarkHeader 
-    ? 'text-gray-700 hover:text-green-600' 
+  const navTextClass = shouldShowDarkHeader
+    ? 'text-gray-700 hover:text-brand-accent'
     : 'text-white/90 hover:text-white'
     
   const chevronClass = shouldShowDarkHeader ? 'text-gray-400' : 'text-white/60'
@@ -223,7 +223,7 @@ export function HeaderClient({
           <Link
             href="/"
             aria-label="Sadia Tec Home"
-            className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 rounded-sm"
+            className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm"
           >
             <Logo dark={shouldShowDarkHeader} imageUrl={cmsLogoUrl} />
           </Link>
@@ -237,7 +237,7 @@ export function HeaderClient({
 
                 const active = isActive(item)
                 const activeTextClass = shouldShowDarkHeader
-                  ? 'text-green-600 font-bold'
+                  ? 'text-brand-accent font-bold'
                   : 'text-white font-bold'
                 const isLeaf = !hasMega && !hasDropdown
 
@@ -315,8 +315,8 @@ export function HeaderClient({
                           className={[
                             'flex items-center gap-3 w-full px-4 py-2 text-sm transition-colors text-left font-medium',
                             isCurrentLocale
-                              ? 'text-green-600 bg-green-50/50 font-bold'
-                              : 'text-gray-600 hover:text-green-600 hover:bg-neutral-50'
+                              ? 'text-brand-accent bg-brand-accent/5 font-bold'
+                              : 'text-gray-600 hover:text-brand-accent hover:bg-neutral-50'
                           ].join(' ')}
                         >
                           <span className="text-xl select-none leading-none">{flagIcon}</span>
@@ -337,9 +337,9 @@ export function HeaderClient({
               <Link href={ctaHref}>
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center rounded-full bg-green-800
+                  className="inline-flex items-center justify-center rounded-full bg-brand-accent
                     px-6 py-2.5 text-sm font-bold text-white shadow-md
-                    transition-all duration-200 hover:bg-green-600 hover:-translate-y-0.5 hover:shadow-lg"
+                    transition-all duration-200 hover:bg-brand-accent-hover hover:-translate-y-0.5 hover:shadow-lg"
                 >
                   {ctaLabel}
                 </button>

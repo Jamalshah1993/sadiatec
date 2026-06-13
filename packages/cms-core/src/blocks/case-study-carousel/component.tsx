@@ -35,7 +35,7 @@ export function CaseStudyCarouselBlock({ missionCard, impactCard }: CaseStudyCar
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-4 bg-[#2e2e2e] text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden min-h-[460px]"
+            className="lg:col-span-4 bg-brand-dark text-white p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden min-h-[460px]"
           >
             <div className="flex flex-col gap-4">
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight leading-tight max-w-[220px]">
@@ -75,10 +75,10 @@ export function CaseStudyCarouselBlock({ missionCard, impactCard }: CaseStudyCar
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="lg:col-span-8 bg-[#f9f9f9] p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden min-h-[480px]"
+            className="lg:col-span-8 bg-bg-secondary p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden min-h-[480px]"
           >
             <div className="flex flex-col gap-3 max-w-xl z-10">
-              <h2 className="text-3xl font-semibold tracking-tight text-[#2e2e2e]">
+              <h2 className="text-3xl font-semibold tracking-tight text-text-primary">
                 {impact.title}
               </h2>
               <p className="text-base text-neutral-500 leading-relaxed max-w-xl font-normal">
@@ -133,7 +133,8 @@ export function CaseStudyCarouselBlock({ missionCard, impactCard }: CaseStudyCar
                     viewport={{ once: true }}
                     transition={{ type: 'spring', stiffness: 150, damping: 13, delay: 0.15 + idx * 0.1 }}
                     style={{ top: `${marker.topPercent}%`, left: `${marker.leftPercent}%` }}
-                    className="absolute w-5 h-5 sm:w-6 sm:h-6 bg-[#f59e0b] rounded-full shadow-[0_0_16px_rgba(245,158,11,0.65)] -translate-x-1/2 -translate-y-1/2 z-20"
+                    /* TODO: color token — bg-[#f59e0b] shadow-[0_0_16px_rgba(245,158,11,0.65)] — amber map pin with glow, maps to --color-accent but shadow rgba needs manual review */
+                    className="absolute w-5 h-5 sm:w-6 sm:h-6 bg-[var(--color-accent)] rounded-full shadow-[0_0_16px_rgba(245,158,11,0.65)] -translate-x-1/2 -translate-y-1/2 z-20"
                   />
                 ))}
               </div>
@@ -144,7 +145,7 @@ export function CaseStudyCarouselBlock({ missionCard, impactCard }: CaseStudyCar
               <div className="mt-12 z-10">
                 <Link
                   href={impact.ctaHref ?? '#'}
-                  className="inline-block bg-[#0fa457] hover:bg-[#0d8f4c] text-white font-medium text-sm px-6 py-3 rounded-md transition-colors shadow-sm duration-150"
+                  className="inline-block bg-brand-accent hover:bg-brand-accent-hover text-white font-medium text-sm px-6 py-3 rounded-md transition-colors shadow-sm duration-150"
                 >
                   {impact.ctaLabel}
                 </Link>

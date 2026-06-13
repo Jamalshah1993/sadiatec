@@ -83,8 +83,9 @@ const socialIconMap: Record<string, React.FC> = {
   youtube: YouTubeIcon,
 }
 
-// Brand-specific color styling mapping for original icon colors
+// Social platform brand colors — these are official platform identity colors, not client brand tokens
 const brandColorMap: Record<string, string> = {
+  /* TODO: color token — Instagram #E1306C/#C13584, Facebook #1877F2/#166FE5, YouTube #FF0000/#CC0000 — official platform brand colors, intentionally kept as-is */
   instagram: 'text-[#E1306C] hover:text-[#C13584]',
   facebook: 'text-[#1877F2] hover:text-[#166FE5]',
   youtube: 'text-[#FF0000] hover:text-[#CC0000]',
@@ -131,7 +132,7 @@ export async function Footer({ locale }: FooterProps) {
             {/* 1. Brand Logo - Text Design Only */}
             <Link href="/" className="inline-block select-none focus:outline-none">
               <span className="text-2xl tracking-wide">
-                <span className="font-light text-green-500">Sadiatec</span>
+                <span className="font-light text-brand-accent">Sadiatec</span>
               </span>
             </Link>
             
@@ -148,7 +149,7 @@ export async function Footer({ locale }: FooterProps) {
                 <input
                   type="email"
                   placeholder={locale === 'ja' ? 'メールアドレス' : locale === 'bn' ? 'ইমেইল' : 'Email'}
-                  className="w-full bg-[#1A1A1A] border border-neutral-800 rounded-full px-5 py-3 text-sm text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 transition-all"
+                  className="w-full bg-neutral-900 border border-neutral-800 rounded-full px-5 py-3 text-sm text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-brand-accent/50 focus:ring-1 focus:ring-brand-accent/50 transition-all"
                 />
               </div>
             </div>
@@ -159,7 +160,7 @@ export async function Footer({ locale }: FooterProps) {
               {/* Reach us Email segment - Rendered dynamically with Admin panel field value */}
               <div className="flex items-center justify-between group cursor-pointer">
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-[#182621] text-[#00A86B] shrink-0">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-dark text-brand-accent shrink-0">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -183,7 +184,7 @@ export async function Footer({ locale }: FooterProps) {
 
               {/* Corporate Office Address segment - Rendered dynamically with Admin panel textarea field value */}
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-[#182621] text-[#00A86B] shrink-0 mt-0.5">
+                <div className="flex items-center justify-center h-12 w-12 rounded-full bg-brand-dark text-brand-accent shrink-0 mt-0.5">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -242,8 +243,8 @@ export async function Footer({ locale }: FooterProps) {
                     <li key={linkIdx}>
                       <Link
                         href={link.href}
-                        className="text-[14px] text-neutral-400 hover:text-green-500 transition-colors
-                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 rounded-sm"
+                        className="text-[14px] text-neutral-400 hover:text-brand-accent transition-colors
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm"
                       >
                         {link.label ?? link.href}
                       </Link>
@@ -271,7 +272,7 @@ export async function Footer({ locale }: FooterProps) {
                 <Link
                   href={link.slug}
                   className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors
-                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 rounded-sm"
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm"
                 >
                   {link.labelKey}
                 </Link>

@@ -1,3 +1,6 @@
+// TODO: color token — admin UI inline styles (#eff6ff bg, #bfdbfe border, #1e40af text, #374151 body, #6b7280 muted)
+// This is the Payload admin panel info banner — intentionally uses direct style props (no Tailwind in admin context).
+// Colors are blue-toned (Payload admin blue-50/blue-200/blue-800) not client brand colors — keep as-is.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function BeforeDashboard(_props: Record<string, any>) {
   return (

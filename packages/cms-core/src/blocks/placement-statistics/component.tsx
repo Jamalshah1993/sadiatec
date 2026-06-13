@@ -23,7 +23,8 @@ function subtitleColor(style: string): string {
   return style === 'brand' ? 'text-white/80' : 'text-[var(--color-primary)]'
 }
 
-// Slice colours for the pie chart
+// TODO: color token — pie chart slice colors — green monochromatic scale for data viz, not brand tokens
+// These intentionally use a range of greens for distinguishable chart segments. Keep as-is.
 const SLICE_COLORS = [
   '#22c55e', '#16a34a', '#15803d', '#166534',
   '#4ade80', '#86efac', '#bbf7d0', '#dcfce7',

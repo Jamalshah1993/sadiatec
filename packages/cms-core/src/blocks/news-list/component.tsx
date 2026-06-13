@@ -116,7 +116,7 @@ export function NewsListBlock({
           <div className="mt-12 text-center">
             <Link
               href={viewAllCta.href}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-(--color-primary) px-6 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-(--color-primary) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#029676]"
+              className="inline-flex h-11 items-center justify-center rounded-md bg-(--color-primary) px-6 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-(--color-primary) focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent"
             >
               {viewAllCta.label}
             </Link>

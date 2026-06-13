@@ -117,7 +117,7 @@ export function MobileMenu({
             <div className="flex h-20 items-center justify-between px-5 border-b border-neutral-100 shrink-0 bg-white">
               <Link href="/" onClick={close} aria-label="Sadia Tec Home">
                 <span className="text-2xl tracking-wide select-none">
-                  <span className="font-light text-amber-500">Sadiatec</span>
+                  <span className="font-light text-brand-accent">Sadiatec</span>
                 </span>
               </Link>
               <button
@@ -126,7 +126,7 @@ export function MobileMenu({
                 onClick={close}
                 className="flex items-center justify-center rounded-md p-2 text-gray-500
                   hover:bg-neutral-100 focus-visible:outline-none
-                  focus-visible:ring-2 focus-visible:ring-amber-400 min-h-[44px] min-w-[44px]"
+                  focus-visible:ring-2 focus-visible:ring-brand-accent min-h-[44px] min-w-[44px]"
               >
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -191,17 +191,17 @@ export function MobileMenu({
                               role="list"
                             >
                               <li className="pl-4 pr-2 pb-2">
-                                <div className="border-l-2 border-amber-200 pl-3 space-y-1">
+                                <div className="border-l-2 border-brand-primary-light pl-3 space-y-1">
                                   {allChildren.map((child) => (
                                     <Link
                                       key={child.href}
                                       href={child.href}
                                       onClick={close}
                                       className="flex items-center gap-2 rounded-lg px-3 py-2.5
-                                        text-sm text-gray-600 hover:text-amber-600 hover:bg-amber-50/60
+                                        text-sm text-gray-600 hover:text-brand-accent hover:bg-brand-accent/5
                                         transition-colors min-h-[40px]"
                                     >
-                                      <span className="h-1 w-1 shrink-0 rounded-full bg-amber-400" />
+                                      <span className="h-1 w-1 shrink-0 rounded-full bg-brand-primary" />
                                       {child.label}
                                     </Link>
                                   ))}
@@ -224,8 +224,8 @@ export function MobileMenu({
                 <Link href={ctaHref} onClick={close} className="block">
                   <button
                     type="button"
-                    className="w-full rounded-full bg-amber-500 py-3 text-sm font-bold
-                      text-white shadow-md transition-all duration-200 hover:bg-amber-600"
+                    className="w-full rounded-full bg-brand-accent py-3 text-sm font-bold
+                      text-white shadow-md transition-all duration-200 hover:bg-brand-accent-hover"
                   >
                     {ctaLabel}
                   </button>
@@ -247,7 +247,7 @@ export function MobileMenu({
         onClick={() => setIsOpen(true)}
         className={[
           'inline-flex items-center justify-center rounded-md p-2 transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 min-h-[44px] min-w-[44px]',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent min-h-[44px] min-w-[44px]',
           scrolled ? 'text-gray-700 hover:bg-neutral-100' : 'text-white hover:bg-white/10',
         ].join(' ')}
       >

@@ -7,7 +7,7 @@ import type { CEOMessageBlockProps } from './types'
 const bgMap: Record<string, string> = {
   white: 'bg-white',
   light: 'bg-[var(--color-neutral-50,#fafafa)]',
-  black: 'bg-[#090e1a]',
+  black: 'bg-brand-dark',
 }
 
 // Framer motion variants for a smooth scroll-triggered reveal
@@ -57,7 +57,7 @@ export function CEOMessageBlock({
   const textEl = (
     <div className="flex flex-1 flex-col gap-5 text-left">
       <div className="flex flex-col gap-1">
-        <p className="text-sm font-bold uppercase tracking-wider text-[#10b981]">
+        <p className="text-sm font-bold uppercase tracking-wider text-brand-accent">
           {"CEO'S MESSAGE"}
         </p>
       </div>
@@ -74,7 +74,7 @@ export function CEOMessageBlock({
       </div>
 
       <div className="mt-2 flex flex-col gap-0.5">
-        <p className="text-lg font-semibold text-[#10b981]">{name}</p>
+        <p className="text-lg font-semibold text-brand-accent">{name}</p>
         <p className={`text-xs font-medium ${subtitleColor}`}>{title}</p>
       </div>
 

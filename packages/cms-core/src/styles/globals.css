@@ -3,15 +3,53 @@
 @source "../../**/*.{ts,tsx,js,jsx}";
 @source "../../../../apps/**/src/**/*.{ts,tsx,js,jsx}";
 
+/* ─── Brand token definitions (single source of truth, not overridden at runtime) ─── */
+:root {
+  --color-brand-primary:        #5FA9E6;
+  --color-brand-primary-dark:   #4C87B8;
+  --color-brand-primary-light:  #D7E7F2;
+  --color-brand-dark:           #16324A;
+  --color-brand-accent:         #2B7DB8;
+  --color-brand-accent-hover:   #1E6094;
+  --color-bg-primary:           #FFFFFF;
+  --color-bg-secondary:         #F6F6F6;
+  --color-bg-tertiary:          #ECF6FC;
+  --color-text-primary:         #333333;
+  --color-text-secondary:       #555555;
+  --color-text-muted:           #666666;
+  --color-text-on-dark:         #FFFFFF;
+  --color-text-on-accent:       #FFFFFF;
+  --color-border-default:       #E5E5E5;
+  --color-border-strong:        #CCCCCC;
+}
+
 @theme {
+  /* ─── Brand tokens (generate Tailwind utilities: bg-brand-primary, text-brand-accent, etc.) ─── */
+  --color-brand-primary:        #5FA9E6;
+  --color-brand-primary-dark:   #4C87B8;
+  --color-brand-primary-light:  #D7E7F2;
+  --color-brand-dark:           #16324A;
+  --color-brand-accent:         #2B7DB8;
+  --color-brand-accent-hover:   #1E6094;
+  --color-bg-primary:           #FFFFFF;
+  --color-bg-secondary:         #F6F6F6;
+  --color-bg-tertiary:          #ECF6FC;
+  --color-text-primary:         #333333;
+  --color-text-secondary:       #555555;
+  --color-text-muted:           #666666;
+  --color-text-on-dark:         #FFFFFF;
+  --color-text-on-accent:       #FFFFFF;
+  --color-border-default:       #E5E5E5;
+  --color-border-strong:        #CCCCCC;
+
   /* ─── Semantic brand colors (concrete defaults; overridden at runtime via wrapperStyle) ─── */
-  --color-primary: #2563eb;
-  --color-secondary: #64748b;
-  --color-accent: #eab308;
+  --color-primary: #5FA9E6;
+  --color-secondary: #4C87B8;
+  --color-accent: #f59e0b;
   --color-background: #ffffff;
-  --color-surface: #f8fafc;
-  --color-text: #0f172a;
-  --color-muted: #64748b;
+  --color-surface: #F6F6F6;
+  --color-text: #333333;
+  --color-muted: #666666;
   --color-error: #dc2626;
   --color-success: #16a34a;
   --color-warning: #d97706;
