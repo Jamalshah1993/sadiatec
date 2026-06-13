@@ -8,9 +8,8 @@ import { SectionEyebrow } from '../../components/ui'
 import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { CaseStudiesGridBlockProps, CaseStudyCardItem } from './types'
 
-// Updated helper hook elements inline for self-containment
 function useReducedMotion() {
-  return false // Default helper flag
+  return false
 }
 
 export function CaseStudiesGridBlock({
@@ -21,10 +20,8 @@ export function CaseStudiesGridBlock({
   solutionLabel = 'Solution',
 }: CaseStudiesGridBlockProps) {
   
-  // Guard clause against empty items array
   if (!studies || studies.length === 0) return null
 
-  // Middle element calculator
   const initialCenterIndex = Math.floor(studies.length / 2)
   const [activeIdx, setActiveIdx] = useState(initialCenterIndex)
 
@@ -41,7 +38,7 @@ export function CaseStudiesGridBlock({
       aria-labelledby="case-studies-heading" 
       className="relative overflow-hidden py-24 md:py-32 min-h-[850px] flex flex-col justify-center select-none"
     >
-      {/* ── 🌌 Fixed Parallax Background Container matching image_a5bf65.jpg ── */}
+      {/* Background */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 [clip-path:inset(0_0_0_0)]">
           <div className="fixed inset-0 w-full h-full">
@@ -57,17 +54,15 @@ export function CaseStudiesGridBlock({
           </div>
         </div>
         
-        {/* Layered high-contrast depth darkness filters */}
-        <div className="absolute inset-0 bg-slate-950/50 z-1" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/30 to-slate-950/75 z-1" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/40 via-transparent to-slate-950/40 z-1" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent z-1" />
+        <div className="absolute inset-0 bg-brand-dark/50 z-1" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/90 via-brand-dark/30 to-brand-dark/75 z-1" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-dark/40 via-transparent to-brand-dark/40 z-1" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-primary/30 to-transparent z-1" />
       </div>
 
-      {/* ── 📊 Main Structural Layout Wrapper ── */}
+      {/* Main Layout */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
         
-        {/* Section Heading Titles */}
         {(eyebrow || heading) && (
           <div className="mb-8 text-center max-w-2xl mx-auto">
             {eyebrow && <SectionEyebrow>{eyebrow}</SectionEyebrow>}
@@ -82,12 +77,11 @@ export function CaseStudiesGridBlock({
           </div>
         )}
 
-        {/* ── 🧊 3D Overlapping Depth Stack Slider Track ── */}
+        {/* Slider */}
         <div className="relative w-full h-[540px] flex items-center justify-center my-2">
           {studies.map((study, index) => {
             let offset = index - activeIdx
 
-            // Ensure mathematical looping rotations wrap around boundaries smoothly
             if (offset < -2) offset += studies.length
             if (offset > 2) offset -= studies.length
 
@@ -96,7 +90,6 @@ export function CaseStudiesGridBlock({
 
             if (!isVisible) return null
 
-            // 3D positioning matrices based on image layout guidelines
             const xTranslation = offset * 340 
             const cardScale = isActive ? 1.0 : 0.82
             const cardZIndex = 10 - Math.abs(offset)
@@ -118,14 +111,14 @@ export function CaseStudiesGridBlock({
                 <article
                   className={`group flex flex-col rounded-2xl border p-8 min-h-[520px] justify-start transition-all duration-300 backdrop-blur-xl ${
                     isActive
-                      ? "border-amber-500/50 bg-slate-900/95 shadow-[0_25px_50px_-12px_rgba(245,158,11,0.15)]"
-                      : "border-white/10 bg-slate-950/80 shadow-2xl shadow-black/60"
+                      ? "border-brand-primary/50 bg-brand-dark/95 shadow-[0_25px_50px_-12px_rgba(95,169,230,0.15)]"
+                      : "border-white/10 bg-brand-dark/80 shadow-2xl shadow-black/60"
                   }`}
                 >
-                  {/* Avatar Profile Area */}
+                  {/* Avatar */}
                   <div className="flex items-center gap-4 mb-6 pb-4 border-b border-white/10">
                     {study.photoUrl ? (
-                      <div className="relative h-12 w-12 shrink-0 rounded-full overflow-hidden border border-amber-500/20">
+                      <div className="relative h-12 w-12 shrink-0 rounded-full overflow-hidden border border-brand-primary/20">
                         <Image
                           src={study.photoUrl}
                           alt={study.name}
@@ -134,7 +127,7 @@ export function CaseStudiesGridBlock({
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 shrink-0">
+                      <div className="w-12 h-12 rounded-full bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center text-brand-primary shrink-0">
                         <User size={22} />
                       </div>
                     )}
@@ -143,17 +136,17 @@ export function CaseStudiesGridBlock({
                         {study.name}
                       </h4>
                       {study.role && (
-                        <p className="text-sm text-amber-400/90 font-medium truncate leading-tight mt-0.5">
+                        <p className="text-sm text-brand-primary font-medium truncate leading-tight mt-0.5">
                           {study.role}
                         </p>
                       )}
                     </div>
                   </div>
 
-                  {/* Highlights Metrics Card row */}
+                  {/* Metric */}
                   {study.metric && (
-                    <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-slate-950/60 border border-white/5 backdrop-blur-md">
-                      <span className="text-2xl font-black text-amber-400 tabular-nums leading-none">
+                    <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-brand-dark/60 border border-white/5 backdrop-blur-md">
+                      <span className="text-2xl font-black text-brand-primary tabular-nums leading-none">
                         {study.metric.value}
                       </span>
                       <span className="text-xs font-semibold text-white/50 leading-tight text-left">
@@ -162,10 +155,10 @@ export function CaseStudiesGridBlock({
                     </div>
                   )}
 
-                  {/* Challenge Text Area */}
+                  {/* Challenge */}
                   {study.challenge && (
                     <div className="mb-5 text-left">
-                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-amber-400/90">
+                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-brand-primary">
                         {challengeLabel}
                       </p>
                       <p className="text-sm leading-relaxed text-white/80 font-normal">
@@ -174,10 +167,10 @@ export function CaseStudiesGridBlock({
                     </div>
                   )}
 
-                  {/* Solution Text Area */}
+                  {/* Solution */}
                   {study.solution && (
                     <div className="text-left">
-                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-emerald-400">
+                      <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-brand-accent">
                         {solutionLabel}
                       </p>
                       <p className="text-sm leading-relaxed text-white/80 font-normal">
@@ -191,7 +184,7 @@ export function CaseStudiesGridBlock({
           })}
         </div>
 
-        {/* ── 🕹️ Slide Nav Controls Layer ── */}
+        {/* Nav Controls */}
         <div className="flex justify-center items-center gap-6 mt-12">
           <button
             onClick={handlePrev}
@@ -201,14 +194,15 @@ export function CaseStudiesGridBlock({
             <ChevronLeft size={22} />
           </button>
 
-          {/* Center Indicators dots */}
           <div className="flex gap-2.5">
             {studies.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveIdx(i)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === activeIdx ? "w-8 bg-amber-400" : "w-1.5 bg-white/30"
+                  i === activeIdx 
+                    ? "w-8 bg-brand-primary" 
+                    : "w-1.5 bg-white/30"
                 }`}
                 aria-label={`Go to story slide ${i + 1}`}
               />

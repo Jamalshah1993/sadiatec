@@ -34,6 +34,7 @@ import { GalleryGridBlockConfig } from '../../blocks/gallery-grid/config'
 import { HistoryBlockConfig } from '../../blocks/history/config'
 import { PlacementStatisticsBlockConfig } from '../../blocks/placement-statistics/config'
 import { ContactInfoCardBlockConfig } from '../../blocks/contact-info-card/config'
+import { MissionStatementBlockConfig } from '../../blocks/mission-statement/config'
 
 export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
   return [
@@ -67,6 +68,7 @@ export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
     HistoryBlockConfig,
     PlacementStatisticsBlockConfig,
     ContactInfoCardBlockConfig,
+    MissionStatementBlockConfig,
   ]
 }
 

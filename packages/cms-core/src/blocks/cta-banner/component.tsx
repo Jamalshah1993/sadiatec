@@ -1,133 +1,182 @@
 'use client'
-// Client boundary: scroll-triggered fade-up animation
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import type { MotionStyle } from 'framer-motion'
-import { SectionEyebrow } from '../../components/ui'
+import { Mail, PhoneCall, ArrowRight, MessageSquare } from 'lucide-react'
 import { fadeInUp } from '../../lib/motion'
-import type {
-  CTABannerBlockProps,
-  CTABannerVariant,
-  CTABannerBackgroundStyle,
-} from './types'
-
-function resolveCardStyle(
-  variant: CTABannerVariant,
-  backgroundStyle: CTABannerBackgroundStyle,
-  backgroundImageUrl?: string,
-): MotionStyle {
-  if (variant === 'image' && backgroundImageUrl) {
-    return {
-      backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${backgroundImageUrl}')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    }
-  }
-  if (variant === 'gradient' || backgroundStyle === 'brand') {
-    return {
-      backgroundImage: `linear-gradient(to bottom right, var(--color-primary), color-mix(in srgb, var(--color-primary) 60%, black))`,
-    }
-  }
-  return {}
-}
-
-function resolveSectionBg(
-  variant: CTABannerVariant,
-  backgroundStyle: CTABannerBackgroundStyle,
-): string {
-  if (variant === 'image') return ''
-  if (variant === 'gradient' || backgroundStyle === 'brand') return ''
-  if (backgroundStyle === 'dark') return 'bg-[var(--color-neutral-900)]'
-  if (backgroundStyle === 'light') return 'bg-[var(--color-neutral-100,#f5f5f5)]'
-  if (variant === 'solid') return 'bg-[var(--color-primary)]'
-  return ''
-}
+import type { CTABannerBlockProps } from './types'
 
 export function CTABannerBlock({
-  eyebrow,
-  heading,
+  eyebrow = 'Contact',
+  heading = 'inquiry',
   body,
   primaryButton,
-  primaryButtonVariant = 'solid',
-  secondaryButton,
-  secondaryButtonVariant = 'outline',
-  variant = 'gradient',
-  backgroundStyle = 'brand',
-  backgroundImageUrl,
-  layout = 'centered',
 }: CTABannerBlockProps) {
-  const cardStyle = resolveCardStyle(variant, backgroundStyle, backgroundImageUrl)
-  const sectionBg = resolveSectionBg(variant, backgroundStyle)
-  const isDark = backgroundStyle !== 'light'
-  const textColor = isDark ? 'text-white' : 'text-[var(--color-neutral-900)]'
-  const subtextColor = isDark ? 'text-white/80' : 'text-[var(--color-muted)]'
-  const eyebrowColor = isDark ? 'text-white/70' : 'text-[var(--color-primary)]'
-
-  const isSplit = layout === 'split'
-  const contentAlign = isSplit
-    ? 'flex-col md:flex-row md:items-center md:justify-between text-left'
-    : 'flex-col items-center text-center'
-
-  function primaryBtnClass(): string {
-    if (primaryButtonVariant === 'outline') {
-      return 'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md border-2 border-white bg-transparent px-7 py-3.5 text-base font-semibold text-white transition-colors duration-150 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
-    }
-    return isDark
-      ? 'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-white px-7 py-3.5 text-base font-semibold text-[var(--color-primary)] transition-opacity duration-150 hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
-      : 'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-[var(--color-primary)] px-7 py-3.5 text-base font-semibold text-white transition-opacity duration-150 hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]'
-  }
-
-  function secondaryBtnClass(): string {
-    if (secondaryButtonVariant === 'solid') {
-      return 'inline-flex min-h-[44px] items-center justify-center gap-2 rounded-md bg-[var(--color-primary)] px-7 py-3.5 text-base font-semibold text-white transition-opacity duration-150 hover:opacity-90'
-    }
-    return 'inline-flex min-h-[44px] items-center justify-center gap-1 px-7 py-3.5 text-base font-semibold text-white transition-opacity duration-150 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
-  }
-
   return (
-    <section className={`py-16 md:py-20 ${sectionBg}`}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          style={cardStyle}
-          className="rounded-3xl p-10 md:p-16"
-        >
-          <div className={`flex gap-8 ${contentAlign}`}>
-            <div className={isSplit ? 'max-w-xl' : 'max-w-2xl'}>
+    <section className="bg-white py-16 md:py-24 overflow-hidden">
+      <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+
+        {/* Outer wrapper — relative for the overlapping card */}
+        <div className="relative flex items-center">
+
+          {/* ── LEFT: Main visual card (~60% width) ── */}
+          <div className="w-full lg:w-[62%] min-h-[320px] lg:min-h-[380px]
+                          bg-brand-primary relative overflow-hidden
+                          flex items-center">
+
+            {/* Background pattern — subtle grid lines */}
+            <div className="absolute inset-0 pointer-events-none opacity-10">
+              {[...Array(6)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute top-0 bottom-0 w-px bg-white"
+                  style={{ left: `${(i + 1) * 16.66}%` }}
+                />
+              ))}
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute left-0 right-0 h-px bg-white"
+                  style={{ top: `${(i + 1) * 25}%` }}
+                />
+              ))}
+            </div>
+
+            {/* Large decorative icon — left side */}
+            <div className="relative z-10 flex items-center 
+                            justify-center gap-10 lg:gap-16 
+                            w-full px-12 md:px-20">
+              
+              {/* Mail icon box */}
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex h-20 w-20 md:h-24 md:w-24 
+                                items-center justify-center 
+                                bg-white/10 border border-white/20
+                                text-white backdrop-blur-sm">
+                  <Mail className="w-9 h-9 md:w-11 md:h-11" 
+                        strokeWidth={1.2} />
+                </div>
+                <span className="text-white/70 text-xs font-medium 
+                                 tracking-widest uppercase">
+                  Email
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="h-16 w-px bg-white/20 hidden sm:block" />
+
+              {/* Phone icon box */}
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex h-20 w-20 md:h-24 md:w-24 
+                                items-center justify-center 
+                                bg-white/10 border border-white/20
+                                text-white backdrop-blur-sm">
+                  <PhoneCall className="w-9 h-9 md:w-11 md:h-11" 
+                              strokeWidth={1.2} />
+                </div>
+                <span className="text-white/70 text-xs font-medium 
+                                 tracking-widest uppercase">
+                  Phone
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="h-16 w-px bg-white/20 hidden sm:block" />
+
+              {/* Chat icon box */}
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex h-20 w-20 md:h-24 md:w-24 
+                                items-center justify-center 
+                                bg-white/10 border border-white/20
+                                text-white backdrop-blur-sm">
+                  <MessageSquare className="w-9 h-9 md:w-11 md:h-11" 
+                                  strokeWidth={1.2} />
+                </div>
+                <span className="text-white/70 text-xs font-medium 
+                                 tracking-widest uppercase">
+                  Chat
+                </span>
+              </div>
+
+            </div>
+
+            {/* Bottom brand strip */}
+            <div className="absolute bottom-0 left-0 right-0 h-1 
+                            bg-brand-primary-dark" />
+          </div>
+
+          {/* ── RIGHT: Floating overlap card ── */}
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-40px' }}
+            className="relative z-20
+                       lg:absolute lg:right-0
+                       lg:w-[45%]
+                       mt-0 lg:mt-0
+                       self-stretch lg:self-auto"
+          >
+            <div className="bg-bg-tertiary border border-border-default
+                            shadow-xl h-full lg:h-auto
+                            p-8 md:p-12 lg:p-14
+                            flex flex-col justify-center
+                            lg:min-h-[340px]">
+
+              {/* Eyebrow */}
               {eyebrow && (
-                <p className={`mb-3 text-sm font-semibold uppercase tracking-widest ${eyebrowColor}`}>
+                <p className="text-xs font-bold tracking-widest uppercase
+                              text-brand-primary mb-3">
                   {eyebrow}
                 </p>
               )}
-              <h2 className={`text-3xl font-bold md:text-4xl ${textColor}`}>{heading}</h2>
-              {body && (
-                <p className={`mt-4 text-lg leading-relaxed ${subtextColor}`}>{body}</p>
-              )}
-            </div>
 
-            {(primaryButton.label || secondaryButton) && (
-              <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row md:items-start">
-                {primaryButton.label && (
-                  <Link href={primaryButton.href} className={primaryBtnClass()}>
-                    {primaryButton.label}
+              {/* Heading */}
+              <h2 className="text-3xl md:text-4xl font-extrabold 
+                             tracking-tight text-text-primary 
+                             leading-tight">
+                {heading}
+              </h2>
+
+              {/* Accent line */}
+              <div className="mt-4 mb-5 h-0.5 w-10 bg-brand-primary" />
+
+              {/* Body */}
+              {body && (
+                <p className="text-sm md:text-base leading-relaxed 
+                              text-text-secondary">
+                  {body}
+                </p>
+              )}
+
+              {/* CTA Button */}
+              {primaryButton?.label && (
+                <div className="mt-8">
+                  <Link
+                    href={primaryButton.href}
+                    className="inline-flex items-center gap-2
+                               bg-brand-primary text-white
+                               text-sm font-semibold
+                               px-6 py-3
+                               hover:bg-brand-primary-dark
+                               transition-colors duration-200
+                               group"
+                  >
+                    <span>{primaryButton.label}</span>
+                    <ArrowRight 
+                      size={15} 
+                      className="transition-transform duration-200 
+                                 group-hover:translate-x-1" 
+                    />
                   </Link>
-                )}
-                {secondaryButton && (
-                  <Link href={secondaryButton.href} className={secondaryBtnClass()}>
-                    {secondaryButton.label}
-                    {secondaryButtonVariant === 'outline' && (
-                      <span aria-hidden="true" className="text-lg">→</span>
-                    )}
-                  </Link>
-                )}
-              </div>
-            )}
-          </div>
-        </motion.div>
+                </div>
+              )}
+
+            </div>
+          </motion.div>
+
+        </div>
+
       </div>
     </section>
   )

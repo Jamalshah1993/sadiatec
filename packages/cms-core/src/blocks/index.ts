@@ -31,6 +31,7 @@ import { GalleryGridBlockConfig } from './gallery-grid/config'
 import { HistoryBlockConfig } from './history/config'
 import { PlacementStatisticsBlockConfig } from './placement-statistics/config'
 import { ContactInfoCardBlockConfig } from './contact-info-card/config'
+import { MissionStatementBlockConfig } from './mission-statement/config'
 
 export const allBlockConfigs: Block[] = [
   HeroBlockConfig,
@@ -64,6 +65,7 @@ export const allBlockConfigs: Block[] = [
   HistoryBlockConfig,
   PlacementStatisticsBlockConfig,
   ContactInfoCardBlockConfig,
+  MissionStatementBlockConfig,
 ]
 
 export type { HeroBlockProps, HeroInlineStat, HeroKeywordPill, HeroCta } from './hero/types'
@@ -97,6 +99,7 @@ export type { GalleryGridBlockProps, GalleryCategory, GalleryImageItem } from '.
 export type { HistoryBlockProps, HistoryEntry } from './history/types'
 export type { PlacementStatisticsBlockProps, IndustrySlice, RegionBar } from './placement-statistics/types'
 export type { ContactInfoCardBlockProps } from './contact-info-card/types'
+export type { MissionStatementBlockProps, MissionPhoto, MissionPhotoSize } from './mission-statement/types'
 
 export { HeroBlock } from './hero/component'
 export { RichTextBlock } from './rich-text/component'
@@ -112,6 +115,7 @@ export { GalleryGridBlock } from './gallery-grid/component'
 export { HistoryBlock } from './history/component'
 export { PlacementStatisticsBlock } from './placement-statistics/component'
 export { ContactInfoCardBlock } from './contact-info-card/component'
+export { MissionStatementBlock } from './mission-statement/component'
 
 export { blockRegistry } from './registry'
 export type { BlockRenderer } from './registry'

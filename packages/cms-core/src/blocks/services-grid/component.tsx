@@ -1,74 +1,91 @@
 'use client'
-// Client boundary: per-row and per-card scroll-triggered fade animations
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { SectionEyebrow } from '../../components/ui'
-import { fadeInUp, staggerContainer } from '../../lib/motion'
+import { fadeInUp } from '../../lib/motion'
 import type { ServicesGridBlockProps, ServiceItem } from './types'
 
-interface AlternatingRowProps {
+interface OverlapRowProps {
   service: ServiceItem
   index: number
 }
 
-function AlternatingRow({ service, index }: AlternatingRowProps) {
-  const imageRight = index % 2 === 1
+function OverlapRow({ service, index }: OverlapRowProps) {
+  const isEven = index % 2 === 0
 
   return (
     <motion.div
       variants={fadeInUp}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: '-60px' }}
-      className={[
-        'flex flex-col items-center gap-10 lg:gap-16', // Slightly wider gap for cleaner separation
-        imageRight ? 'md:flex-row-reverse' : 'md:flex-row',
-      ].join(' ')}
+      viewport={{ once: true, margin: '-100px' }}
+      /* Reduced overall minimum row heights for a leaner profile */
+      className="relative w-full min-h-[300px] md:min-h-[340px] flex flex-col justify-center items-stretch"
     >
-      {/* Image */}
-      <div className="w-full md:w-1/2">
+      {/* ── Background Image Section (Slightly shorter height & pushed further left/right) ── */}
+      <div 
+        className={[
+          'w-full md:w-[62%] h-[200px] sm:h-[260px] md:h-[320px] relative rounded-2xl overflow-hidden shadow-sm z-0',
+          isEven ? 'md:ml-auto' : 'md:mr-auto'
+        ].join(' ')}
+      >
         {service.imageUrl ? (
-          // Use <img> — swap to next/image once image domains are configured in next.config
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={service.imageUrl}
-            alt={service.imageName}
-            className="aspect-[16/10] w-full rounded-2xl object-cover shadow-sm"
+            alt={service.imageName || service.title}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, 62vw"
           />
         ) : (
-          <div className="aspect-[16/10] w-full rounded-2xl bg-(--color-neutral-100)" />
+          <div className="w-full h-full bg-slate-100" />
         )}
       </div>
 
-      {/* Content */}
-      <div className="w-full md:w-1/2 text-left space-y-3">
-        {service.subheadline && (
-          <p className="text-[11px] font-bold uppercase tracking-widest text-(--color-primary)">
-            {service.subheadline}
-          </p>
-        )}
-        {/* Balanced row heading scale */}
-        <h3 className="text-2xl font-extrabold tracking-tight text-(--color-text) lg:text-3xl">
-          {service.title}
-        </h3>
+      {/* ── Overlapping Content Card (More left/right spread & tight sizing) ── */}
+      <div
+        className={[
+          /* Narrowed down to md:w-[44%] to expose more background width */
+          'w-full md:w-[44%] bg-[#EBF5FF] p-5 sm:p-7 md:p-8 rounded-2xl md:shadow-md text-left space-y-3 z-10',
+          'mt-[-30px] md:mt-0 mx-4 sm:mx-6 md:mx-0 md:absolute md:top-1/2 md:-translate-y-1/2',
+          /* Hard locked directly against opposite screen walls to look extremely expansive */
+          isEven ? 'md:left-0' : 'md:right-0'
+        ].join(' ')}
+      >
+        <div className="space-y-0.5">
+          <h3 className="text-lg sm:text-xl font-bold tracking-tight text-gray-900">
+            {service.title}
+          </h3>
+          {service.subheadline && (
+            <p className="text-[11px] font-semibold text-blue-400 tracking-wider capitalize">
+              {service.subheadline}
+            </p>
+          )}
+        </div>
+
         {service.description && (
-          <p className="text-sm md:text-base leading-relaxed text-(--color-muted)">
+          <p className="text-[13px] leading-relaxed text-gray-700 font-normal">
             {service.description}
           </p>
         )}
+
         {service.cta.label && (
           <div className="pt-2">
             <Link
               href={service.cta.href}
-              className="inline-flex items-center gap-1.5 text-sm font-bold text-(--color-primary) hover:underline group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-primary)"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#5EA6E6] hover:bg-[#4B93D3] active:scale-[0.98] text-white text-[12px] font-medium rounded-lg transition-all duration-200 shadow-sm group focus:outline-none"
             >
               <span>{service.cta.label}</span>
               <svg 
-                className="h-4 w-4 transform transition-transform duration-200 group-hover:translate-x-1 stroke-[2.5]" 
-                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                className="h-3.5 w-3.5 transform transition-transform duration-200 group-hover:translate-x-1" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor" 
+                strokeWidth="2.5"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Link>
           </div>
@@ -78,103 +95,33 @@ function AlternatingRow({ service, index }: AlternatingRowProps) {
   )
 }
 
-interface GridCardProps {
-  service: ServiceItem
-}
-
-function GridCard({ service }: GridCardProps) {
-  return (
-    <motion.article
-      variants={fadeInUp}
-      className="flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow duration-300"
-    >
-      {service.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={service.imageUrl}
-          alt={service.imageName}
-          className="aspect-[16/10] w-full object-cover" // 16/10 golden ratio looks much leaner than boxy 4/3
-        />
-      ) : (
-        <div className="aspect-[16/10] w-full bg-(--color-neutral-100)" />
-      )}
-      <div className="flex flex-1 flex-col p-6 text-left">
-        {service.subheadline && (
-          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-(--color-primary)">
-            {service.subheadline}
-          </p>
-        )}
-        {/* Toned card heading size down from xl to text-lg */}
-        <h3 className="text-lg font-bold tracking-tight text-(--color-text)">
-          {service.title}
-        </h3>
-        {service.description && (
-          <p className="mt-2 flex-1 text-xs md:text-sm leading-relaxed text-(--color-muted)">
-            {service.description}
-          </p>
-        )}
-        {service.cta.label && (
-          <div className="mt-4 pt-3 border-t border-neutral-50">
-            <Link
-              href={service.cta.href}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-(--color-primary) hover:underline group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-primary)"
-            >
-              <span>{service.cta.label}</span>
-              <svg 
-                className="h-3.5 w-3.5 transform transition-transform duration-200 group-hover:translate-x-1 stroke-[2.5]" 
-                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
-          </div>
-        )}
-      </div>
-    </motion.article>
-  )
-}
-
 export function ServicesGridBlock({
   eyebrow,
   heading,
   services,
-  layout = 'alternating',
 }: ServicesGridBlockProps) {
-  if (services.length === 0) return null
+  if (!services || services.length === 0) return null
 
   return (
-    /* ── 🎯 FIXED: Tuned down section padding top (pt-10 md:pt-14) to maintain an uniform flow serial sequence ── */
-    <section className="py-20 lg:py-24 bg-bg-secondary overflow-hidden border-t-4 border-brand-primary">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="pt-12 pb-20 md:pt-16 md:pb-24 bg-white overflow-hidden">
+      {/* Expanded to max-w-full with wide padding layers to maximize edge boundaries */}
+      <div className="mx-auto max-w-full px-6 md:px-16 lg:px-24">
         
-        {/* ── 🎯 FIXED: Trimmed space below header down from mb-16/24 to mb-10 md:mb-14 ── */}
-        <div className="mb-10 md:mb-14 text-center max-w-3xl mx-auto space-y-3">
-          <SectionEyebrow>{eyebrow}</SectionEyebrow>
-          {/* Main header toned down to text-3xl with text-4xl on desktop */}
-          <h2 className="text-3xl font-extrabold tracking-tight text-(--color-text) md:text-4xl">
+        {/* Minimalist Header */}
+        <div className="mb-12 md:mb-16 text-center max-w-3xl mx-auto space-y-2">
+          {eyebrow && <SectionEyebrow>{eyebrow}</SectionEyebrow>}
+          <h2 className="text-2xl md:text-[34px] font-bold tracking-tight text-gray-900 leading-tight">
             {heading}
           </h2>
         </div>
 
-        {layout === 'alternating' ? (
-          <div className="space-y-24 md:space-y-32">
-            {services.map((service, i) => (
-              <AlternatingRow key={i} service={service} index={i} />
-            ))}
-          </div>
-        ) : (
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {services.map((service, i) => (
-              <GridCard key={i} service={service} />
-            ))}
-          </motion.div>
-        )}
+        {/* Content Rows Matrix with tighter step gap values */}
+        <div className="space-y-16 md:space-y-24 max-w-[1500px] mx-auto">
+          {services.map((service, i) => (
+            <OverlapRow key={service.title || i} service={service} index={i} />
+          ))}
+        </div>
+
       </div>
     </section>
   )
