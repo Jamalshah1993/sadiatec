@@ -130,7 +130,7 @@ export default async function NewsDetailPage({ params }: Props) {
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 relative z-10">
         
         {/* 🛠️ MODIFIED: Adjusted background to a clear backdrop-blur frame and updated the broken md:p-30 layout pad */}
-        <div className="bg-white/90 backdrop-blur-md shadow-sm border border-neutral-100 rounded-2xl overflow-hidden p-6 sm:p-10 md:p-16">
+        <div className="bg-white/90 backdrop-blur-md shadow-sm border border-neutral-100 rounded-2xl overflow-hidden p-10 sm:p-30 md:p-30">
           
           {/* Top Event Banner */}
           <div className="border-b pb-8 mb-8">
