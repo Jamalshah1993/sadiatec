@@ -120,11 +120,11 @@ export function HeroBlock({
           <motion.h1
             id="hero-heading"
             variants={fadeInUp}
-            className="ml-auto max-w-[700px] text-3xl font-medium tracking-tight text-text-primary md:text-4xl lg:text-5xl"
+            className="ml-auto max-w-[700px] text-2xl font-medium tracking-tight text-text-primary md:text-4xl lg:text-5xl"
           >
             {resolvedHeadline}
           </motion.h1>
-          
+
         </motion.div>
       </div>
 
@@ -132,7 +132,11 @@ export function HeroBlock({
       {slides.length > 0 && (
         <div className="w-full px-4 pb-4 md:px-6 md:pb-6 lg:px-10 lg:pb-8">
           <div
-            className="relative w-full overflow-hidden bg-bg-secondary rounded-2xl md:rounded-3xl h-[calc(100vh-140px)] min-h-[500px]"
+            className="
+        relative w-full overflow-hidden bg-bg-secondary rounded-2xl md:rounded-3xl 
+        /* Mobile: fixed aspect ratio or safe dynamic viewport height */
+        aspect-[4/3] sm:aspect-[16/10] md:h-[calc(100vh-160px)] md:min-h-[500px]
+      "
           >
             <AnimatePresence initial={true} mode="popLayout">
               <motion.div
@@ -147,9 +151,10 @@ export function HeroBlock({
                   src={slides[current]?.imageUrl || ''}
                   alt={slides[current]?.alt || ''}
                   fill
-                  className="object-cover"
+                  /* object-cover ensures no stretching. 'object-center' keeps focal points centered */
+                  className="object-cover object-center"
                   priority
-                  sizes="95vw"
+                  sizes="(max-width: 768px) 100vw, 95vw"
                 />
               </motion.div>
             </AnimatePresence>
@@ -157,11 +162,12 @@ export function HeroBlock({
             {/* Navigation buttons */}
             {total > 1 && (
               <>
+                {/* Scaled down buttons slightly for mobile tap targets (h-9 w-9 vs h-11 w-11) */}
                 <button
                   type="button"
                   onClick={prev}
                   aria-label="Previous slide"
-                  className="absolute left-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+                  className="absolute left-3 top-1/2 z-10 flex h-9 w-9 md:h-11 md:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 >
                   <ChevronLeft />
                 </button>
@@ -169,14 +175,14 @@ export function HeroBlock({
                   type="button"
                   onClick={next}
                   aria-label="Next slide"
-                  className="absolute right-4 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
+                  className="absolute right-3 top-1/2 z-10 flex h-9 w-9 md:h-11 md:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary"
                 >
                   <ChevronRight />
                 </button>
 
-                {/* Dots Indicator */}
+                {/* Dots Indicator: Centered on mobile, right-aligned on desktop */}
                 <div
-                  className="absolute bottom-6 right-8 z-10 flex gap-2"
+                  className="absolute bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:bottom-6 md:right-8 z-10 flex gap-2"
                   role="tablist"
                   aria-label="Slide indicators"
                 >

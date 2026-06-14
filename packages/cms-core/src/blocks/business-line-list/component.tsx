@@ -115,7 +115,7 @@ export function BusinessLineListBlock({
   if (!items || items.length === 0) return null
 
   return (
-    <section className="py-16 md:py-20 bg-white">
+    <section className="pt-10 pb-16 md:pt-10 md:pb-24 bg-white">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

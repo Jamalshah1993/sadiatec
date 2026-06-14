@@ -64,7 +64,7 @@ export function NewsListBlock({
           <div className="lg:col-span-5 flex flex-col items-start space-y-8 lg:sticky lg:top-12">
             <h2 
               id="news-split-heading" 
-              className="text-3xl font-extrabold tracking-tight text-black lowercase md:text-4xl"
+              className="text-3xl font-extrabold tracking-tight text-black md:text-4xl"
             >
               {heading}
             </h2>

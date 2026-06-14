@@ -10,7 +10,6 @@ function isSupportedLocale(s: string): boolean {
   return (siteConfig.locales.enabled as string[]).includes(s)
 }
 
-// 🛠️ DATE FORMATTING COMPONENT FUNCTION
 function formatArticleDate(isoString: string): string {
   try {
     return new Date(isoString).toLocaleDateString('en-GB', {
@@ -29,7 +28,6 @@ type Props = {
 
 type RawBlock = { blockType: string; id?: string } & Record<string, unknown>
 
-// 🛠️ INTERNAL LIGHTWEIGHT RENDERER FOR YOUR LEXICAL CONTENT FIELD
 function RenderLexicalText({ content }: { content: any }) {
   if (!content) return null
 
@@ -39,13 +37,12 @@ function RenderLexicalText({ content }: { content: any }) {
 
   const renderNodes = (nodes: any[]): React.ReactNode => {
     if (!Array.isArray(nodes)) return null
-
     return nodes.map((node, index) => {
       if (!node) return null
 
       if (node.type === 'text') {
         let textElement: React.ReactNode = node.text || ''
-        if (node.format & 1) textElement = <strong key={index} className="font-bold text-slate-900">{textElement}</strong>
+        if (node.format & 1) textElement = <strong key={index} className="font-bold">{textElement}</strong>
         if (node.format & 2) textElement = <em key={index} className="italic">{textElement}</em>
         return <span key={index}>{textElement}</span>
       }
@@ -53,16 +50,16 @@ function RenderLexicalText({ content }: { content: any }) {
       switch (node.type) {
         case 'paragraph':
           return (
-            <p key={index} className="text-base text-slate-700 leading-relaxed mb-5 text-left">
+            <p key={index} className="text-base text-slate-700 leading-relaxed mb-5">
               {node.children ? renderNodes(node.children) : ''}
             </p>
           )
         case 'heading':
           const Tag = node.tag || 'h2'
           const headingStyles: Record<string, string> = {
-            h1: 'text-2xl md:text-3xl font-bold text-slate-900 mt-8 mb-4 tracking-tight text-left',
-            h2: 'text-xl md:text-2xl font-bold text-slate-900 mt-6 mb-3 tracking-tight text-left',
-            h3: 'text-lg md:text-xl font-semibold text-slate-900 mt-5 mb-2 text-left',
+            h1: 'text-2xl md:text-3xl font-bold mt-8 mb-4',
+            h2: 'text-xl md:text-2xl font-bold mt-6 mb-3',
+            h3: 'text-lg md:text-xl font-semibold mt-5 mb-2',
           }
           return (
             <Tag key={index} className={headingStyles[Tag] || headingStyles.h2}>
@@ -79,67 +76,12 @@ function RenderLexicalText({ content }: { content: any }) {
   }
 
   const targetNodes = content?.root?.children || content?.children || (Array.isArray(content) ? content : null)
-  return <div className="w-full text-left">{targetNodes ? renderNodes(targetNodes) : null}</div>
-}
-
-export async function generateStaticParams() {
-  const payload = await getCachedPayload()
-  const result = await payload.find({
-    collection: 'news',
-    limit: 100,
-  })
-  return siteConfig.locales.enabled.flatMap((locale) =>
-    result.docs.map((article) => ({
-      locale,
-      slug: article.slug as string,
-    })),
-  )
-}
-
-export const dynamicParams = true
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale, slug } = await params
-  if (!isSupportedLocale(locale)) return {}
-
-  const payload = await getCachedPayload()
-  const result = await payload.find({
-    collection: 'news',
-    where: { slug: { equals: slug } },
-    locale,
-    limit: 1,
-  })
-  const article = result.docs[0]
-  if (!article) return {}
-
-  const title = typeof article['title'] === 'string' ? article['title'] : ''
-  const description = typeof article['excerpt'] === 'string' ? article['excerpt'] : ''
-  const thumbnail = article['thumbnail'] as Record<string, unknown> | null | undefined
-  const thumbnailUrl = thumbnail && typeof thumbnail['url'] === 'string' ? thumbnail['url'] : undefined
-
-  const base = `https://${siteConfig.site.domain}`
-  const defaultLocale = siteConfig.locales.default
-  const canonicalPath = locale === defaultLocale ? `/news/${slug}` : `/${locale}/news/${slug}`
-
-  return {
-    title,
-    ...(description ? { description } : {}),
-    openGraph: {
-      title,
-      ...(description ? { description } : {}),
-      url: `${base}${canonicalPath}`,
-      siteName: siteConfig.site.name,
-      locale,
-      type: 'article',
-      ...(thumbnailUrl ? { images: [{ url: thumbnailUrl }] } : {}),
-    },
-  }
+  return <div className="prose prose-slate max-w-none">{targetNodes ? renderNodes(targetNodes) : null}</div>
 }
 
 export default async function NewsDetailPage({ params }: Props) {
   const { locale, slug } = await params
-  if (!slug) notFound()
-  if (!isSupportedLocale(locale)) notFound()
+  if (!slug || !isSupportedLocale(locale)) notFound()
 
   const payload = await getCachedPayload()
   const result = await payload.find({
@@ -152,96 +94,105 @@ export default async function NewsDetailPage({ params }: Props) {
   const article = result.docs[0]
   if (!article) notFound()
 
-  // SEPARATE SELECTION LOGICS:
   const layoutBlocks = (article['layout'] ?? []) as RawBlock[]
   const hasLayoutBlocks = Array.isArray(layoutBlocks) && layoutBlocks.length > 0
-  
-  const richTextContent = article['content'] // Pure lexical content field object
+  const richTextContent = article['content']
 
   const titleText = typeof article['title'] === 'string' ? article['title'] : ''
-  const excerptText = typeof article['excerpt'] === 'string' ? article['excerpt'] : null
-
-  // 🛠️ SAFELY CAPTURE THE PUBLISHED AT FIELD
+  const excerptText = typeof article['excerpt'] === 'string' ? article['excerpt'] : ''
   const publishedAtStr = typeof article['publishedAt'] === 'string' ? article['publishedAt'] : null
 
-  const thumbnail = article['thumbnail'] as Record<string, unknown> | null | undefined
-  const thumbnailUrl = thumbnail && typeof thumbnail['url'] === 'string' ? thumbnail['url'] : null
-  const thumbnailAlt = thumbnail && typeof thumbnail['alt'] === 'string' ? thumbnail['alt'] : titleText
+  const thumbnail = article['thumbnail'] as any
+  const thumbnailUrl = thumbnail?.url || null
+  const thumbnailAlt = thumbnail?.alt || titleText
+
+  const eventDate = typeof article['eventDate'] === 'string' ? article['eventDate'] : ''
+  const eventTime = typeof article['eventTime'] === 'string' ? article['eventTime'] : ''
+  const eventType = typeof article['eventType'] === 'string' ? article['eventType'] : 'Online Event'
 
   return (
-    <main className="w-full pt-14 md:pt-24 bg-white">
+    /* 🛠️ MODIFIED: Turned parent wrapper into a relative frame to isolate the background gradient configuration */
+    <main className="w-full pt-5 md:pt-6 bg-white min-h-screen relative overflow-hidden">
       
-      {/* Header Panel Layout Frame */}
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 border-b border-neutral-100">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center">
-          
-          {thumbnailUrl && (
-            <div className="relative flex items-center justify-start shrink-0">
-              <div className="relative w-40 h-24 sm:w-48 sm:h-28">
-                <Image
-                  src={thumbnailUrl}
-                  alt={thumbnailAlt}
-                  fill
-                  className="object-contain object-left"
-                  priority
-                />
-              </div>
-            </div>
-          )}
+      {/* 🛠️ ADDED: Canvas background layers mimicking the custom mesh color scheme from image_47baa6.jpg */}
+      <div className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden">
+        {/* Soft Cyan Blur - Top Left */}
+        <div className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-cyan-100/40 blur-[120px]" />
+        
+        {/* Amber / Yellow Ambient Glow - Mid Bottom Center */}
+        <div className="absolute bottom-[15%] left-[45%] w-[35vw] h-[35vw] rounded-full bg-amber-100/30 blur-[100px]" />
+        
+        {/* Soft Pink / Rose Blush - Right Side */}
+        <div className="absolute top-[20%] -right-[10%] w-[45vw] h-[45vw] rounded-full bg-rose-100/40 blur-[130px]" />
+      </div>
 
-          <div className="max-w-3xl flex-1 text-left">
-            <h1 className="text-3xl font-bold tracking-tight text-[var(--color-text,#111827)] sm:text-4xl">
+      {/* Content wrapper lifted up above the background elements */}
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 relative z-10">
+        
+        {/* 🛠️ MODIFIED: Adjusted background to a clear backdrop-blur frame and updated the broken md:p-30 layout pad */}
+        <div className="bg-white/90 backdrop-blur-md shadow-sm border border-neutral-100 rounded-2xl overflow-hidden p-6 sm:p-10 md:p-16">
+          
+          {/* Top Event Banner */}
+          <div className="border-b pb-8 mb-8">
+            {eventDate && (
+              <div className="inline-block bg-black text-white text-sm font-medium px-5 py-1.5 mb-6 rounded">
+                [{eventDate}{eventTime ? `, ${eventTime}` : ''}, {eventType}]
+              </div>
+            )}
+
+            <h1 className="text-3xl md:text-4xl font-bold leading-tight tracking-tight text-slate-900 mb-4">
               {titleText}
             </h1>
+
             {excerptText && (
-              <p className="mt-3 text-base leading-relaxed text-[var(--color-muted,#4b5563)] sm:text-lg">
-                {excerptText}
-              </p>
+              <div className="text-xl md:text-2xl text-slate-600 italic">
+                ~{excerptText}~
+              </div>
             )}
           </div>
 
+          {/* News Meta + Share Buttons */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <div className="flex items-center gap-3">
+              <span className="inline-block bg-black text-white text-xs font-bold px-4 py-1 tracking-wider">News Release</span>
+              {publishedAtStr && (
+                <time dateTime={publishedAtStr} className="text-sm text-slate-500">
+                  {formatArticleDate(publishedAtStr)}
+                </time>
+              )}
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="mb-10">
+            {hasLayoutBlocks ? (
+              layoutBlocks.map((block, index) => {
+                const renderer = blockRegistry[block.blockType]
+                if (!renderer) return null
+                return <div key={block.id ?? index}>{renderer(block)}</div>
+              })
+            ) : richTextContent ? (
+              <RenderLexicalText content={richTextContent} />
+            ) : (
+              <p className="text-center text-slate-400 py-12 italic">No content available.</p>
+            )}
+          </div>
+
+          {/* Bottom Promotional Image */}
+          {thumbnailUrl && (
+            <div className="relative rounded-xl overflow-hidden border border-neutral-200 shadow-sm">
+              <Image
+                src={thumbnailUrl}
+                alt={thumbnailAlt}
+                width={1200}
+                height={500}
+                className="w-full object-cover"
+                priority
+              />
+            </div>
+          )}
         </div>
       </div>
-
-      {/* 🛠️ CORE CONTENT CONTAINER */}
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        
-        {/* 🛠️ CHRONOLOGICAL DATE ROW STYLING - RIGHT BEFORE THE CONTENT VIEW */}
-        {publishedAtStr && (
-          <div className="mb-6 text-left">
-            <time 
-              dateTime={publishedAtStr} 
-              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400 tabular-nums"
-            >
-              <svg className="h-3.5 w-3.5 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-              </svg>
-              {formatArticleDate(publishedAtStr)}
-            </time>
-          </div>
-        )}
-
-        {hasLayoutBlocks ? (
-          /* Case A: Custom layout blocks exist */
-          <div className="w-full">
-            {layoutBlocks.map((block, index) => {
-              const renderer = blockRegistry[block.blockType]
-              if (!renderer) return null
-              return <div key={block.id ?? index}>{renderer(block)}</div>
-            })}
-          </div>
-        ) : richTextContent ? (
-          /* Case B: Fall back to standard Lexical text body configuration */
-          <div className="w-full border-t border-neutral-100 pt-6">
-            <RenderLexicalText content={richTextContent} />
-          </div>
-        ) : (
-          <p className="text-center text-slate-400 py-12 text-sm italic">
-            No content written for this article structure.
-          </p>
-        )}
-      </div>
-
     </main>
   )
 }

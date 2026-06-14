@@ -30,14 +30,15 @@ function Logo({ dark, imageUrl }: { dark: boolean; imageUrl?: string | null | un
   }
 
   return (
-    <div className="relative flex items-center h-14 w-48 transition-all duration-300">
+    /* 🛠️ MODIFIED: Tightened max image block box frame constraints to blend perfectly into tighter layout heights */
+    <div className="relative flex items-center h-10 w-40 sm:h-12 sm:w-44 transition-all duration-300">
       <Image
         src={imageUrl}
         alt="Sadia Tec Logo"
         fill
         priority
         className="object-contain object-left"
-        sizes="300px"
+        sizes="240px"
       />
     </div>
   )
@@ -48,7 +49,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
 
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-[1100px] max-w-[95vw] z-50
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[1100px] max-w-[95vw] z-50
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top pointer-events-none group-hover/item:pointer-events-auto"
     >
@@ -141,7 +142,7 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
 function DropdownPanel({ items }: { items: { label: string; href: string }[] }) {
   return (
     <div
-      className="absolute top-full left-0 pt-3 min-w-[220px] z-50
+      className="absolute top-full left-0 pt-2 min-w-[220px] z-50
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top-left pointer-events-none group-hover/item:pointer-events-auto"
     >
@@ -206,9 +207,13 @@ export function HeaderClient({
           : 'border-b border-transparent shadow-none',
       ].join(' ')}
     >
-      {/* Dynamic height adjustment: h-24 at top for space, scales smoothly to compact h-16 on scroll */}
-      <div className={['flex items-center justify-between w-full px-6 lg:px-20 transition-all duration-300', scrolled ? 'h-16' : 'h-24 py-4'].join(' ')}>
-
+      {/* 🛠️ MODIFIED: Scaled height down from h-24 -> h-16/md:h-20 at top, and down to h-14/md:h-16 when scrolled */}
+      <div 
+        className={[
+          'flex items-center justify-between w-full px-6 lg:px-20 transition-all duration-300', 
+          scrolled ? 'h-14 md:h-16' : 'h-14 md:h-16'
+        ].join(' ')}
+      >
           {/* Logo */}
           <Link
             href="/"
@@ -219,8 +224,8 @@ export function HeaderClient({
           </Link>
 
           {/* Desktop nav — Optimized font dimensions */}
-          <nav aria-label="Main navigation" className="hidden lg:block">
-            <ul className="flex items-center gap-2">
+          <nav aria-label="Main navigation" className="hidden lg:block h-full">
+            <ul className="flex items-center gap-1 h-full">
               {navItems.map((item) => {
                 const hasMega = item.megaMenu && (item.megaColumns ?? []).length > 0
                 const hasDropdown = !hasMega && (item.children ?? []).length > 0
@@ -228,12 +233,13 @@ export function HeaderClient({
                 const isLeaf = !hasMega && !hasDropdown
 
                 return (
-                  <li key={item.href} className="relative group/item">
+                  /* 🛠️ MODIFIED: Linked parent list block height directly to the nav viewport frame height grid */
+                  <li key={item.href} className="relative group/item h-full flex items-center">
                     <Link
                       href={item.href}
                       aria-current={active && isLeaf ? 'page' : undefined}
                       className={[
-                        'inline-flex items-center gap-1.5 px-3 py-2 text-sm font-semibold tracking-wide min-h-[44px]',
+                        'inline-flex items-center gap-1 px-3 h-full text-sm font-semibold tracking-wide',
                         'border-b-2 transition-colors duration-200',
                         active
                           ? 'text-brand-primary border-brand-primary'
@@ -260,23 +266,23 @@ export function HeaderClient({
           </nav>
 
           {/* Right controls */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-4">
 
             {/* Language switcher */}
-            <div className="relative group/lang py-2">
+            <div className="relative group/lang py-1">
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold
                   text-text-primary hover:bg-bg-secondary border border-border-default
                   transition-colors duration-200"
                 aria-label="Language selection dropdown"
               >
-                <span className="text-lg select-none leading-none">
+                <span className="text-base select-none leading-none">
                   {localeLabels[locale] || locale}
                 </span>
-                <span className="uppercase tracking-wider text-[10px]">{locale}</span>
+                <span className="uppercase tracking-wider text-[9px]">{locale}</span>
                 <svg
-                  className="h-3 w-3 text-text-muted transition-transform duration-200 group-hover/lang:rotate-180"
+                  className="h-2.5 w-2.5 text-text-muted transition-transform duration-200 group-hover/lang:rotate-180"
                   fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -284,7 +290,7 @@ export function HeaderClient({
               </button>
 
               <div
-                className="absolute right-0 top-full pt-2 min-w-[140px] z-50
+                className="absolute right-0 top-full pt-1.5 min-w-[140px] z-50
                   opacity-0 invisible group-hover/lang:opacity-100 group-hover/lang:visible
                   transition-all duration-150 origin-top-right pointer-events-none group-hover/lang:pointer-events-auto"
               >
@@ -317,20 +323,20 @@ export function HeaderClient({
               </div>
             </div>
 
-            <div className="h-5 w-px bg-border-default" />
+            <div className="h-4 w-px bg-border-default" />
 
             {/* Custom Pill CTA matching image_ec3a05 design blueprint */}
             {ctaLabel && (
               <Link href={ctaHref}>
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-accent
-                    px-6 py-2.5 text-xs font-semibold tracking-wider text-white shadow-sm
+                  className="inline-flex items-center justify-center gap-1.5 rounded-full bg-brand-accent
+                    px-5 py-2 text-xs font-semibold tracking-wider text-white shadow-sm
                     transition-all duration-200 hover:bg-brand-accent-hover hover:shadow-md lowercase"
                 >
                   <span>{ctaLabel}</span>
                   <svg 
-                    className="h-4 w-4 shrink-0 stroke-current fill-none" 
+                    className="h-3.5 w-3.5 shrink-0 stroke-current fill-none" 
                     viewBox="0 0 24 24" 
                     strokeWidth="2" 
                     strokeLinecap="round" 

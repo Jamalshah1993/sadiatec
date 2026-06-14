@@ -140,17 +140,7 @@ export function CaseStudyCarouselBlock({ missionCard, impactCard }: CaseStudyCar
               </div>
             </div>
 
-            {/* CTA Button */}
-            {impact.ctaLabel && (
-              <div className="mt-12 z-10">
-                <Link
-                  href={impact.ctaHref ?? '#'}
-                  className="inline-block bg-brand-accent hover:bg-brand-accent-hover text-white font-medium text-sm px-6 py-3 rounded-md transition-colors shadow-sm duration-150"
-                >
-                  {impact.ctaLabel}
-                </Link>
-              </div>
-            )}
+            
           </motion.div>
 
         </div>

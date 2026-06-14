@@ -2,7 +2,7 @@ import type { SiteConfig } from '@saidatech/cms-core/schema'
 
 const siteConfig: SiteConfig = {
   site: {
-    name: 'Saidatech',
+    name: 'Saidatec',
     tagline: {
       en: 'Your Career, Our Mission',
       ja: 'あなたのキャリア、私たちの使命',
@@ -71,7 +71,7 @@ const siteConfig: SiteConfig = {
       { slug: '/privacy', labelKey: 'nav.privacy' },
       { slug: '/terms', labelKey: 'nav.terms' },
     ],
-    socialLinks: [{ platform: 'linkedin', url: 'https://linkedin.com/company/saidatech' }],
+    socialLinks: [{ platform: 'linkedin', url: 'https://linkedin.com/company/saidatec' }],
   },
 
   contact: {

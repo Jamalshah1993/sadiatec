@@ -116,7 +116,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const thumbnailAlt = thumbnail && typeof thumbnail['alt'] === 'string' ? thumbnail['alt'] : titleText
 
   return (
-    <main className="w-full pt-14 md:pt-24 bg-white">
+    <main className="w-full bg-white">
       
       {/* Header Container Area */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 border-b border-neutral-100">

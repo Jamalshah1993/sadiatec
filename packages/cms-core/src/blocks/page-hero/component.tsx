@@ -1,21 +1,13 @@
 'use client'
 
-// Client boundary: scroll-triggered fade-up animation
-
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import type { PageHeroBlockProps, PageHeroBreadcrumbItem } from './types'
 
 function minHeightClass(h: string | undefined): string {
-  if (h === 'sm') return 'min-h-[240px]'
-  if (h === 'lg') return 'min-h-[480px]'
-  return 'min-h-[360px]'
-}
-
-function overlayColorClass(c: string | undefined): string {
-  if (c === 'brand') return 'bg-[var(--color-primary)]'
-  if (c === 'none') return ''
-  return 'bg-black'
+  if (h === 'sm') return 'min-h-[85px] md:min-h-[130px]'
+  if (h === 'lg') return 'min-h-[180px] md:min-h-[280px]'
+  return 'min-h-[105px] md:min-h-[165px]' 
 }
 
 function PageTitleVariant({
@@ -28,11 +20,11 @@ function PageTitleVariant({
   breadcrumbItems?: PageHeroBreadcrumbItem[] | undefined
 }) {
   return (
-    <section aria-labelledby="page-title-heading" className="bg-white pt-28 pb-10 md:py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+    <section aria-labelledby="page-title-heading" className="bg-white pt-8 pb-3 md:pt-16 md:pb-6">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
         {showBreadcrumb && breadcrumbItems && breadcrumbItems.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-4">
-            <ol className="flex flex-wrap justify-center items-center gap-1 text-sm text-[var(--color-muted)]">
+          <nav aria-label="Breadcrumb" className="mb-1">
+            <ol className="flex flex-wrap items-center gap-1 text-xs text-[var(--color-muted)]">
               {breadcrumbItems.map((item, i) => (
                 <li key={i} className="flex items-center gap-1">
                   {i > 0 && <span aria-hidden="true" className="opacity-40">/</span>}
@@ -50,7 +42,7 @@ function PageTitleVariant({
         )}
         <h1
           id="page-title-heading"
-          className="text-3xl font-bold tracking-tight text-[var(--color-text)] sm:text-4xl"
+          className="text-2xl font-bold tracking-tight text-[var(--color-text)] md:text-4xl"
         >
           {pageTitle}
         </h1>
@@ -59,25 +51,39 @@ function PageTitleVariant({
   )
 }
 
-// Staggered layout entry animation configs
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
+      staggerChildren: 0.05,
     },
   },
 }
 
 const fadeUpVariants = {
-  hidden: { opacity: 0, y: 25 },
+  hidden: { opacity: 0, y: 8 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: [0.215, 0.61, 0.355, 1], // Clean cubic-bezier ease out
+      duration: 0.35,
+      ease: [0.215, 0.61, 0.355, 1],
+    },
+  },
+}
+
+/* ── Infinite Horizontal Marquee Animation ── */
+const marqueeVariants = {
+  animate: {
+    x: ['0%', '-33.333%'],
+    transition: {
+      x: {
+        repeat: Infinity,
+        repeatType: 'loop',
+        duration: 15, // Slightly faster rotation since the string is a bit shorter
+        ease: 'linear',
+      },
     },
   },
 }
@@ -86,13 +92,6 @@ export function PageHeroBlock({
   variant = 'hero',
   heading,
   coloredSubtitle,
-  body,
-  backgroundImageUrl,
-  overlayOpacity = 50,
-  overlayColor = 'black',
-  primaryButton,
-  secondaryButton,
-  profileCard,
   pageTitle,
   showBreadcrumb = false,
   breadcrumbItems,
@@ -110,57 +109,29 @@ export function PageHeroBlock({
   }
 
   const mhClass = minHeightClass(minHeight)
-  const overlayClass = overlayColorClass(overlayColor)
   const alignClass = textAlignment === 'center' ? 'text-center items-center' : 'text-left items-start'
-  const hasCard = !!(profileCard?.cardHeading)
+
+  
 
   return (
     <section
       aria-labelledby="page-hero-heading"
-      className={`relative flex w-full flex-col justify-end overflow-hidden ${mhClass} bg-[var(--color-neutral-900)]`}
+      className={`relative flex w-full flex-col justify-between overflow-hidden ${mhClass} bg-[#2b7bb9] pb-0`}
     >
-      {backgroundImageUrl && (
-        /* 🛠️ FIXED REAL CSS IMAGE BLUR LAYER:
-           - Added `scale-105` to prevent the blurred image edges from showing white gaps.
-           - Switched to an inline `filter: blur(6px)` style so the image blurs flawlessly.
-        */
-        <motion.div
-          aria-hidden="true"
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1.05, opacity: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url('${backgroundImageUrl}')`,
-            filter: 'blur(2px)' 
-          }}
-        />
-      )}
-
-      {overlayColor !== 'none' && (
-        <div
-          aria-hidden="true"
-          className={`absolute inset-0 ${overlayClass}`}
-          style={{ opacity: overlayOpacity / 100 }}
-        />
-      )}
-
-      <div className="relative mx-auto w-full max-w-7xl px-4 pb-12 pt-28 md:pt-28 sm:px-6 lg:px-8">
+      {/* Main Content Title Block Area */}
+      <div className="relative mx-auto w-full max-w-7xl px-4 pt-4 pb-3 md:pt-10 md:pb-6 sm:px-6 lg:px-8 z-10">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className={`flex flex-col gap-6 ${hasCard ? 'lg:flex-row lg:items-center lg:justify-between' : ''}`}
         >
-
-          {/* left: text content with smooth fade-up */}
           <motion.div 
             variants={fadeUpVariants}
-            className={`flex flex-col gap-4 ${alignClass} ${hasCard ? 'lg:max-w-xl' : ''}`}
+            className={`flex flex-col gap-2 ${alignClass}`}
           >
             {showBreadcrumb && breadcrumbItems && breadcrumbItems.length > 0 && (
               <nav aria-label="Breadcrumb">
-                <ol className="flex flex-wrap items-center gap-1 text-sm text-white/70">
+                <ol className="flex flex-wrap items-center gap-1 text-[11px] md:text-sm text-white/70">
                   {breadcrumbItems.map((item, i) => (
                     <li key={i} className="flex items-center gap-1">
                       {i > 0 && <span aria-hidden="true" className="text-white/40">/</span>}
@@ -180,70 +151,18 @@ export function PageHeroBlock({
             {heading && (
               <h1
                 id="page-hero-heading"
-                className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
+                className="text-2xl font-bold tracking-tight text-white leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
               >
                 {heading}
                 {coloredSubtitle && (
                   <>
                     <br />
-                    <span className="text-[var(--color-primary)]">{coloredSubtitle}</span>
+                    <span className="text-white/90">{coloredSubtitle}</span>
                   </>
                 )}
               </h1>
             )}
-
-            {body && (
-              <p className="max-w-2xl text-base text-white/80 md:text-lg">{body}</p>
-            )}
-
-            {(primaryButton || secondaryButton) && (
-              <div className="flex flex-wrap gap-3 pt-1">
-                {primaryButton && (
-                  <Link
-                    href={primaryButton.href}
-                    className="inline-flex items-center rounded-full bg-[var(--color-primary)] px-6 py-2.5 text-sm font-semibold text-white shadow hover:brightness-110 transition-all"
-                  >
-                    {primaryButton.label}
-                  </Link>
-                )}
-                {secondaryButton?.label && (
-                  <Link
-                    href={secondaryButton.href ?? '#'}
-                    className="inline-flex items-center rounded-full border border-white/60 px-6 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-all"
-                  >
-                    {secondaryButton.label}
-                  </Link>
-                )}
-              </div>
-            )}
           </motion.div>
-
-          {/* right: profile card with transparent look */}
-          {hasCard && profileCard && (
-            <motion.aside 
-              variants={fadeUpVariants}
-              className="shrink-0 w-full lg:w-72 lg:mt-16 rounded-2xl bg-white/5 border border-white/20 p-5 shadow-lg backdrop-blur-md"
-            >
-              {profileCard.badgeText && (
-                <span className="mb-3 inline-block rounded-full bg-[var(--color-primary)] px-3 py-1 text-xs font-semibold text-white">
-                  {profileCard.badgeText}
-                </span>
-              )}
-              {profileCard.cardHeading && (
-                <h2 className="mb-3 text-base font-bold text-white">{profileCard.cardHeading}</h2>
-              )}
-              {profileCard.rows && profileCard.rows.length > 0 && (
-                <dl className="flex flex-col gap-2">
-                  {profileCard.rows.map((row, i) => (
-                    <div key={i} className="flex flex-col gap-0.5">
-                      <dt className="text-xs text-white/60 font-medium">{row.label}</dt>
-                      <dd className="text-sm text-white font-semibold">{row.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-            </motion.aside>
-          )}
         </motion.div>
       </div>
     </section>

@@ -59,14 +59,14 @@ function OverlapRow({ service, index }: OverlapRowProps) {
             {service.title}
           </h3>
           {service.subheadline && (
-            <p className="text-[11px] font-semibold text-blue-400 tracking-wider capitalize">
+            <p className="text-[12px] font-semibold text-blue-400 tracking-wider capitalize">
               {service.subheadline}
             </p>
           )}
         </div>
 
         {service.description && (
-          <p className="text-[13px] leading-relaxed text-gray-700 font-normal">
+          <p className="text-[14px] leading-relaxed text-gray-700 font-normal">
             {service.description}
           </p>
         )}

@@ -106,7 +106,7 @@ const formLabels: Record<Locale, FormLabels> = {
 // ---------------------------------------------------------------------------
 
 const titles: Record<Locale, string> = {
-  en: 'Contact Us',
+  en: 'Begin Your Journey',
   ja: 'お問い合わせ',
   bn: 'যোগাযোগ করুন',
 }

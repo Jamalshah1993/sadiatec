@@ -17,7 +17,7 @@ function DownloadCard({
   return (
     <motion.div
       variants={fadeInUp}
-      className="flex h-full flex-col rounded-2xl border border-(--color-neutral-200) bg-white p-6"
+      className="flex h-full flex-col rounded-2xl border border-(--color-neutral-200) bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
     >
       {item.categoryLabel && (
         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-(--color-primary)">
@@ -69,7 +69,11 @@ export function DownloadsGridBlock({
   if (downloads.length === 0) return null
 
   return (
-    <section aria-labelledby="downloads-heading" className="bg-bg-secondary py-20 lg:py-24">
+    /* MODIFIED: Added external top margins (mt-12 md:mt-16) to push down away from the previous blue curved section */
+    <section 
+      aria-labelledby="downloads-heading" 
+      className="bg-bg-secondary mt-12 md:mt-16 pt-16 pb-20 lg:pt-20 lg:pb-24"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section header — centered */}
         <div className="mb-12 text-center">
@@ -77,7 +81,7 @@ export function DownloadsGridBlock({
           {heading && (
             <h2
               id="downloads-heading"
-              className="mt-4 text-3xl font-bold text-(--color-text) md:text-4xl"
+              className="mt-4 text-3xl font-bold text-(--color-text) md:text-4xl tracking-tight"
             >
               {heading}
             </h2>
