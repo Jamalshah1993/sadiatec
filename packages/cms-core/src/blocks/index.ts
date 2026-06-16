@@ -68,7 +68,7 @@ export const allBlockConfigs: Block[] = [
   MissionStatementBlockConfig,
 ]
 
-export type { HeroBlockProps, HeroInlineStat, HeroKeywordPill, HeroCta } from './hero/types'
+export type { HeroBlockProps, HeroInlineStat } from './hero/types'
 export type { StatsBlockProps, StatItem } from './stats/types'
 export type { ServicesGridBlockProps, ServiceItem, ServiceCta, ServicesLayout } from './services-grid/types'
 export type { BentoGridBlockProps, BentoGridItem, BentoLayout } from './bento-grid/types'
