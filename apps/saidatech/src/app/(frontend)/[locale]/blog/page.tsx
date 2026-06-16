@@ -199,7 +199,6 @@ export default async function BlogIndexPage({ params, searchParams }: IndexProps
   const heroProps: HeroBlockProps = {
     heading: titles[locale],
     subheading: heroSubheadings[locale],
-    ctaPrimary: { label: ctaButtons[locale], href: '/contact' },
     overlayOpacity: 40,
     variant: 'center',
     minHeight: 'medium',

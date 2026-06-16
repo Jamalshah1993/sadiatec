@@ -187,7 +187,6 @@ export default async function RecruitIndexPage({ params, searchParams }: IndexPr
   const heroProps: HeroBlockProps = {
     heading: titles[locale],
     subheading: heroSubheadings[locale],
-    ctaPrimary: { label: ctaButtons[locale], href: '/contact' },
     overlayOpacity: 40,
     variant: 'center',
     minHeight: 'medium',

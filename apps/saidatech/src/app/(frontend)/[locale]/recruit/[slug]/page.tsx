@@ -254,7 +254,6 @@ export default async function RecruitDetailPage({ params }: Props) {
     overlayOpacity: 50,
     variant: 'center',
     minHeight: 'medium',
-    ctaPrimary: { label: applyLabels[locale], href: '/contact' },
     transparentHeader: false,
   }
 

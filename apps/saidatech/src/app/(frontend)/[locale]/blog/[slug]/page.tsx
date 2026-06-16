@@ -201,7 +201,6 @@ export default async function BlogDetailPage({ params }: Props) {
     overlayOpacity: 50,
     variant: 'center',
     minHeight: 'medium',
-    ctaPrimary: { label: contactLabels[locale], href: '/contact' },
     transparentHeader: false,
   }
 

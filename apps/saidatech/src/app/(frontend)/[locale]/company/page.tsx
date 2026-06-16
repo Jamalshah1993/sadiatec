@@ -135,7 +135,6 @@ export default async function CompanyPage({ params }: Props) {
   const heroProps: HeroBlockProps = {
     heading: info.legalName ?? titles[locale],
     subheading: txt(info.description, locale) ?? heroSubheadings[locale],
-    ctaPrimary: { label: ctaButtons[locale], href: '/contact' },
     overlayOpacity: 40, variant: 'center', minHeight: 'medium', transparentHeader: false,
   }
 
