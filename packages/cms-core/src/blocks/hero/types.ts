@@ -1,6 +1,8 @@
 export interface HeroSlide {
   imageUrl: string
   alt: string
+  title?: string
+  subtitle?: string
 }
 
 export interface HeroInlineStat {
@@ -8,29 +10,16 @@ export interface HeroInlineStat {
   label: string
 }
 
-export interface HeroKeywordPill {
-  text: string
-}
-
-export interface HeroCta {
-  label: string
-  href: string
-}
-
 export interface HeroBlockProps {
   blockType?: 'hero'
-  // Canonical fields (new)
   eyebrow?: string
   headline?: string
   subheadline?: string
-  primaryCta?: HeroCta
-  secondaryCta?: HeroCta
   inlineStats?: HeroInlineStat[]
-  keywordPills?: HeroKeywordPill[]
   backgroundImageUrl?: string
   heroSlides?: HeroSlide[]
   showScrollIndicator?: boolean
-  // Legacy fields — accepted for backwards compat with existing page files
+  // Legacy support fallback tokens
   heading?: string
   subheading?: string
   tagline?: string
@@ -41,7 +30,4 @@ export interface HeroBlockProps {
   heroImageUrl?: string
   highlights?: string[]
   floatingBadge?: { text: string; subtext?: string }
-  // Legacy CTA field names (old Payload config used ctaPrimary/ctaSecondary)
-  ctaPrimary?: HeroCta
-  ctaSecondary?: HeroCta
 }

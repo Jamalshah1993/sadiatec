@@ -9,22 +9,6 @@ export const HeroBlockConfig: Block = {
     { name: 'headline', type: 'text', localized: true, required: true },
     { name: 'subheadline', type: 'textarea', localized: true },
     {
-      name: 'primaryCta',
-      type: 'group',
-      fields: [
-        { name: 'label', type: 'text', localized: true, required: true },
-        { name: 'href', type: 'text', required: true },
-      ],
-    },
-    {
-      name: 'secondaryCta',
-      type: 'group',
-      fields: [
-        { name: 'label', type: 'text', localized: true },
-        { name: 'href', type: 'text' },
-      ],
-    },
-    {
       name: 'inlineStats',
       type: 'array',
       maxRows: 4,
@@ -32,15 +16,6 @@ export const HeroBlockConfig: Block = {
       fields: [
         { name: 'value', type: 'text', localized: true, required: true },
         { name: 'label', type: 'text', localized: true, required: true },
-      ],
-    },
-    {
-      name: 'keywordPills',
-      type: 'array',
-      maxRows: 12,
-      labels: { singular: 'Pill', plural: 'Pills' },
-      fields: [
-        { name: 'text', type: 'text', localized: true, required: true },
       ],
     },
     {
@@ -63,6 +38,16 @@ export const HeroBlockConfig: Block = {
           type: 'upload',
           relationTo: 'media',
           required: true,
+        },
+        {
+          name: 'title',
+          type: 'text',
+          localized: true,
+        },
+        {
+          name: 'subtitle',
+          type: 'text',
+          localized: true,
         },
         {
           name: 'alt',

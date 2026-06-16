@@ -18,14 +18,15 @@ function BentoCard({ item, index, layout }: BentoCardProps) {
     <motion.article
       variants={fadeInUp}
       className={[
-        'relative text-left transition-all duration-300',
+        'relative text-left transition-all duration-300 py-1 flex flex-col',
+        // CHANGED: Every card gets a left border and left padding on mobile.
+        // On desktop (md:), non-featured cards lose the border and padding, while the featured card centers itself vertically.
         isFeatured 
-          ? 'border-l-[3px] border-brand-primary pl-6 py-1 max-w-full h-full flex flex-col justify-center' 
-          : 'py-1 flex flex-col justify-start'
+          ? 'border-l-[3px] border-brand-primary pl-6 h-full justify-center' 
+          : 'border-l-[3px] border-brand-primary pl-6 justify-start md:border-l-0 md:pl-0'
       ].join(' ')}
     >
       {/* ── Scaled Down High-Visibility Accent Numeral ── */}
-      {/* MODIFIED: Reduced from text-[64px] to text-[40px] and lowered bottom margin to save massive vertical space */}
       <span
         className="block text-[40px] font-bold tracking-tight text-brand-primary/25 leading-none mb-1 font-sans select-none"
         aria-hidden="true"
@@ -69,7 +70,6 @@ export function BentoGridBlock({
   const restItems = layout === 'asymmetric' ? items.slice(1) : items
 
   return (
-    /* MODIFIED: Reduced section top/bottom padding to tighten the overall vertical area */
     <section className="w-full px-4 sm:px-6 lg:px-8 py-4 overflow-hidden bg-white">
       <div 
         className={[
@@ -80,7 +80,6 @@ export function BentoGridBlock({
         <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
 
           {/* ── Centered Strategic Minimalist Header Section ── */}
-          {/* MODIFIED: Cut the bottom margin from mb-12 down to mb-8 */}
           <div className="mx-auto mb-8 md:mb-10 max-w-3xl text-center">
             {eyebrow && (
               <div className="mb-1">
@@ -101,8 +100,8 @@ export function BentoGridBlock({
 
           {/* ── Structural Distribution Grid ── */}
           {layout === 'asymmetric' && featuredItem ? (
-            /* MODIFIED: Changed layout into a tight 2-column split layout on large screens */
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+            /* CHANGED: Adjusted vertical spacing on mobile (gap-10) so reason cards with left borders have breathing room */
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
               
               {/* Left Column: Featured Card taking 5 out of 12 columns */}
               <motion.div
@@ -115,14 +114,15 @@ export function BentoGridBlock({
                 <BentoCard item={featuredItem} index={0} layout={layout} />
               </motion.div>
 
-              {/* Right Column: Remaining 4 Items in a dense 2x2 grid matrix taking 7 out of 12 columns */}
+              {/* Right Column: Remaining 4 Items in a matrix taking 7 out of 12 columns */}
               {restItems.length > 0 && (
                 <motion.div
                   variants={staggerContainer}
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true, margin: '-100px' }}
-                  className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6"
+                  // CHANGED: gap-y-10 on mobile ensures clear separation between reasons when stacked
+                  className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-10 md:gap-y-6"
                 >
                   {restItems.map((item, i) => (
                     <BentoCard
@@ -137,13 +137,13 @@ export function BentoGridBlock({
 
             </div>
           ) : (
-            /* Uniform standard grid layout fallback block: tighter spacing */
+            /* Uniform standard grid layout fallback block */
             <motion.div
               variants={staggerContainer}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-100px' }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10 md:gap-y-8"
             >
               {items.map((item, i) => (
                 <BentoCard key={item.number || i} item={item} index={i} layout={layout} />

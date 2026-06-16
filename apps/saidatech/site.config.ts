@@ -71,7 +71,13 @@ const siteConfig: SiteConfig = {
       { slug: '/privacy', labelKey: 'nav.privacy' },
       { slug: '/terms', labelKey: 'nav.terms' },
     ],
-    socialLinks: [{ platform: 'linkedin', url: 'https://linkedin.com/company/saidatec' }],
+    socialLinks: [
+      { platform: 'linkedin', url: 'https://linkedin.com/company/saidatec' },
+      { platform: 'facebook', url: 'https://facebook.com/company/saidatec' },
+      { platform: 'instagram', url: 'https://instagram.com/company/saidatec' },
+      { platform: 'youtube', url: 'https://www.youtube.com/@sadiatec' },
+      { platform: 'twitter', url: 'https://twitter.com/company/saidatec' },
+    ],
   },
 
   contact: {
