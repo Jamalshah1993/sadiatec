@@ -63,51 +63,48 @@ export function MissionStatementBlock({
         </div>
 
         {/* ── Bottom Section: Staggered Floating Gallery ── */}
-        {photos && photos.length > 0 && (
-          <motion.div 
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="
-              relative mt-12 pt-4 w-full
-              grid grid-cols-2 gap-x-4 gap-y-12 
-              md:flex md:flex-wrap md:items-end md:justify-center lg:justify-between md:gap-5 lg:gap-6
-            "
-          >
-            {photos.map((photo, i) => {
-              return (
-                <div key={i} className="relative shrink-0">
-                  <motion.div
-                    variants={fadeInUp}
-                    whileHover={{ scale: 1.04, y: -6 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                    className={`
-                      relative rounded-[24px] md:rounded-[32px] overflow-hidden shadow-sm bg-slate-50 z-10
-                      ${sizeMap[photo.size]}
-                      
-                      /* Structural Layout Offsets */
-                      ${i === 0 ? 'justify-self-start mt-12 md:mt-16' : ''}
-                      ${i === 1 ? 'justify-self-end mt-0' : ''}
-                      ${i === 2 ? 'justify-self-start mt-8 md:mt-4' : ''}
-                      ${i === 3 ? 'justify-self-end mt-0 md:mt-12' : ''}
-                      
-                      md:justify-self-auto
-                    `}
-                  >
-                    <Image
-                      src={photo.imageUrl}
-                      alt={photo.alt || 'Gallery Presentation Image'}
-                      fill
-                      className="object-cover pointer-events-none"
-                      sizes="(max-width: 768px) 45vw, 25vw"
-                    />
-                  </motion.div>
-                </div>
-              )
-            })}
-          </motion.div>
-        )}
+{photos && photos.length > 0 && (
+  <motion.div 
+    variants={staggerContainer}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true }}
+    className="relative mt-16 w-full flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6"
+  >
+    {photos.map((photo, i) => {
+      // Define specific margins per index to create the staggered effect
+      const mobileMargins = [
+        "mr-auto ml-4",          // Image 1: Left
+        "ml-auto mr-4 -mt-16",   // Image 2: Right, pulled up
+        "mr-auto ml-10 -mt-10",  // Image 3: Left, pulled up
+        "ml-auto mr-6 -mt-12"    // Image 4: Right, pulled up
+      ];
+
+      return (
+        <motion.div
+          key={i}
+          variants={fadeInUp}
+          whileHover={{ scale: 1.04, y: -6 }}
+          transition={{ type: "spring", stiffness: 260, damping: 25 }}
+          className={`
+            relative rounded-[24px] overflow-hidden shadow-sm bg-slate-50 z-10
+            ${sizeMap[photo.size]}
+            md:mt-0 md:ml-0 md:mr-0 /* Reset margins for desktop */
+            ${mobileMargins[i] || ""} /* Apply staggered margins on mobile */
+          `}
+        >
+          <Image
+            src={photo.imageUrl}
+            alt={photo.alt || 'Gallery Presentation Image'}
+            fill
+            className="object-cover pointer-events-none"
+            sizes="(max-width: 768px) 50vw, 25vw"
+          />
+        </motion.div>
+      )
+    })}
+  </motion.div>
+)}
 
       </motion.div>
     </section>

@@ -8,6 +8,8 @@ import siteConfig from '../../../../site.config'
 import { Header } from './_components/Header'
 import { Footer } from './_components/Footer'
 import { HtmlLangSetter } from './_components/HtmlLangSetter'
+// 1. Import the new floating CTA component
+import { FloatingCTAs } from '@saidatech/cms-core/components/ui' 
 
 const latoFont = Lato({
   subsets: ['latin'],
@@ -106,6 +108,8 @@ export default async function LocaleLayout({
           {children}
         </main>
         <Footer locale={locale} />
+        {/* 2. Add the component here */}
+        <FloatingCTAs />
       </div>
     </NextIntlClientProvider>
   )
