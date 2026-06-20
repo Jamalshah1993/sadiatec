@@ -8,32 +8,13 @@ import siteConfig from '../../../../site.config'
 import { Header } from './_components/Header'
 import { Footer } from './_components/Footer'
 import { HtmlLangSetter } from './_components/HtmlLangSetter'
-// 1. Import the new floating CTA component
 import { FloatingCTAs } from '@saidatech/cms-core/components/ui' 
+// Import the new wrapper
+import { LayoutWrapper } from './_components/LayoutWrapper'
 
-const latoFont = Lato({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-latin',
-  display: 'swap',
-  preload: false,
-})
-
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-ja',
-  display: 'swap',
-  preload: false,
-})
-
-const notoSansBN = Noto_Sans_Bengali({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-bn',
-  display: 'swap',
-  preload: false,
-})
+const latoFont = Lato({ subsets: ['latin'], weight: ['300', '400', '700'], variable: '--font-latin', display: 'swap', preload: false })
+const notoSansJP = Noto_Sans_JP({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-ja', display: 'swap', preload: false })
+const notoSansBN = Noto_Sans_Bengali({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-bn', display: 'swap', preload: false })
 
 const skipLabel: Record<string, string> = {
   en: 'Skip to main content',
@@ -68,13 +49,10 @@ export default async function LocaleLayout({
   const messages = await getMessages()
 
   const dir = (siteConfig.locales.direction[locale] ?? 'ltr') as 'ltr' | 'rtl'
-
   const brandVars = buildCssVariables(siteConfig)
 
   const activeFontConfig = localeFontConfig[locale]
-  const activeFontVar = activeFontConfig
-    ? `var(${activeFontConfig.cssVar})`
-    : `var(--font-ja)`
+  const activeFontVar = activeFontConfig ? `var(${activeFontConfig.cssVar})` : `var(--font-ja)`
 
   const wrapperStyle: CSSProperties = {
     ...brandVars,
@@ -87,11 +65,7 @@ export default async function LocaleLayout({
     flexDirection: 'column',
   } as CSSProperties
 
-  const fontClasses = [
-    latoFont.variable,
-    notoSansJP.variable,
-    notoSansBN.variable,
-  ].join(' ')
+  const fontClasses = [latoFont.variable, notoSansJP.variable, notoSansBN.variable].join(' ')
 
   return (
     <NextIntlClientProvider messages={messages}>
@@ -104,11 +78,15 @@ export default async function LocaleLayout({
           {skipLabel[locale] ?? skipLabel['en']}
         </a>
         <Header locale={locale} />
+        
+        {/* Wrapping children in LayoutWrapper prevents the jumpy behavior */}
         <main id="main-content" className="flex-1">
-          {children}
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </main>
+        
         <Footer locale={locale} />
-        {/* 2. Add the component here */}
         <FloatingCTAs />
       </div>
     </NextIntlClientProvider>
