@@ -25,7 +25,7 @@ const db =
           max: 5,
           idleTimeoutMillis: 15000,
           connectionTimeoutMillis: 15000,
-          ssl: true,
+          ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
         },
            push: false,
            
