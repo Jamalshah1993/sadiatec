@@ -5,6 +5,8 @@ import siteConfig from '../../../../../site.config'
 import { getCachedPayload } from '@/lib/payload'
 import { blockRegistry } from '@saidatech/cms-core/blocks'
 
+export const revalidate = 60
+
 const LOCALES = ['en', 'ja', 'bn'] as const
 type Locale = (typeof LOCALES)[number]
 

@@ -6,12 +6,15 @@ import { getCachedPayload } from '@/lib/payload'
 import { HeroBlock, CTABannerBlock } from '@saidatech/cms-core/blocks'
 import type { HeroBlockProps, CTABannerBlockProps } from '@saidatech/cms-core/blocks'
 import {
+
   Container,
   Section,
   Heading,
   Card,
   Text,
 } from '@saidatech/cms-core/components/ui'
+
+export const revalidate = 60
 
 const LOCALES = ['en', 'ja', 'bn'] as const
 type Locale = (typeof LOCALES)[number]
@@ -158,7 +161,6 @@ export default async function CompanyPage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
       
-
       {facts.length > 0 && (
         <Section padding="sm">
           <Container>
@@ -231,7 +233,6 @@ export default async function CompanyPage({ params }: Props) {
         </Section>
       )}
 
-     
     </>
   )
 }

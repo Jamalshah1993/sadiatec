@@ -4,6 +4,8 @@ import { getCachedPayload } from '@/lib/payload'
 import { blockRegistry } from '@saidatech/cms-core/blocks'
 import siteConfig from '../../../../../../site.config'
 
+export const revalidate = 60
+
 function isSupportedLocale(s: string): boolean {
   return (siteConfig.locales.enabled as string[]).includes(s)
 }

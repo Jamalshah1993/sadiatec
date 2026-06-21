@@ -8,12 +8,15 @@ import { getCachedPayload } from '@/lib/payload'
 import { HeroBlock, CTABannerBlock } from '@saidatech/cms-core/blocks'
 import type { HeroBlockProps, CTABannerBlockProps } from '@saidatech/cms-core/blocks'
 import {
+
   Container,
   Section,
   Heading,
   Card,
   Text,
 } from '@saidatech/cms-core/components/ui'
+
+export const revalidate = 60
 
 const LOCALES = ['en', 'ja', 'bn'] as const
 type Locale = (typeof LOCALES)[number]
