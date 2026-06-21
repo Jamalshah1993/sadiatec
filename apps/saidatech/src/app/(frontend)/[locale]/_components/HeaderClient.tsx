@@ -177,7 +177,7 @@ export function HeaderClient({
       <div
         className={[
           'flex items-center justify-between w-full px-6 lg:px-20 transition-all duration-300',
-          'h-17 md:h-19'
+          'h-19 md:h-20'
         ].join(' ')}
       >
         {/* Logo */}
