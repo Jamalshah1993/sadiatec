@@ -17,7 +17,7 @@ export function FloatingCTAs() {
 
   return (
     <div
-      className={`fixed bottom-8 left-0 right-0 z-50 flex justify-center px-4 transition-all duration-300 md:hidden ${
+      className={`fixed bottom-8 left-6 z-50 transition-all duration-300 md:hidden ${
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
       }`}
     >
