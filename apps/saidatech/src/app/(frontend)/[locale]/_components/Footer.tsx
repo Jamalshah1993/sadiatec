@@ -25,6 +25,13 @@ interface FooterProps {
   locale: string
 }
 
+// 1. Updated dictionary to include 'followUs'
+const labels: Record<string, { address: string; inquiries: string; followUs: string }> = {
+  en: { address: 'Company Address', inquiries: 'Inquiries', followUs: 'Follow us' },
+  ja: { address: '会社所在地', inquiries: 'お問い合わせ', followUs: 'フォローする' },
+  bn: { address: 'কোম্পানির ঠিকানা', inquiries: 'অনুসন্ধান', followUs: 'আমাদের অনুসরণ করুন' },
+}
+
 function LinkedInIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6" aria-hidden="true">
@@ -73,6 +80,9 @@ const brandColorMap: Record<string, string> = {
 
 export async function Footer({ locale }: FooterProps) {
   const payload = await getCachedPayload()
+  
+  // 2. Safely resolve translation object with type assertion
+  const t = (labels[locale] || labels['en']) as { address: string; inquiries: string; followUs: string }
 
   let footerData: FooterGlobalData = {}
   try {
@@ -98,8 +108,9 @@ export async function Footer({ locale }: FooterProps) {
       <Container>
         <div className="relative flex items-center justify-center mb-10 w-full max-w-5xl mx-auto">
           <div className="absolute left-0 right-0 h-px bg-white/40 z-0" />
+          {/* 3. Render Dynamic 'Follow us' */}
           <h2 className="relative z-10 px-6 bg-white/0 text-2xl md:text-3xl font-bold tracking-widest text-[#3A89DA] font-sans mix-blend-difference">
-            Follow us
+            {t.followUs}
           </h2>
         </div>
 
@@ -140,11 +151,11 @@ export async function Footer({ locale }: FooterProps) {
             
             <div className="space-y-4 font-medium text-white/90 text-[15px] sm:text-[16px] leading-relaxed tracking-wide">
               <div>
-                <p className="font-bold text-white/70 text-sm uppercase tracking-widest mb-1">Company Address</p>
+                <p className="font-bold text-white/70 text-sm uppercase tracking-widest mb-1">{t.address}</p>
                 <p className="whitespace-pre-line font-medium">{dynamicAddress}</p>
               </div>
               <div className="pt-2">
-                <p className="font-bold text-white/70 text-sm uppercase tracking-widest mb-1">Inquiries</p>
+                <p className="font-bold text-white/70 text-sm uppercase tracking-widest mb-1">{t.inquiries}</p>
                 <p className="font-semibold underline underline-offset-4 hover:text-white transition-colors cursor-pointer">
                   {dynamicEmail}
                 </p>

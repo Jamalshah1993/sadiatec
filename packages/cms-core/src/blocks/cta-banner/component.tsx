@@ -124,12 +124,7 @@ export function CTABannerBlock({
                             flex flex-col justify-center
                             min-h-[300px] lg:min-h-[350px]">
 
-              {/* Eyebrow */}
-              {eyebrow && (
-                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-2">
-                  {eyebrow}
-                </p>
-              )}
+              
 
               {/* Heading */}
               <h2 className="text-2xl md:text-3xl font-bold 

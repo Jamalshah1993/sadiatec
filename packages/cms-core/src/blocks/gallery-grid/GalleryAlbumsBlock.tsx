@@ -63,11 +63,7 @@ export function GalleryAlbumsBlock({
             <div className="relative z-10 mx-auto max-w-6xl">
                 {/* Header Section */}
                 <div className="mb-16 text-center max-w-3xl mx-auto">
-                    <div className="inline-flex items-center space-x-2 mb-2.5">
-                        <span className="h-px w-6 bg-sky-500 rounded" />
-                        <p className="text-xs font-bold uppercase tracking-widest text-sky-600">Memory Archives</p>
-                        <span className="h-px w-6 bg-sky-500 rounded" />
-                    </div>
+                    
                     <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 mb-3">
                         {heading || "Photo Albums"}
                     </h2>

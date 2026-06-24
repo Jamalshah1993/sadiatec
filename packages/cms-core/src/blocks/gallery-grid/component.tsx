@@ -1,14 +1,20 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useLocale } from 'next-intl'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation' // 🛠️ ADDED: Clean hook to read paths across client/server cycles
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link' // 🛠️ (Or your updated local Link path)
+import Link from 'next/link'
 import type { GalleryGridBlockProps, GalleryImageItem } from './types'
-
-// 🛠️ ADDED: Import the alternative dynamic albums grid view
 import { GalleryAlbumsBlock } from './GalleryAlbumsBlock'
+
+// Dictionary for dynamic labels based on locale
+const labels: Record<string, string> = {
+  en: 'Our Journey',
+  ja: '私たちの歩み',
+  bn: 'আমাদের পথচলা',
+}
 
 // Cinematic slow pan and zoom fade transition configuration
 const ultraSmoothVariants = {
@@ -20,16 +26,20 @@ const ultraSmoothVariants = {
 export function GalleryGridBlock(props: GalleryGridBlockProps) {
   const { heading, showFilter = false, categories, items } = props
   
-  const pathname = usePathname() // 🛠️ ADDED: Safely evaluate pathname string
+  const pathname = usePathname()
+  const locale = useLocale()
+  
+  // Select the correct label or fallback to English
+  const journeyLabel = labels[locale] || labels['en']
+  
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
   const [activeIndex, setActiveIndex] = useState<number>(0)
 
-  // 🛠️ INTERCEPT ROUTE: If url matches internal archive folder, render the Album design immediately!
+  // Intercept route for Album design
   if (pathname && pathname.includes('/gallery')) {
     return <GalleryAlbumsBlock {...props} />
   }
 
-  // --- Normal Homepage Slide Show Logic Continues Below ---
   const filtered = activeCategory
     ? items.filter((item) => item.category === activeCategory)
     : items
@@ -53,11 +63,10 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
 
   const currentItem = filtered[activeIndex] as GalleryImageItem
 
-  
   return (
     <section className="relative w-full overflow-hidden bg-[#FBFBFC] pt-10 pb-16 md:pt-20 md:pb-24 px-4 sm:px-6 lg:px-8">
       
-      {/* Recreated Gradient Aura Background */}
+      {/* Background Aura */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
         <div className="absolute top-[5%] left-[5%] h-80 w-80 rounded-full bg-teal-300/25 opacity-70 mix-blend-multiply filter blur-[80px]" />
         <div className="absolute bottom-[10%] left-[20%] h-[500px] w-[500px] rounded-full bg-amber-200/35 opacity-60 mix-blend-multiply filter blur-[120px]" />
@@ -65,14 +74,15 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
         <div className="absolute bottom-[25%] right-[12%] h-72 w-72 rounded-full bg-yellow-200/35 opacity-40 filter blur-[80px]" />
       </div>
 
-      {/* Content Layer */}
       <div className="relative z-10 mx-auto max-w-5xl">
         
         {/* Header Block */}
         <div className="mb-10 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center space-x-2 mb-2.5">
             <span className="h-px w-6 bg-sky-500 rounded" />
-            <p className="text-xs font-bold uppercase tracking-widest text-sky-600">Our Journey</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-sky-600">
+              {journeyLabel}
+            </p>
             <span className="h-px w-6 bg-sky-500 rounded" />
           </div>
           <h2 className="text-xl sm:text-2xl md:text-2xl font-extrabold tracking-tight text-gray-900 leading-tight">
@@ -119,13 +129,11 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
           </div>
         )}
 
-        {/* ── Seamless Borderless Viewport Stage ── */}
-        {/* 🛠️ MODIFIED: Converted the wrapper container into a Next.js <Link> wrapper */}
+        {/* Viewport Stage */}
         <Link 
           href="/gallery" 
           className="relative block group w-full max-w-5xl mx-auto aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/11] overflow-hidden rounded-3xl cursor-pointer"
         >
-          
           <AnimatePresence mode="popLayout">
             <motion.div
               key={activeIndex}
@@ -150,7 +158,6 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
             </motion.div>
           </AnimatePresence>
 
-          {/* ── Minimalist Clean Text Overlay Layer ── */}
           <div className="absolute inset-x-4 bottom-6 sm:bottom-8 z-20 px-4 sm:px-8 flex items-center justify-between gap-6 pointer-events-none">
             <div className="max-w-[75%] select-none">
               <AnimatePresence mode="wait">
@@ -168,21 +175,17 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
                 )}
               </AnimatePresence>
             </div>
-
-            {/* Slide Index Counter Badge */}
             <div className="shrink-0 rounded-full bg-white/40 backdrop-blur-md px-3 py-1 text-[10px] font-bold tracking-widest text-gray-700 border border-white/40 shadow-sm select-none">
               {activeIndex + 1} / {filtered.length}
             </div>
           </div>
 
-          {/* Navigation Arrows */}
-          {/* 🛠️ MODIFIED: Added pointer-events-auto so clicking chevrons still scrolls the slideshow cleanly */}
           <div className="absolute inset-0 z-30 flex items-center justify-between px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <button
               type="button"
               aria-label="Previous image"
               onClick={(e) => {
-                e.preventDefault(); // Prevents link redirect when navigation button is targeted
+                e.preventDefault();
                 setActiveIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
               }}
               className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-white/30 backdrop-blur-md text-gray-800 border border-white/40 shadow-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
@@ -193,7 +196,7 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
               type="button"
               aria-label="Next image"
               onClick={(e) => {
-                e.preventDefault(); // Prevents link redirect when navigation button is targeted
+                e.preventDefault();
                 setActiveIndex((prev) => (prev + 1) % filtered.length);
               }}
               className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-white/30 backdrop-blur-md text-gray-800 border border-white/40 shadow-sm transition-all hover:bg-white hover:scale-105 active:scale-95"
@@ -201,7 +204,6 @@ export function GalleryGridBlock(props: GalleryGridBlockProps) {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" /></svg>
             </button>
           </div>
-
         </Link>
       </div>
     </section>

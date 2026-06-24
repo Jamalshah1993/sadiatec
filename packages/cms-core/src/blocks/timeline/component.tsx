@@ -2,15 +2,33 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { MapPin, Building2, Wallet, CalendarDays, ArrowRight, BriefcaseBusiness } from 'lucide-react'
 import { SectionEyebrow } from '../../components/ui'
 import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { TimelineBlockProps, JobOpening, ProcessStep } from './types'
 
+// 1. Define the dictionary for dynamic text
+const labels: Record<string, { noOpenings: string; howWeWork: string }> = {
+  en: { 
+    noOpenings: 'No openings available at the moment.', 
+    howWeWork: 'How We Work' 
+  },
+  ja: { 
+    noOpenings: '現在、募集中の求人はありません。', 
+    howWeWork: '採用プロセス' 
+  },
+  bn: { 
+    noOpenings: 'বর্তমানে কোনো শূন্যপদ নেই।', 
+    howWeWork: 'আমরা যেভাবে কাজ করি' 
+  },
+}
+
 function JobCard({ job }: { job: JobOpening }) {
   const isUrgent = job.tag?.toLowerCase() === 'urgent'
-
+  
+  // Apply now text (hardcoded in the link)
   return (
     <motion.article
       variants={fadeInUp}
@@ -18,11 +36,9 @@ function JobCard({ job }: { job: JobOpening }) {
                  hover:border-brand-primary/40 hover:shadow-md
                  transition-all duration-300 text-left overflow-hidden rounded-xl"
     >
-      {/* Premium card header using a soft mix of background tertiary and brand primary tokens */}
       <div className="bg-gradient-to-r from-bg-tertiary/80 to-white/30 px-6 py-5 
                       border-b border-border-default flex items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          {/* Enhanced circular layout icon frame */}
           <div className="flex h-10 w-10 shrink-0 items-center justify-center
                           rounded-lg bg-brand-primary text-white shadow-xs">
             <BriefcaseBusiness size={18} strokeWidth={2.2} />
@@ -33,7 +49,6 @@ function JobCard({ job }: { job: JobOpening }) {
           </h3>
         </div>
 
-        {/* Tailored semantic Pill Badges matching layout indicators */}
         {job.tag && (
           <span className={[
             'shrink-0 inline-flex items-center px-2.5 py-1 rounded-md text-[9px] font-extrabold uppercase tracking-widest',
@@ -46,7 +61,6 @@ function JobCard({ job }: { job: JobOpening }) {
         )}
       </div>
 
-      {/* Card metadata body */}
       <div className="px-6 py-5 grid grid-cols-1 sm:grid-cols-3 gap-y-2.5 gap-x-4 bg-white">
         {job.company && (
           <div className="flex items-center gap-2.5">
@@ -70,7 +84,6 @@ function JobCard({ job }: { job: JobOpening }) {
         )}
       </div>
 
-      {/* Action footer row */}
       <div className="border-t border-border-default bg-bg-secondary/50 
                       flex items-center justify-between pl-6 h-12 overflow-hidden">
         {job.postedDate && (
@@ -106,7 +119,6 @@ function ProcessStep({
 }) {
   return (
     <motion.div variants={fadeInUp} className="relative flex gap-6 group">
-      {/* Track Indicator System */}
       <div className="flex flex-col items-center">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md
                         bg-brand-primary text-white text-xs font-mono font-bold shadow-xs">
@@ -117,7 +129,6 @@ function ProcessStep({
         )}
       </div>
 
-      {/* Right Content Meta Segment */}
       <div className="text-left pb-10">
         <h4 className="text-[14px] font-bold text-text-primary tracking-tight mb-2">
           {step.title}
@@ -137,12 +148,16 @@ export function OpeningsProcessBlock({
   processEyebrow = 'Recruitment Process',
   processSteps = [],
 }: TimelineBlockProps) {
+  
+  // 2. Setup localization
+  const locale = useLocale()
+  const t = (labels[locale] || labels['en']) as { noOpenings: string; howWeWork: string }
+
   return (
     <section className="bg-white py-20 md:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
 
-          {/* ── LEFT CONTAINER: Job Listings Layout ── */}
           <div className="flex-1 min-w-0">
             <div className="mb-12">
               {eyebrow && (
@@ -172,17 +187,16 @@ export function OpeningsProcessBlock({
               </motion.div>
             ) : (
               <div className="border border-dashed border-border-default rounded-xl p-12 text-center bg-bg-secondary/50">
+                {/* 3. Dynamic Text */}
                 <p className="text-sm font-medium text-text-muted">
-                  No openings available at the moment.
+                  {t.noOpenings}
                 </p>
               </div>
             )}
           </div>
 
-          {/* ── VISUAL SPLIT STRUCTURE SEPARATOR ── */}
           <div className="hidden lg:block w-[1px] bg-border-default self-stretch" />
 
-          {/* ── RIGHT CONTAINER: Vertical Workflow Stepper Track ── */}
           {processSteps.length > 0 && (
             <div className="lg:w-80 xl:w-[400px] shrink-0">
               <div className="mb-12">
@@ -190,9 +204,10 @@ export function OpeningsProcessBlock({
                               text-brand-primary mb-2">
                   {processEyebrow}
                 </p>
+                {/* 4. Dynamic Text */}
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight
                                text-text-primary">
-                  How We Work
+                  {t.howWeWork}
                 </h2>
                 <div className="mt-3.5 h-[3px] w-10 bg-brand-primary rounded-full" />
               </div>
