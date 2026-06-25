@@ -20,13 +20,13 @@ const db =
   uri.startsWith('file:') || uri.endsWith('.db')
     ? sqliteAdapter({ client: { url: uri } })
     : postgresAdapter({
-        pool: {
-          connectionString: uri,
-          max: 5,
-          idleTimeoutMillis: 15000,
-          connectionTimeoutMillis: 15000,
-          ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
-        },
+      pool: {
+        connectionString: uri,
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 30000,
+        ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
+      },
            push: false,
            
       })

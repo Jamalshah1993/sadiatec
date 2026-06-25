@@ -118,7 +118,7 @@ function DropdownPanel({ items }: { items: { label: string; href: string }[] }) 
           <li key={child.href}>
             <Link
               href={child.href}
-              className="block px-5 py-2.5 text-base text-text-secondary hover:text-brand-accent
+              className="block px-5 py-2.5 text-sm text-text-secondary hover:text-brand-accent
                 hover:bg-brand-accent/5 transition-colors"
             >
               {child.label}
@@ -139,9 +139,13 @@ export function HeaderClient({
   locale,
   cmsLogoUrl,
 }: HeaderClientProps) {
+  
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+
+  // New logic to ensure Japanese comes first
+  const prioritizedLocales = ['ja', ...locales.filter((l) => l !== 'ja')]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -180,7 +184,6 @@ export function HeaderClient({
           'h-19 md:h-20'
         ].join(' ')}
       >
-        {/* Logo */}
         <Link
           href="/"
           aria-label="Sadia Tec Home"
@@ -189,7 +192,6 @@ export function HeaderClient({
           <Logo dark={true} imageUrl={cmsLogoUrl} />
         </Link>
 
-        {/* Desktop nav */}
         <nav aria-label="Main navigation" className="hidden lg:block h-full">
           <ul className="flex items-center gap-1 h-full">
             {navItems.map((item) => {
@@ -204,7 +206,7 @@ export function HeaderClient({
                     href={item.href}
                     aria-current={active && isLeaf ? 'page' : undefined}
                     className={[
-                      'inline-flex items-center gap-1 px-3 text-base font-semibold tracking-wide',
+                      'inline-flex items-center gap-1 px-3 text-sm font-semibold tracking-wide',
                       'h-[40px] border-b-2 transition-colors duration-200',
                       active
                         ? 'text-brand-primary border-brand-primary'
@@ -230,10 +232,7 @@ export function HeaderClient({
           </ul>
         </nav>
 
-        {/* Right controls */}
         <div className="hidden lg:flex items-center gap-4">
-
-          {/* Language switcher */}
           <div className="relative group/lang py-1">
             <button
               type="button"
@@ -260,7 +259,8 @@ export function HeaderClient({
                 transition-all duration-150 origin-top-right pointer-events-none group-hover/lang:pointer-events-auto"
             >
               <ul className="rounded-xl bg-white shadow-xl border border-border-default py-1.5 overflow-hidden">
-                {locales.map((loc) => {
+                {/* Prioritized list applied here */}
+                {prioritizedLocales.map((loc) => {
                   const isCurrentLocale = locale === loc
                   const flagIcon = localeLabels[loc] || loc
 
@@ -290,13 +290,12 @@ export function HeaderClient({
 
           <div className="h-4 w-px bg-border-default" />
 
-          {/* Custom Pill CTA */}
           {ctaLabel && (
             <Link href={ctaHref}>
               <button
                 type="button"
                 className="inline-flex items-center justify-center gap-1.5 rounded-full bg-brand-accent
-                    px-5 py-2 text-base font-semibold tracking-wider text-white shadow-sm
+                    px-5 py-2 text-sm font-semibold tracking-wider text-white shadow-sm
                     transition-all duration-200 hover:bg-brand-accent-hover hover:shadow-md lowercase"
               >
                 <span>{ctaLabel}</span>
@@ -317,7 +316,6 @@ export function HeaderClient({
           )}
         </div>
 
-        {/* Mobile menu trigger */}
         <div className="flex lg:hidden">
           <MobileMenu
             navItems={navItems}

@@ -19,6 +19,17 @@ const LICENSE_LOGOS: Record<string, string> = {
   'paid employment placement license': '/Paid Employment Placement License.png',
   'privacy mark certified': '/privacyMark.png',
   'iso 9001 certified': '/SGS ISO 9001.png',
+
+
+  '般労働者派遣事業許可': '/General Worker Dispatch License.png',
+  '有料職業紹介事業許可': '/Paid Employment Placement License.png',
+  'プライバシーマーク認証': '/privacyMark.png',
+  '品質マネジメントシステム': '/SGS ISO 9001.png',
+
+  'জেনারেল ওয়ার্কার ডিসপ্যাচ লাইসেন্স': '/General Worker Dispatch License.png',
+  'পেইড এমপ্লয়মেন্ট প্লেসমেন্ট লাইসেন্স': '/Paid Employment Placement License.png',
+  'প্রাইভেসি মার্ক সার্টিফায়েড ': '/privacyMark.png',
+  ' ISO 9001 সার্টিফায়েড': '/SGS ISO 9001.png',
 }
 
 function LicenseIcon({ icon, title }: { icon: ComplianceIcon; title: string }) {
