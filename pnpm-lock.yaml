@@ -71,6 +71,9 @@ importers:
       react-dom:
         specifier: ^19.2.0
         version: 19.2.7(react@19.2.7)
+      react-flag-icons:
+        specifier: ^1.0.6
+        version: 1.0.6(@faceless-ui/modal@3.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@libsql/client@0.14.0)(@types/pg@8.20.0)(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(pg@8.20.0)(rollup@4.61.1)(sass@1.77.4)(tslib@2.8.1)(typescript@6.0.3)(yjs@13.6.31)
       tailwindcss:
         specifier: ^4.3.0
         version: 4.3.0
@@ -1689,6 +1692,28 @@ packages:
   '@rolldown/pluginutils@1.0.0-beta.27':
     resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
 
+  '@rollup/plugin-typescript@12.3.0':
+    resolution: {integrity: sha512-7DP0/p7y3t67+NabT9f8oTBFE6gGkto4SA6Np2oudYmZE/m1dt8RB0SjL1msMxFpLo631qjRCcBlAbq1ml/Big==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0||^4.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
+        optional: true
+
+  '@rollup/pluginutils@5.4.0':
+    resolution: {integrity: sha512-MfPp06CjRLfXQ3wY0R8vJDYBy/MvVcc9OulEfR0B8Iv9ko+GCNaRZ+EpJYFl27LhKsZK0o420sYCRHCjfCgeUg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
   '@rollup/rollup-android-arm-eabi@4.61.1':
     resolution: {integrity: sha512-JnBB8MdXj45cajvTuO5FmPlvFVJRQgvrz1uSEl3NwqFnReAPGwb8EanbGi4z2nRaqLzjJSv5/JmycoTKlRZxHA==}
     cpu: [arm]
@@ -2653,6 +2678,9 @@ packages:
 
   estree-util-visit@2.0.0:
     resolution: {integrity: sha512-m5KgiH85xAhhW8Wta0vShLcUvOsh3LLPI2YVwcbio1l7E09NTLL1EyMZFM1OyWowoH0skScNbhOPl4kcBgzTww==}
+
+  estree-walker@2.0.2:
+    resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
 
   estree-walker@3.0.3:
     resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==}
@@ -3642,6 +3670,9 @@ packages:
     peerDependencies:
       react: ^19.2.0
 
+  react-flag-icons@1.0.6:
+    resolution: {integrity: sha512-O7tnlq+7bUBi7bvHLAnnEMFfLeYP0uUj0wAvi4cSYeCKFMFN+8od9jocPQoZp/8vwxQdXSy5h42nAQ1dLIqJ/w==}
+
   react-image-crop@10.1.8:
     resolution: {integrity: sha512-4rb8XtXNx7ZaOZarKKnckgz4xLMvds/YrU6mpJfGhGAsy2Mg4mIw1x+DCCGngVGq2soTBVVOxx2s/C6mTX9+pA==}
     peerDependencies:
@@ -3744,6 +3775,9 @@ packages:
 
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+
+  saidatech@file:apps/saidatech:
+    resolution: {directory: apps/saidatech, type: directory}
 
   sanitize-filename@1.6.3:
     resolution: {integrity: sha512-y/52Mcy7aw3gRm7IrcGDFx/bCk4AhRh2eI9luHOQM86nZsqwiRkkq2GekHXBBD+SmPidc8i2PqtYZl+pWJ8Oeg==}
@@ -6047,6 +6081,23 @@ snapshots:
 
   '@rolldown/pluginutils@1.0.0-beta.27': {}
 
+  '@rollup/plugin-typescript@12.3.0(rollup@4.61.1)(tslib@2.8.1)(typescript@6.0.3)':
+    dependencies:
+      '@rollup/pluginutils': 5.4.0(rollup@4.61.1)
+      resolve: 1.22.12
+      typescript: 6.0.3
+    optionalDependencies:
+      rollup: 4.61.1
+      tslib: 2.8.1
+
+  '@rollup/pluginutils@5.4.0(rollup@4.61.1)':
+    dependencies:
+      '@types/estree': 1.0.9
+      estree-walker: 2.0.2
+      picomatch: 4.0.4
+    optionalDependencies:
+      rollup: 4.61.1
+
   '@rollup/rollup-android-arm-eabi@4.61.1':
     optional: true
 
@@ -6919,6 +6970,8 @@ snapshots:
     dependencies:
       '@types/estree-jsx': 1.0.5
       '@types/unist': 3.0.3
+
+  estree-walker@2.0.2: {}
 
   estree-walker@3.0.3:
     dependencies:
@@ -8042,6 +8095,62 @@ snapshots:
     dependencies:
       react: 19.2.7
 
+  react-flag-icons@1.0.6(@faceless-ui/modal@3.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@libsql/client@0.14.0)(@types/pg@8.20.0)(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(pg@8.20.0)(rollup@4.61.1)(sass@1.77.4)(tslib@2.8.1)(typescript@6.0.3)(yjs@13.6.31):
+    dependencies:
+      '@rollup/plugin-typescript': 12.3.0(rollup@4.61.1)(tslib@2.8.1)(typescript@6.0.3)
+      prop-types: 15.8.1
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+      react-flag-icons: saidatech@file:apps/saidatech(@faceless-ui/modal@3.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@libsql/client@0.14.0)(@types/pg@8.20.0)(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(pg@8.20.0)(sass@1.77.4)(typescript@6.0.3)(yjs@13.6.31)
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@babel/core'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@emotion/is-prop-valid'
+      - '@faceless-ui/modal'
+      - '@faceless-ui/scroll-info'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@playwright/test'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/react'
+      - '@types/sql.js'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - babel-plugin-macros
+      - babel-plugin-react-compiler
+      - better-sqlite3
+      - bufferutil
+      - bun-types
+      - expo-sqlite
+      - gel
+      - graphql
+      - knex
+      - kysely
+      - monaco-editor
+      - mysql2
+      - pg
+      - pg-native
+      - postgres
+      - prisma
+      - rollup
+      - sass
+      - sql.js
+      - sqlite3
+      - supports-color
+      - tslib
+      - typescript
+      - utf-8-validate
+      - yjs
+
   react-image-crop@10.1.8(react@19.2.7):
     dependencies:
       react: 19.2.7
@@ -8170,6 +8279,72 @@ snapshots:
   safe-stable-stringify@2.5.0: {}
 
   safer-buffer@2.1.2: {}
+
+  saidatech@file:apps/saidatech(@faceless-ui/modal@3.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@libsql/client@0.14.0)(@types/pg@8.20.0)(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(pg@8.20.0)(sass@1.77.4)(typescript@6.0.3)(yjs@13.6.31):
+    dependencies:
+      '@payloadcms/db-postgres': 3.85.0(@libsql/client@0.14.0)(@upstash/redis@1.38.0)(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))
+      '@payloadcms/db-sqlite': 3.84.1(@types/pg@8.20.0)(@upstash/redis@1.38.0)(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))(pg@8.20.0)
+      '@payloadcms/email-resend': 3.85.0(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))
+      '@payloadcms/next': 3.85.0(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(next@15.5.19(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4))(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+      '@payloadcms/richtext-lexical': 3.85.0(@faceless-ui/modal@3.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@faceless-ui/scroll-info@2.0.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@payloadcms/next@3.85.0(@types/react@19.2.16)(graphql@16.14.1)(monaco-editor@0.55.1)(next@15.5.19(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4))(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3))(@types/react@19.2.16)(monaco-editor@0.55.1)(next@15.5.19(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4))(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)(yjs@13.6.31)
+      '@payloadcms/storage-s3': 3.85.0(@types/react@19.2.16)(monaco-editor@0.55.1)(next@15.5.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4))(payload@3.85.0(graphql@16.14.1)(typescript@6.0.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+      '@saidatech/cms-core': link:packages/cms-core
+      '@upstash/ratelimit': 2.0.8(@upstash/redis@1.38.0)
+      '@upstash/redis': 1.38.0
+      framer-motion: 11.18.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      next: 15.5.19(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4)
+      next-intl: 3.26.5(next@15.5.19(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.77.4))(react@19.2.7)
+      payload: 3.85.0(graphql@16.14.1)(typescript@6.0.3)
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+      tailwindcss: 4.3.0
+      zod: 4.4.3
+    transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
+      - '@babel/core'
+      - '@cloudflare/workers-types'
+      - '@electric-sql/pglite'
+      - '@emotion/is-prop-valid'
+      - '@faceless-ui/modal'
+      - '@faceless-ui/scroll-info'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
+      - '@planetscale/database'
+      - '@playwright/test'
+      - '@prisma/client'
+      - '@tidbcloud/serverless'
+      - '@types/better-sqlite3'
+      - '@types/pg'
+      - '@types/react'
+      - '@types/sql.js'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - babel-plugin-macros
+      - babel-plugin-react-compiler
+      - better-sqlite3
+      - bufferutil
+      - bun-types
+      - expo-sqlite
+      - gel
+      - graphql
+      - knex
+      - kysely
+      - monaco-editor
+      - mysql2
+      - pg
+      - pg-native
+      - postgres
+      - prisma
+      - sass
+      - sql.js
+      - sqlite3
+      - supports-color
+      - typescript
+      - utf-8-validate
+      - yjs
 
   sanitize-filename@1.6.3:
     dependencies:
