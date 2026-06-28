@@ -217,7 +217,7 @@ export function HeaderClient({
 
         <div className="hidden lg:flex items-center gap-2 xl:gap-4">
           {/* Language Flags Container */}
-          <div className="hidden lg:flex items-center gap-1.5 xl:gap-3 bg-[#EBF5FF] px-2.5 xl:px-4 py-1 rounded-2xl border border-gray-200">
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-3 bg-[#EBF5FF] px-2.5 xl:px-3 py-.5 rounded-2xl border border-gray-200">
             {prioritizedLocales.map((loc) => {
               const isCurrentLocale = locale === loc
 
