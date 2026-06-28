@@ -122,7 +122,8 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
     >
       <Link href={item.href} className="block space-y-4 focus-visible:outline-none">
 
-        <div className="relative aspect-[16/10] max-w-[85%] mx-auto w-full rounded-2xl overflow-hidden bg-white/90 border border-white/20 shadow-md">
+        {/* Increased Height */}
+        <div className="relative aspect-[16/10] max-w-[90%] mx-auto w-full rounded-2xl overflow-hidden bg-white/90 border border-white/20 shadow-md h-[300px] sm:h-[400px] md:h-[450px]">
           {item.thumbnail ? (
             <Image
               src={item.thumbnail}
@@ -166,7 +167,6 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
     </motion.div>
   )
 }
-
 function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListBlockProps) {
   // Sort by date descending (latest first)
   const sortedItems = [...items].sort((a, b) =>

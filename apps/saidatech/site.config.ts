@@ -73,10 +73,10 @@ const siteConfig: SiteConfig = {
     ],
     socialLinks: [
       { platform: 'linkedin', url: 'https://linkedin.com/company/saidatec' },
-      { platform: 'facebook', url: 'https://facebook.com/company/saidatec' },
+      { platform: 'facebook', url: 'https://www.facebook.com/Sanaul.Haque786/?_rdr' },
       { platform: 'instagram', url: 'https://instagram.com/company/saidatec' },
       { platform: 'youtube', url: 'https://www.youtube.com/@theSADIATEC/featured' },
-      { platform: 'twitter', url: 'https://twitter.com/company/saidatec' },
+      
     ],
   },
 

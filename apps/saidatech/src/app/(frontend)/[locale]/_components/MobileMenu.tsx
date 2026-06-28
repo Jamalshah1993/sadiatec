@@ -14,8 +14,8 @@ interface MobileMenuProps {
   ctaHref: string
   locales: string[]
   localeLabels: Record<string, string>
-  locale: string          // ← Added to know current language
-  strippedPath: string    // ← Added for flag navigation
+  locale: string
+  strippedPath: string
   scrolled: boolean
   onOpenChange?: (isOpen: boolean) => void
 }
@@ -110,8 +110,7 @@ export function MobileMenu({
             initial="closed"
             animate="open"
             exit="closed"
-            className="relative h-full w-80 max-w-[85vw] bg-white shadow-2xl 
-              flex flex-col overflow-hidden text-left pointer-events-auto z-10"
+            className="relative h-full w-80 max-w-[85vw] bg-white shadow-2xl flex flex-col overflow-hidden text-left pointer-events-auto z-10"
           >
             {/* Top Header */}
             <div className="flex h-20 items-center justify-between px-5 border-b border-neutral-100 shrink-0 bg-white">
@@ -136,8 +135,7 @@ export function MobileMenu({
             <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile navigation">
               <ul role="list" className="space-y-1">
                 {navItems.map((item) => {
-                  const hasChildren = (item.children ?? []).length > 0 ||
-                    (item.megaMenu && (item.megaColumns ?? []).length > 0)
+                  const hasChildren = (item.children ?? []).length > 0 || (item.megaMenu && (item.megaColumns ?? []).length > 0)
                   const isExpanded = openItem === item.href
 
                   const allChildren = item.megaMenu
@@ -188,7 +186,6 @@ export function MobileMenu({
               </ul>
             </nav>
 
-            {/* Bottom Section - Only CTA Button */}
             <div className="border-t border-neutral-100 p-4 bg-gray-50/80 shrink-0">
               {ctaLabel && (
                 <Link href={ctaHref} onClick={close} className="block">
@@ -206,10 +203,10 @@ export function MobileMenu({
 
   return (
     <>
-      {/* Mobile Header: Flags + Hamburger */}
-      <div className="flex lg:hidden items-center gap-3">
-        {/* Flags Container */}
-        <div className="flex items-center gap-2 bg-[#EBF5FF] px-3 py-.5 rounded-2xl border border-gray-200">
+      {/* Mobile Header: Flags + Hamburger - Fixed Layout */}
+      <div className="flex lg:hidden items-center gap-2">
+        {/* Flags Container - Made compact */}
+        <div className="flex items-center gap-1.5 bg-[#EBF5FF] px-3 py-.5 rounded-2xl border border-gray-200">
           {['ja', 'en', 'bn'].map((loc) => {
             const isCurrentLocale = locale === loc
             return (
@@ -240,7 +237,7 @@ export function MobileMenu({
           aria-label="Open menu"
           onClick={() => setIsOpen(true)}
           className={[
-            'inline-flex items-center justify-center rounded-md p-2 transition-colors',
+            'inline-flex items-center justify-center rounded-md p-2 transition-colors flex-shrink-0',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent min-h-[44px] min-w-[44px]',
             scrolled ? 'text-gray-700 hover:bg-neutral-100' : 'text-white hover:bg-white/10',
           ].join(' ')}
