@@ -125,7 +125,7 @@ export function HeroBlock({
               className={`ml-auto mb-6 
       ${isJapanese || isBangla
                   ? 'max-w-[380px] sm:max-w-[450px] md:max-w-[500px] text-[16px] md:text-[18px] lg:text-[20px]'
-                  : 'max-w-[500px] sm:max-w-[550px] md:max-w-[650px] text-[16px] md:text-[18px] lg:text-[20px]'
+                  : 'max-w-[550px] sm:max-w-[600px] md:max-w-[650px] text-[14px] md:text-[18px] lg:text-[20px]'
                 } 
       leading-tight md:leading-[1.35] 
       text-text-secondary tracking-[-0.1px] break-words`}
