@@ -24,32 +24,51 @@ const LICENSE_LOGOS: Record<string, string> = {
   '般労働者派遣事業許可': '/General Worker Dispatch License.png',
   '有料職業紹介事業許可': '/Paid Employment Placement License.png',
   'プライバシーマーク認証': '/privacyMark.png',
-  '品質マネジメントシステム': '/SGS ISO 9001.png',
+  'ISO 9001認証': '/SGS ISO 9001.png',
 
   'জেনারেল ওয়ার্কার ডিসপ্যাচ লাইসেন্স': '/General Worker Dispatch License.png',
   'পেইড এমপ্লয়মেন্ট প্লেসমেন্ট লাইসেন্স': '/Paid Employment Placement License.png',
   'প্রাইভেসি মার্ক সার্টিফায়েড ': '/privacyMark.png',
-  ' ISO 9001 সার্টিফায়েড': '/SGS ISO 9001.png',
+  'iso 9001 সার্টিফায়েড': '/SGS ISO 9001.png',           // ← Most likely cause
+  'আইএসও ৯০০১ সার্টিফায়েড': '/SGS ISO 9001.png',
 }
 
 function LicenseIcon({ icon, title }: { icon: ComplianceIcon; title: string }) {
-  const logoPath = LICENSE_LOGOS[title.toLowerCase()]
+  const titleLower = title.toLowerCase().trim();
+
+  // Try exact match first, then loose match
+  let logoPath = LICENSE_LOGOS[title];
+
+  if (!logoPath) {
+    logoPath = Object.keys(LICENSE_LOGOS).find(key => 
+      key.toLowerCase().includes(titleLower) || 
+      titleLower.includes(key.toLowerCase())
+    );
+    logoPath = logoPath ? LICENSE_LOGOS[logoPath] : undefined;
+  }
 
   if (logoPath) {
     return (
       <div className="relative h-12 w-12 shrink-0 select-none">
-        <Image src={logoPath} alt={`${title} Logo`} fill className="object-contain" priority />
+        <Image 
+          src={logoPath} 
+          alt={`${title} Logo`} 
+          fill 
+          className="object-contain" 
+          priority 
+        />
       </div>
-    )
+    );
   }
 
+  // Fallback
   return (
     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EBF5FF] text-[#2B70A6]">
       <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d={ICON_PATHS[icon]} />
       </svg>
     </div>
-  )
+  );
 }
 
 export function ComplianceGridBlock({
