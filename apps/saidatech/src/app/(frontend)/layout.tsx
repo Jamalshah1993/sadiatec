@@ -17,7 +17,7 @@ export default function FrontendRootLayout({
           src="https://sadiatec-assistant.vercel.app/widget-dist/widget.js"
           // src="http://localhost:3001/widget-dist/widget.js"
           strategy="lazyOnload"
-          data-whatsapp="8801XXXXXXXXX"
+          data-staff-whatsapp="8801641437154"
           data-color="#4f46e5"
         />
       </body>
