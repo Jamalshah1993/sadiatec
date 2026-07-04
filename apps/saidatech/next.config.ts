@@ -7,6 +7,10 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 const r2BucketUrl = process.env['NEXT_PUBLIC_R2_BUCKET_URL']
 
 const nextConfig: NextConfig = {
+   experimental: {
+    workerThreads: false,
+    cpus: 2,
+  },
   // 1. Force proper frontend/UI bundling for Payload and its styling dependencies
   transpilePackages: [
     '@saidatech/cms-core',
