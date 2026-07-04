@@ -3,8 +3,14 @@ builder = "nixpacks"
 buildCommand = "pnpm install --frozen-lockfile && pnpm --filter=saidatech build"
 
 [deploy]
-startCommand = "cd apps/saidatech && node_modules/.bin/next start"
+startCommand = "cd apps/saidatech && node_modules/.bin/next start -p $PORT"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
+
+[nixpacks]
+aptPkgs = []
+
+[variables]
+NIXPACKS_NODE_VERSION = "20"
