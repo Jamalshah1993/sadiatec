@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import siteConfig from '../../../../../../site.config'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>

@@ -21,17 +21,14 @@ const db =
     ? sqliteAdapter({ client: { url: uri } })
     : postgresAdapter({
       pool: {
-        connectionString: uri,
-        max: 5,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 60000,   // ← Increased to 60 seconds
-        maxLifetime: 600000,              // 10 minutes
-        allowExitOnIdle: true,
-        ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
-      } as any,
-      push: false,
-
-    })
+          connectionString: uri,
+          max: 10,
+          idleTimeoutMillis: 30000,
+          connectionTimeoutMillis: 10000,
+          ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
+        },
+        push: false,
+      })
 
 const baseConfig = buildCmsConfig(siteConfig, undefined, db)
 
