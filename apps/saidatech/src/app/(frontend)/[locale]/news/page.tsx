@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-export const revalidate = 60 // refresh listing every 5 min as fallback
+export const revalidate = 3600 // refresh listing every 5 min as fallback
 
 function formatNewsDate(iso: string | undefined): string {
   if (!iso) return ''
