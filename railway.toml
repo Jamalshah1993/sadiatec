@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm install --frozen-lockfile && pnpm --filter=saidatech build"
+buildCommand = "npm install -g pnpm@9.15.9 && pnpm install --frozen-lockfile && pnpm --filter=saidatech build"
 
 [deploy]
 startCommand = "cd apps/saidatech && node_modules/.bin/next start -p $PORT"
