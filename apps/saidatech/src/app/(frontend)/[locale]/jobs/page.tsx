@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import siteConfig from '../../../../../site.config'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 export default function JobsPage() {
   if (!siteConfig.features.jobListings) notFound()

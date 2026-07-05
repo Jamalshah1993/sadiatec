@@ -3,9 +3,16 @@
 import { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { NewsListBlockProps, NewsItem } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 function ChevronLeft() {
   return (
@@ -27,12 +34,13 @@ function ChevronRight() {
    LAYOUT A: ORIGINAL DEDICATED SUBPAGE DESIGN (layout === 'list')
    ────────────────────────────────────────────────────────────────────── */
 function NewsRowItem({ item }: { item: NewsItem }) {
+  const locale = useLocale()
   return (
     <motion.li
       variants={fadeInUp}
       className="list-none border-t border-slate-200/80 pt-6 pb-8 first:border-t-0 first:pt-0 group text-left"
     >
-      <Link href={item.href} className="block space-y-3.5 focus-visible:outline-none">
+      <Link href={withLocale(locale, item.href)} className="block space-y-3.5 focus-visible:outline-none">
         <div className="flex flex-wrap items-center gap-4">
           {item.date && (
             <span className="text-[15px] font-semibold text-gray-700 tracking-tight">
@@ -66,6 +74,7 @@ function NewsRowItem({ item }: { item: NewsItem }) {
 }
 
 function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
+  const locale = useLocale()
   // Sort by date descending (latest first)
   const sortedItems = [...items].sort((a, b) =>
     new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
@@ -80,7 +89,7 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
             </h2>
             {viewAllCta && (
               <Link
-                href={viewAllCta.href}
+                href={withLocale(locale, viewAllCta.href)}
                 className="inline-flex h-11 items-center justify-center rounded-full border border-gray-400 bg-transparent px-8 text-xs font-bold text-gray-900 tracking-wide transition-all duration-200 hover:bg-black hover:text-white hover:border-black active:scale-[0.98]"
               >
                 {viewAllCta.label || 'View news list'}
@@ -111,6 +120,7 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
    LAYOUT B: HOMEPAGE SLIDER CAROUSEL DESIGN (layout === 'carousel')
    ────────────────────────────────────────────────────────────────────── */
 function CarouselCardItem({ item }: { item: NewsItem }) {
+  const locale = useLocale()
   const formattedDate = item.date
     ? new Date(item.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : ''
@@ -120,7 +130,7 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
       variants={fadeInUp}
       className="flex flex-col bg-transparent group text-left w-full min-w-full sm:min-w-[340px] md:min-w-[380px] sm:flex-1 snap-center snap-always px-2 sm:px-0"
     >
-      <Link href={item.href} className="block space-y-4 focus-visible:outline-none">
+      <Link href={withLocale(locale, item.href)} className="block space-y-4 focus-visible:outline-none">
 
         {/* Increased Height */}
         <div className="relative aspect-[16/10] max-w-[90%] mx-auto w-full rounded-2xl overflow-hidden bg-white/90 border border-white/20 shadow-md h-[300px] sm:h-[400px] md:h-[450px]">

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getCachedPayload } from '@/lib/payload'
 import { blockRegistry } from '@saidatech/cms-core/blocks'
-export const revalidate = 300
+export const revalidate = 3600
 
 const SUPPORTED_LOCALES = ['en', 'ja', 'bn'] as const
 type SupportedLocale = (typeof SUPPORTED_LOCALES)[number]

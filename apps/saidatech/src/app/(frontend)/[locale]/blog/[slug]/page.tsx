@@ -15,7 +15,7 @@ import type {
 } from '@saidatech/cms-core/blocks'
 import { Container, Section, Text } from '@saidatech/cms-core/components/ui'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 const LOCALES = ['en', 'ja', 'bn'] as const
 type Locale = (typeof LOCALES)[number]

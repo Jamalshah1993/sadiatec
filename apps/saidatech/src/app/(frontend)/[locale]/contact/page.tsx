@@ -8,7 +8,7 @@ import { ContactForm } from './_components/ContactForm'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@payload-config'
 
-export const revalidate = 300
+export const revalidate = 3600
 
 const LOCALES = ['en', 'ja', 'bn'] as const
 type Locale = (typeof LOCALES)[number]

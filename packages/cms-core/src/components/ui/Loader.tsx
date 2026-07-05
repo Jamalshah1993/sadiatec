@@ -1,17 +1,8 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 export const Loader = ({ isLoading = true }: { isLoading?: boolean }) => {
-  const text = "sadiatec";
-
-  const container = {
-    show: { transition: { staggerChildren: 0.08 } }
-  };
-  const letter = {
-    hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0 }
-  };
-
   const shimmer = {
     hidden: { x: '-100%' },
     show: { x: '100%', transition: { duration: 1.5, repeat: Infinity, repeatDelay: 0.5 } }
@@ -25,26 +16,28 @@ export const Loader = ({ isLoading = true }: { isLoading?: boolean }) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.h1
-            className="text-6xl md:text-8xl font-black text-[#167d4c] tracking-tighter flex relative overflow-hidden"
-            variants={container}
-            initial="hidden"
-            animate="show"
+          <motion.div
+            className="relative overflow-hidden w-[300px] h-[100px] md:w-[700px] md:h-[300px]"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            {text.split("").map((char, i) => (
-              <motion.span key={i} variants={letter}>
-                {char}
-              </motion.span>
-            ))}
+            <Image
+              src="/sadiatec-logo.png"
+              alt="Sadiatec"
+              fill
+              priority
+              className="relative z-10 object-contain"
+            />
 
             {/* Shimmer Overlay */}
             <motion.div
-              className="absolute inset-0 bg-white/20 skew-x-[-20deg]"
+              className="absolute inset-0 bg-white/20 skew-x-[-20deg] z-20"
               variants={shimmer}
               initial="hidden"
               animate="show"
             />
-          </motion.h1>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
