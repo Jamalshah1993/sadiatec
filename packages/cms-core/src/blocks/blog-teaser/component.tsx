@@ -3,10 +3,17 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { SectionEyebrow } from '../../components/ui'
 import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { BlogTeaserBlockProps, BlogPostTeaser } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 // Category-to-gradient fallback for posts without a thumbnail
 const CATEGORY_GRADIENTS = [
@@ -42,6 +49,7 @@ function PostCard({
   minReadSuffix: string
 }) {
   const gradient = CATEGORY_GRADIENTS[index % CATEGORY_GRADIENTS.length]
+  const locale = useLocale()
 
   return (
     <motion.article
@@ -93,7 +101,7 @@ function PostCard({
             <span className="text-xs text-(--color-muted)">{formatDate(post.publishedAt)}</span>
           )}
           <Link
-            href={post.href}
+            href={withLocale(locale, post.href)}
             className="inline-flex items-center gap-1 text-sm font-semibold text-(--color-primary) hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-primary)"
           >
             {readMoreLabel}
@@ -124,6 +132,8 @@ export function BlogTeaserBlock({
 }: BlogTeaserBlockProps) {
   if (posts.length === 0) return null
 
+  const locale = useLocale()
+
   return (
     <section aria-labelledby="blog-teaser-heading" className="py-20 md:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -145,7 +155,7 @@ export function BlogTeaserBlock({
           </div>
           {viewAllCta && (
             <Link
-              href={viewAllCta.href}
+              href={withLocale(locale, viewAllCta.href)}
               className="hidden shrink-0 items-center gap-2 text-sm font-semibold text-(--color-primary) hover:underline sm:inline-flex"
             >
               {viewAllCta.label}
@@ -173,7 +183,7 @@ export function BlogTeaserBlock({
         {viewAllCta && (
           <div className="mt-10 text-center sm:hidden">
             <Link
-              href={viewAllCta.href}
+              href={withLocale(locale, viewAllCta.href)}
               className="inline-flex items-center gap-2 text-sm font-semibold text-(--color-primary) hover:underline"
             >
               {viewAllCta.label}

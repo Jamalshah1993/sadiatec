@@ -2,8 +2,15 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import type { BusinessLineListBlockProps, BusinessLineItem } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 interface FeatureItem {
   id?: string
@@ -33,6 +40,7 @@ const itemVariants = {
 }
 
 function RowItem({ item, index }: { item: ExtendedBusinessLineItem; index: number }) {
+  const locale = useLocale()
   const hasImage = !!item.imageUrl
   const isImageLeft = item.imagePosition === 'left' || (item.imagePosition !== 'right' && index % 2 === 0)
 
@@ -93,7 +101,7 @@ function RowItem({ item, index }: { item: ExtendedBusinessLineItem; index: numbe
           {/* CTA Button */}
           {item.ctaLabel && item.ctaHref && (
             <Link
-              href={item.ctaHref}
+              href={withLocale(locale, item.ctaHref)}
               className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors group"
             >
               {item.ctaLabel}

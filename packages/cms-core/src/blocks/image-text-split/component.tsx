@@ -2,8 +2,15 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import type { ImageTextSplitBlockProps } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 const bgMap: Record<string, string> = {
   white: 'bg-white',
@@ -36,6 +43,7 @@ export function ImageTextSplitBlock({
   backgroundStyle = 'white',
   verticalAlign = 'center',
 }: ImageTextSplitBlockProps) {
+  const locale = useLocale()
   const bg = bgMap[backgroundStyle] ?? bgMap['white']
   const textColor = textColorMap[backgroundStyle] ?? textColorMap['white']
   const isDark = backgroundStyle === 'dark'
@@ -93,7 +101,7 @@ export function ImageTextSplitBlock({
       </p>
       {primaryButtonLabel && primaryButtonHref && (
         <Link
-          href={primaryButtonHref}
+          href={withLocale(locale, primaryButtonHref)}
           className="inline-flex w-fit min-h-[44px] items-center gap-2 rounded-md bg-[var(--color-primary)] px-6 py-3 text-sm font-semibold text-white transition-opacity duration-150 hover:opacity-90"
         >
           {primaryButtonLabel}

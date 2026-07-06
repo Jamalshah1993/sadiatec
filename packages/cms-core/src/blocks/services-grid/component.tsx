@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { SectionEyebrow } from '../../components/ui'
 import { fadeInUp } from '../../lib/motion'
@@ -12,10 +13,17 @@ interface RowProps {
   index: number
 }
 
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
+
 /* ──────────────────────────────────────────────────────────────────────
    A. HOMEPAGE DESIGN STYLE (layout === 'alternating')
    ────────────────────────────────────────────────────────────────────── */
 function OverlapRow({ service, index }: RowProps) {
+  const locale = useLocale()
   const isEven = index % 2 === 0
 
   return (
@@ -72,7 +80,7 @@ function OverlapRow({ service, index }: RowProps) {
         {service.cta.label && (
           <div className="pt-2">
             <Link
-              href={service.cta.href}
+              href={withLocale(locale, service.cta.href)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-[#5EA6E6] hover:bg-[#4B93D3] active:scale-[0.98] text-white text-[12px] font-medium rounded-lg transition-all duration-200 shadow-sm group focus:outline-none"
             >
               <span>{service.cta.label}</span>
@@ -94,6 +102,7 @@ function OverlapRow({ service, index }: RowProps) {
    B. SERVICES PAGE DESIGN STYLE (layout === 'corporate-banner')
    ────────────────────────────────────────────────────────────────────── */
 function CorporateBannerRow({ service }: RowProps) {
+  const locale = useLocale()
   return (
     <motion.div
       variants={fadeInUp}
@@ -137,7 +146,7 @@ function CorporateBannerRow({ service }: RowProps) {
         {service.cta.label && (
           <div className="pt-1">
             <Link
-              href={service.cta.href}
+              href={withLocale(locale, service.cta.href)}
               className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#5EA6E6] hover:bg-[#4B93D3] active:scale-[0.98] text-white text-[13px] font-semibold rounded-full transition-all duration-200 shadow-sm group focus:outline-none"
             >
               <span>{service.cta.label}</span>

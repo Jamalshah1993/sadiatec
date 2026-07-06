@@ -31,7 +31,7 @@ function ChevronRight() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   LAYOUT A: ORIGINAL DEDICATED SUBPAGE DESIGN (layout === 'list')
+   LAYOUT A: INNER PAGE DESIGN (layout === 'list')
    ────────────────────────────────────────────────────────────────────── */
 function NewsRowItem({ item }: { item: NewsItem }) {
   const locale = useLocale()
@@ -75,10 +75,12 @@ function NewsRowItem({ item }: { item: NewsItem }) {
 
 function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
   const locale = useLocale()
-  // Sort by date descending (latest first)
+  
+  // Sort by date descending (latest first) - Show ALL items
   const sortedItems = [...items].sort((a, b) =>
     new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
   )
+
   return (
     <section aria-labelledby="news-split-heading" className="bg-[#F6F6F6] py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
@@ -96,6 +98,7 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
               </Link>
             )}
           </div>
+          
           <div className="lg:col-span-7">
             <motion.ul
               variants={staggerContainer}
@@ -105,7 +108,8 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
               role="list"
               className="flex flex-col space-y-2 border-b border-slate-200/80 pb-2"
             >
-              {sortedItems.slice(0, 3).map((item, i) => (
+              {/* Changed from slice(0, 3) to show ALL items */}
+              {sortedItems.map((item, i) => (
                 <NewsRowItem key={item.headline || i} item={item} />
               ))}
             </motion.ul>
@@ -117,7 +121,7 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   LAYOUT B: HOMEPAGE SLIDER CAROUSEL DESIGN (layout === 'carousel')
+   LAYOUT B: HOMEPAGE SLIDER CAROUSEL DESIGN (unchanged)
    ────────────────────────────────────────────────────────────────────── */
 function CarouselCardItem({ item }: { item: NewsItem }) {
   const locale = useLocale()
@@ -131,8 +135,6 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
       className="flex flex-col bg-transparent group text-left w-full min-w-full sm:min-w-[340px] md:min-w-[380px] sm:flex-1 snap-center snap-always px-2 sm:px-0"
     >
       <Link href={withLocale(locale, item.href)} className="block space-y-4 focus-visible:outline-none">
-
-        {/* Increased Height */}
         <div className="relative aspect-[16/10] max-w-[90%] mx-auto w-full rounded-2xl overflow-hidden bg-white/90 border border-white/20 shadow-md h-[300px] sm:h-[400px] md:h-[450px]">
           {item.thumbnail ? (
             <Image
@@ -172,74 +174,60 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
             </p>
           )}
         </div>
-
       </Link>
     </motion.div>
   )
 }
+
 function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListBlockProps) {
-  // Sort by date descending (latest first)
   const sortedItems = [...items].sort((a, b) =>
     new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
   )
-  const displayItems = sortedItems.slice(0, 3)
+  const displayItems = sortedItems.slice(0, 3) // Carousel still shows only 3
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return
-
     const container = scrollContainerRef.current
     const cardWidth = container.clientWidth
     const currentScrollPosition = container.scrollLeft
 
-    const targetScrollPosition =
-      direction === 'left'
-        ? currentScrollPosition - cardWidth
-        : currentScrollPosition + cardWidth
+    const targetScrollPosition = direction === 'left'
+      ? currentScrollPosition - cardWidth
+      : currentScrollPosition + cardWidth
 
-    container.scrollTo({
-      left: targetScrollPosition,
-      behavior: 'smooth',
-    })
+    container.scrollTo({ left: targetScrollPosition, behavior: 'smooth' })
   }
 
   return (
     <div className="w-full bg-white py-6 md:py-10">
       <div className="mx-auto max-w-[1920px] px-4 sm:px-6 md:px-10 lg:px-12">
-
-        {/* Main Blue Section Card */}
         <section className="relative w-full bg-brand-accent rounded-[2rem] p-6 sm:p-8 md:p-14 lg:p-16 overflow-hidden shadow-sm">
-
-          {/* Title block */}
           <div className="mb-8 sm:mb-10 text-left px-2 sm:px-0">
             <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
               {heading}
             </h2>
           </div>
 
-          {/* ── 🛠️ FIXED: Arrow elements shifted completely outward to eliminate image crowding ── */}
           {displayItems.length > 1 && (
             <>
               <button
                 type="button"
                 onClick={() => handleScroll('left')}
-                aria-label="Previous News"
-                className="absolute left-1.5 bottom-[40%] z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-brand-accent shadow-md backdrop-blur-sm transition-all hover:bg-white active:scale-95 focus:outline-none block md:hidden"
+                className="absolute left-1.5 bottom-[40%] z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-brand-accent shadow-md backdrop-blur-sm transition-all hover:bg-white active:scale-95 md:hidden"
               >
                 <ChevronLeft />
               </button>
               <button
                 type="button"
                 onClick={() => handleScroll('right')}
-                aria-label="Next News"
-                className="absolute right-1.5 bottom-[40%] z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-brand-accent shadow-md backdrop-blur-sm transition-all hover:bg-white active:scale-95 focus:outline-none block md:hidden"
+                className="absolute right-1.5 bottom-[40%] z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-brand-accent shadow-md backdrop-blur-sm transition-all hover:bg-white active:scale-95 md:hidden"
               >
                 <ChevronRight />
               </button>
             </>
           )}
 
-          {/* Horizontal Track Grid Slider */}
           <div className="w-full relative group/carousel px-2 sm:px-0">
             <motion.div
               ref={scrollContainerRef}
@@ -247,24 +235,21 @@ function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListB
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-40px' }}
-              className="flex flex-row overflow-x-auto scrollbar-none pb-4 snap-x snap-mandatory gap-0 sm:gap-6 lg:gap-8 equilibrium-touch scroll-smooth"
-              style={{ WebkitOverflowScrolling: 'touch' }}
+              className="flex flex-row overflow-x-auto scrollbar-none pb-4 snap-x snap-mandatory gap-0 sm:gap-6 lg:gap-8 scroll-smooth"
             >
               {displayItems.map((item, i) => (
                 <CarouselCardItem key={item.headline || i} item={item} />
               ))}
             </motion.div>
           </div>
-
         </section>
-
       </div>
     </div>
   )
 }
 
 /* ──────────────────────────────────────────────────────────────────────
-   MAIN SERVICE RUNTIME BLOCK DISPATCHER ENTRYPOINT
+   MAIN COMPONENT
    ────────────────────────────────────────────────────────────────────── */
 export function NewsListBlock(props: NewsListBlockProps) {
   if (!props.items || props.items.length === 0) return null

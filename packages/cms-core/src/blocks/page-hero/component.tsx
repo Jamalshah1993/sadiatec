@@ -1,8 +1,15 @@
 'use client'
 
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import type { PageHeroBlockProps, PageHeroBreadcrumbItem } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 function minHeightClass(h: string | undefined): string {
   if (h === 'sm') return 'min-h-[85px] md:min-h-[130px]'
@@ -19,6 +26,7 @@ function PageTitleVariant({
   showBreadcrumb?: boolean | undefined
   breadcrumbItems?: PageHeroBreadcrumbItem[] | undefined
 }) {
+  const locale = useLocale()
   return (
     <section aria-labelledby="page-title-heading" className="bg-white pt-8 pb-3 md:pt-16 md:pb-6">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-left">
@@ -29,7 +37,7 @@ function PageTitleVariant({
                 <li key={i} className="flex items-center gap-1">
                   {i > 0 && <span aria-hidden="true" className="opacity-40">/</span>}
                   {item.href ? (
-                    <Link href={item.href} className="hover:text-[var(--color-text)] transition-colors">
+                    <Link href={withLocale(locale, item.href)} className="hover:text-[var(--color-text)] transition-colors">
                       {item.label}
                     </Link>
                   ) : (
@@ -98,6 +106,8 @@ export function PageHeroBlock({
   textAlignment = 'left',
   minHeight = 'md',
 }: PageHeroBlockProps) {
+  const locale = useLocale()
+
   if (variant === 'page-title') {
     return (
       <PageTitleVariant
@@ -136,7 +146,7 @@ export function PageHeroBlock({
                     <li key={i} className="flex items-center gap-1">
                       {i > 0 && <span aria-hidden="true" className="text-white/40">/</span>}
                       {item.href ? (
-                        <Link href={item.href} className="hover:text-white transition-colors duration-150">
+                        <Link href={withLocale(locale, item.href)} className="hover:text-white transition-colors duration-150">
                           {item.label}
                         </Link>
                       ) : (

@@ -1,10 +1,17 @@
 'use client'
 
 import Link from 'next/link'
+import { useLocale } from 'next-intl'
 import { motion } from 'framer-motion'
 import { Mail, PhoneCall, ArrowRight, MessageSquare } from 'lucide-react'
 import { fadeInUp } from '../../lib/motion'
 import type { CTABannerBlockProps } from './types'
+
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
+}
 
 export function CTABannerBlock({
   eyebrow = 'Contact',
@@ -12,6 +19,7 @@ export function CTABannerBlock({
   body,
   primaryButton,
 }: CTABannerBlockProps) {
+  const locale = useLocale()
   return (
     <section className="bg-white py-16 md:py-24 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
@@ -148,7 +156,7 @@ export function CTABannerBlock({
               {primaryButton?.label && (
                 <div className="mt-6">
                   <Link
-                    href={primaryButton.href}
+                    href={withLocale(locale, primaryButton.href)}
                     className="inline-flex items-center gap-2 rounded-full bg-brand-accent
                               px-6 py-2.5 text-sm font-semibold tracking-wider text-white shadow-sm
                               transition-all duration-200 hover:bg-brand-accent-hover hover:shadow-md"
