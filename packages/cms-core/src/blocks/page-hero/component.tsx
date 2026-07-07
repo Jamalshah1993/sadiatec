@@ -167,7 +167,7 @@ export function PageHeroBlock({
                 {coloredSubtitle && (
                   <>
                     <br />
-                    <span className="text-white/90">{coloredSubtitle}</span>
+                    <span className="text-white/90 sm:text-2xl md:text-3xl lg:text-4xl">{coloredSubtitle}</span>
                   </>
                 )}
               </h1>

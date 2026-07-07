@@ -29,7 +29,7 @@ interface FooterProps {
 const labels: Record<string, { address: string; inquiries: string; followUs: string }> = {
   en: { address: 'Company Address', inquiries: 'Inquiries', followUs: 'Follow us' },
   ja: { address: '会社所在地', inquiries: 'お問い合わせ', followUs: 'フォローする' },
-  bn: { address: 'কোম্পানির ঠিকানা', inquiries: 'অনুসন্ধান', followUs: 'আমাদের অনুসরণ করুন' },
+  bn: { address: 'প্রতিষ্ঠানের ঠিকানা', inquiries: 'অনুসন্ধান', followUs: 'আমাদের অনুসরণ করুন' },
 }
 
 function LinkedInIcon() {

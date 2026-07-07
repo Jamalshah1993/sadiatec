@@ -85,8 +85,8 @@ const siteConfig: SiteConfig = {
   },
 
   forms: {
-    contactRecipient: 'nahida.rahaman37@gmail.com',
-    jobApplicationRecipient: 'nahida.rahaman37@gmail.com',
+    contactRecipient: 'sanaul@sadiatec.com',
+    jobApplicationRecipient: 'sanaul@sadiatec.com',
   },
 
   legal: {
@@ -105,7 +105,7 @@ const siteConfig: SiteConfig = {
   },
 
   integrations: {
-    resendFromEmail: 'onboarding@resend.dev',
+    resendFromEmail: 'notifications@sadiatec.com',
   },
 }
 
