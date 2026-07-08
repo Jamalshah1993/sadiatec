@@ -85,8 +85,8 @@ const siteConfig: SiteConfig = {
   },
 
   forms: {
-    contactRecipient: 'sanaul@sadiatec.com',
-    jobApplicationRecipient: 'sanaul@sadiatec.com',
+    contactRecipient: 'info@sadiatec.com',
+    jobApplicationRecipient: 'info@sadiatec.com',
   },
 
   legal: {
