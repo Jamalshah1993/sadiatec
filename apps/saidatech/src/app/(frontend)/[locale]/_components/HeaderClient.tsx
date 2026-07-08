@@ -176,7 +176,7 @@ export function HeaderClient({
 
         {/* Navigation remains unchanged */}
         <nav aria-label="Main navigation" className="hidden lg:block h-full">
-          <ul className="flex items-center gap-0.5 xl:gap-1 h-full">
+          <ul className="flex items-center gap-1 xl:gap-4 h-full">
             {navItems.map((item) => {
               const hasMega = item.megaMenu && (item.megaColumns ?? []).length > 0
               const hasDropdown = !hasMega && (item.children ?? []).length > 0
