@@ -1,4 +1,4 @@
-import type { ContactInfoCardBlockProps } from './types'
+import type { ContactInfoCardBlockProps, ContactInfoCardLink } from './types'
 
 export function adaptContactInfoCardBlock(raw: unknown): ContactInfoCardBlockProps {
   const data = (typeof raw === 'object' && raw !== null ? raw : {}) as Record<string, unknown>
@@ -31,6 +31,24 @@ export function adaptContactInfoCardBlock(raw: unknown): ContactInfoCardBlockPro
 
   const officeHours = str(data['officeHours'])
   if (officeHours) result.officeHours = officeHours
+
+  const rawLinks = data['links']
+  if (Array.isArray(rawLinks)) {
+    const links: ContactInfoCardLink[] = rawLinks
+      .map((item) => {
+       const linkData = (typeof item === 'object' && item !== null ? item : {}) as Record<string, unknown>
+        const label = str(linkData['label'])
+        const url = str(linkData['url'])
+        if (!label || !url) return null
+        return { label, url }
+      })
+      .filter((l): l is ContactInfoCardLink => l !== null)
+
+    if (links.length > 0) result.links = links
+  }
+
+  const note = str(data['note'])
+  if (note) result.note = note
 
   return result
 }

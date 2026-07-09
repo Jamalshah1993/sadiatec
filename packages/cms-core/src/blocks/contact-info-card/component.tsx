@@ -3,9 +3,10 @@
 
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Phone, Printer, Mail, Clock } from 'lucide-react'
+import { MapPin, Phone, Printer, Mail, Clock, Link as LinkIcon } from 'lucide-react'
 import { fadeInUp } from '../../lib/motion'
 import type { ContactInfoCardBlockProps } from './types'
+
 
 function Row({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   return (
@@ -25,8 +26,12 @@ export function ContactInfoCardBlock({
   phone,
   email,
   officeHours,
+  links,
+  note,
 }: ContactInfoCardBlockProps) {
-  const hasContent = heading || subheading || address || tel || fax || phone || email || officeHours
+ const hasContent =
+    heading || subheading || address || tel || fax || phone || email || officeHours ||
+    (links && links.length > 0) || note
   if (!hasContent) return null
 
   return (
@@ -130,7 +135,38 @@ export function ContactInfoCardBlock({
                 </span>
               </Row>
             )}
+            {links && links.length > 0 && (
+              <Row
+                icon={
+                  <LinkIcon
+                    className="h-5 w-5 text-(--color-primary)"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                <ul className="space-y-1.5">
+                  {links.map((link, idx) => (
+                    <li key={idx}>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-(--color-primary) hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-primary)"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Row>
+            )}
+            
           </dl>
+          {note && (
+            <p className="mt-6 rounded-lg bg-(--color-neutral-100) p-4 text-sm leading-relaxed text-(--color-muted) whitespace-pre-line">
+              {note}
+            </p>
+          )}
         </motion.div>
       </div>
     </section>

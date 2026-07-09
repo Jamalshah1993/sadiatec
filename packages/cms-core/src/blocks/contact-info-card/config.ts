@@ -13,5 +13,15 @@ export const ContactInfoCardBlockConfig: Block = {
     { name: 'phone', type: 'text' },
     { name: 'email', type: 'text' },
     { name: 'officeHours', type: 'textarea', localized: true },
+    {
+      name: 'links',
+      type: 'array',
+      labels: { singular: 'Link', plural: 'Links' },
+      fields: [
+        { name: 'label', type: 'text', localized: true },
+        { name: 'url', type: 'text' },
+      ],
+    },
+    { name: 'note', type: 'textarea', localized: true },
   ],
 }

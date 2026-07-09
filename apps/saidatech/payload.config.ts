@@ -23,8 +23,8 @@ const db =
       pool: {
           connectionString: uri,
           max: 10,
-          idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 10000,
+          idleTimeoutMillis: 45000,
+          connectionTimeoutMillis: 45000,
           ssl: uri.includes('rlwy.net') ? { rejectUnauthorized: false } : true,
         },
         push: false,
