@@ -13,52 +13,73 @@ const ICON_PATHS: Record<ComplianceIcon, string> = {
   badge: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0',
 }
 
-// Map titles to the specific filenames shown in image_9ef525.png
+// Map titles to specific logo filenames.
+// NOTE: keyed on lowercased, trimmed, whitespace-collapsed title text — see normalize() below.
+// Bangla has two common words for "certified" in use across content (সনদপ্রাপ্ত / সার্টিফায়েড),
+// so both variants are listed per logo to avoid this breaking again on a copy edit.
 const LICENSE_LOGOS: Record<string, string> = {
+  // English
   'general worker dispatch license': '/General Worker Dispatch License.png',
   'paid employment placement license': '/Paid Employment Placement License.png',
   'privacy mark certified': '/privacyMark.png',
   'iso 9001 certified': '/SGS ISO 9001.png',
 
-
-  '般労働者派遣事業許可': '/General Worker Dispatch License.png',
+  // Japanese
+  '一般労働者派遣事業許可': '/General Worker Dispatch License.png',
   '有料職業紹介事業許可': '/Paid Employment Placement License.png',
   'プライバシーマーク認証': '/privacyMark.png',
-  'ISO 9001認証': '/SGS ISO 9001.png',
+  'iso 9001認証': '/SGS ISO 9001.png',
 
+  // Bangla — সার্টিফায়েড variant
   'জেনারেল ওয়ার্কার ডিসপ্যাচ লাইসেন্স': '/General Worker Dispatch License.png',
   'পেইড এমপ্লয়মেন্ট প্লেসমেন্ট লাইসেন্স': '/Paid Employment Placement License.png',
-  'প্রাইভেসি মার্ক সার্টিফায়েড ': '/privacyMark.png',
-  'iso 9001 সার্টিফায়েড': '/SGS ISO 9001.png',           // ← Most likely cause
+  'প্রাইভেসি মার্ক সার্টিফায়েড': '/privacyMark.png',
+  'iso 9001 সার্টিফায়েড': '/SGS ISO 9001.png',
   'আইএসও ৯০০১ সার্টিফায়েড': '/SGS ISO 9001.png',
+
+  // Bangla — সনদপ্রাপ্ত variant (matches current live content per screenshot)
+  'প্রাইভেসি মার্ক সনদপ্রাপ্ত': '/privacyMark.png',
+  'iso 9001 সনদপ্রাপ্ত': '/SGS ISO 9001.png',
+  'আইএসও ৯০০১ সনদপ্রাপ্ত': '/SGS ISO 9001.png',
 }
 
+// Collapse repeated/trailing whitespace and lowercase, so trailing-space typos
+// (like the 'প্রাইভেসি মার্ক সার্টিফায়েড ' key that used to trip this up) can't cause a miss.
+function normalize(str: string): string {
+  return str.toLowerCase().trim().replace(/\s+/g, ' ')
+}
+
+// Pre-normalize the lookup table once so exact-match comparisons are reliable.
+const NORMALIZED_LICENSE_LOGOS: Record<string, string> = Object.fromEntries(
+  Object.entries(LICENSE_LOGOS).map(([key, value]) => [normalize(key), value])
+)
+
 function LicenseIcon({ icon, title }: { icon: ComplianceIcon; title: string }) {
-  const titleLower = title.toLowerCase().trim();
+  const normalizedTitle = normalize(title)
 
-  // Try exact match first, then loose match
-  let logoPath = LICENSE_LOGOS[title];
+  // Exact match first
+  let logoPath = NORMALIZED_LICENSE_LOGOS[normalizedTitle]
 
+  // Loose match fallback — substring match either direction
   if (!logoPath) {
-    logoPath = Object.keys(LICENSE_LOGOS).find(key => 
-      key.toLowerCase().includes(titleLower) || 
-      titleLower.includes(key.toLowerCase())
-    );
-    logoPath = logoPath ? LICENSE_LOGOS[logoPath] : undefined;
+    const matchedKey = Object.keys(NORMALIZED_LICENSE_LOGOS).find(
+      (key) => key.includes(normalizedTitle) || normalizedTitle.includes(key)
+    )
+    logoPath = matchedKey ? NORMALIZED_LICENSE_LOGOS[matchedKey] : undefined
   }
 
   if (logoPath) {
     return (
       <div className="relative h-12 w-12 shrink-0 select-none">
-        <Image 
-          src={logoPath} 
-          alt={`${title} Logo`} 
-          fill 
-          className="object-contain" 
-          priority 
+        <Image
+          src={logoPath}
+          alt={`${title} Logo`}
+          fill
+          className="object-contain"
+          priority
         />
       </div>
-    );
+    )
   }
 
   // Fallback
@@ -68,7 +89,7 @@ function LicenseIcon({ icon, title }: { icon: ComplianceIcon; title: string }) {
         <path strokeLinecap="round" strokeLinejoin="round" d={ICON_PATHS[icon]} />
       </svg>
     </div>
-  );
+  )
 }
 
 export function ComplianceGridBlock({
