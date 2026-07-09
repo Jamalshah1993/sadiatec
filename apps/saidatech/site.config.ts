@@ -88,6 +88,7 @@ const siteConfig: SiteConfig = {
     contactRecipient: 'info@sadiatec.com',
     jobApplicationRecipient: 'info@sadiatec.com',
   },
+  
 
   legal: {
     privacyPolicySlug: '/privacy',
