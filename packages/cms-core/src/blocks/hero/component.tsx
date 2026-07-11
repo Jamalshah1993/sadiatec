@@ -145,7 +145,7 @@ export function HeroBlock({
       {/* Image Slider - unchanged */}
       {slides.length > 0 && (
         <div className="w-full px-4 pb-4 md:px-6 md:pb-6 lg:px-10 lg:pb-8">
-          <div className="relative w-full overflow-hidden bg-bg-secondary rounded-2xl md:rounded-3xl aspect-[4/3] sm:aspect-[16/10] md:h-[calc(100vh-160px)] md:min-h-[500px]">
+          <div className="relative w-full overflow-hidden bg-bg-secondary rounded-2xl md:rounded-3xl aspect-[3/2] md:h-[calc(100vh-160px)] md:min-h-[500px]">
             <AnimatePresence initial={true} mode="popLayout">
               <motion.div
                 key={current}
@@ -155,14 +155,14 @@ export function HeroBlock({
                 exit="exit"
                 className="absolute inset-0 w-full h-full"
               >
-                <Image
-                  src={slides[current]?.imageUrl || ''}
-                  alt={slides[current]?.alt || ''}
-                  fill
-                  className="object-cover object-center"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 95vw"
-                />
+               <Image
+    src={slides[current]?.imageUrl || ''}
+    alt={slides[current]?.alt || ''}
+    fill
+    className="object-cover object-center"
+    priority
+    sizes="(max-width: 768px) 100vw, 95vw"
+  />
 
                 {(slides[current]?.title || slides[current]?.subtitle) && (
                   <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-8 sm:p-12 md:p-16 text-left">
