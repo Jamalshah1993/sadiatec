@@ -164,7 +164,37 @@ export function ContactInfoCardBlock({
           </dl>
           {note && (
             <p className="mt-6 rounded-lg bg-(--color-neutral-100) p-4 text-sm leading-relaxed text-(--color-muted) whitespace-pre-line">
-              {note}
+              {note.split(/(Chatbot)/gi).map((part, i) =>
+                part.toLowerCase() === 'chatbot' ? (
+                  <motion.span
+                    key={i}
+                    className="inline-flex items-center font-extrabold text-(--color-primary) px-1 select-none"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 5, -5, 0],
+                      y: [0, -2, 0]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{ fontSize: '1.2em' }}
+                  >
+                    {part.split('').map((char, index) => (
+                      <span
+                        key={index}
+                        className="font-serif italic text-(--color-primary)"
+                        style={{ textShadow: '1px 1px 0px rgba(0,0,0,0.1)' }}
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </motion.span>
+                ) : (
+                  part
+                )
+              )}
             </p>
           )}
         </motion.div>
