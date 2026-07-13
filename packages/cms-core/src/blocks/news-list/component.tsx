@@ -153,7 +153,7 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
 
         <div className="flex items-center gap-3 pt-2 pl-[7.5%]">
           {item.category && (
-            <span className="inline-block bg-black text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-sm">
+            <span className="inline-block bg-brand-accent-hover text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-sm">
               {item.category}
             </span>
           )}
@@ -179,11 +179,12 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
   )
 }
 
-function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListBlockProps) {
+function CarouselLayoutView({ heading = 'Latest Information', items, viewAllCta }: NewsListBlockProps) {
   const sortedItems = [...items].sort((a, b) =>
     new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
   )
-  const displayItems = sortedItems.slice(0, 3) // Carousel still shows only 3
+  const displayItems = sortedItems.slice(0, 3)
+
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handleScroll = (direction: 'left' | 'right') => {
@@ -203,12 +204,14 @@ function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListB
     <div className="w-full bg-white py-6 md:py-10">
       <div className="mx-auto max-w-[1920px] px-4 sm:px-6 md:px-10 lg:px-12">
         <section className="relative w-full bg-brand-accent rounded-[2rem] p-6 sm:p-8 md:p-14 lg:p-16 overflow-hidden shadow-sm">
+          
           <div className="mb-8 sm:mb-10 text-left px-2 sm:px-0">
-            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+            <h2 className="text-2xl md:text-3xl font-exbold tracking-tight text-white">
               {heading}
             </h2>
           </div>
 
+          {/* Carousel Content */}
           {displayItems.length > 1 && (
             <>
               <button
@@ -242,6 +245,19 @@ function CarouselLayoutView({ heading = 'Latest Information', items }: NewsListB
               ))}
             </motion.div>
           </div>
+
+          {/* NEW: View All CTA at bottom center */}
+          {viewAllCta && (
+            <div className="flex justify-center mt-10">
+              <Link
+                href={withLocale(useLocale(), viewAllCta.href)}
+                className="inline-flex h-11 items-center justify-center rounded-full border border-white/70 bg-transparent px-10 text-sm font-bold text-white tracking-wide transition-all duration-200 hover:bg-white hover:text-brand-accent hover:border-white active:scale-[0.98]"
+              >
+                {viewAllCta.label || 'View All News'}
+              </Link>
+            </div>
+          )}
+
         </section>
       </div>
     </div>

@@ -12,6 +12,7 @@ import { FloatingCTAs } from '@saidatech/cms-core/components/ui'
 // Import the new wrapper
 import { LayoutWrapper } from './_components/LayoutWrapper'
 
+
 const latoFont = Lato({ subsets: ['latin'], weight: ['300', '400', '700'], variable: '--font-latin', display: 'swap', preload: false })
 const notoSansJP = Noto_Sans_JP({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-ja', display: 'swap', preload: false })
 const notoSansBN = Noto_Sans_Bengali({ subsets: ['latin'], weight: ['400', '500', '700'], variable: '--font-bn', display: 'swap', preload: false })
@@ -87,7 +88,7 @@ export default async function LocaleLayout({
         </main>
         
         <Footer locale={locale} />
-        <FloatingCTAs />
+         
       </div>
     </NextIntlClientProvider>
   )

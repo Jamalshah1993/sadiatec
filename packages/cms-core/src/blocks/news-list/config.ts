@@ -67,4 +67,6 @@ export const NewsListBlockConfig: Block = {
       ],
     },
   ],
+
+  
 }

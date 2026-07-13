@@ -126,6 +126,10 @@ export default async function NewsDetailPage({ params }: Props) {
   const thumbnail = article['thumbnail'] as any
   const thumbnailUrl = thumbnail?.url || null
   const thumbnailAlt = thumbnail?.alt || titleText
+  // Add this block:
+  const additionalImages = Array.isArray(article['additionalImages'])
+    ? article['additionalImages']
+    : []
 
   const eventDate = typeof article['eventDate'] === 'string' ? article['eventDate'] : ''
   const eventTime = typeof article['eventTime'] === 'string' ? article['eventTime'] : ''
@@ -184,16 +188,40 @@ export default async function NewsDetailPage({ params }: Props) {
             )}
           </div>
 
+          {/* Main Featured Image - Reduced from full width to a controlled container */}
           {thumbnailUrl && (
-            <div className="relative rounded-xl overflow-hidden border border-neutral-200 shadow-sm">
-              <Image
-                src={thumbnailUrl}
-                alt={thumbnailAlt}
-                width={1200}
-                height={500}
-                className="w-full object-cover"
-                priority
-              />
+            <div className="flex justify-center mb-8">
+              <div className="relative w-full max-w-4xl rounded-xl overflow-hidden border border-neutral-200 shadow-sm">
+                <Image
+                  src={thumbnailUrl}
+                  alt={thumbnailAlt}
+                  width={900}
+                  height={450}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Additional Images - Increased visual weight with larger gaps */}
+          {additionalImages.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+              {additionalImages.map((item: any, index: number) => {
+                const imgData = item.image;
+                if (!imgData || !imgData.url) return null;
+
+                return (
+                  <div key={index} className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-neutral-200 shadow-lg">
+                    <Image
+                      src={imgData.url}
+                      alt={imgData.alt || `Additional image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

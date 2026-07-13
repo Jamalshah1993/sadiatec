@@ -55,13 +55,20 @@ export function adaptNewsListBlock(raw: unknown): NewsListBlockProps {
   const layout = data['layout'] === 'carousel' ? 'carousel' : 'list'
 
   let items: NewsItem[] = []
+
   if (source === 'collection') {
-    const rawItems = Array.isArray(data['selectedItems']) ? data['selectedItems'] : []
-    items = rawItems
-      .filter((i): i is Record<string, unknown> => typeof i === 'object' && i !== null)
-      .map(mapCollectionItem)
-      .filter((i): i is NewsItem => i !== null)
-  } else {
+  let rawItems = Array.isArray(data['resolvedItems']) 
+    ? data['resolvedItems'] 
+    : Array.isArray(data['selectedItems']) 
+      ? data['selectedItems'] 
+      : []
+
+  items = rawItems
+    .filter((i): i is Record<string, unknown> => typeof i === 'object' && i !== null)
+    .map(mapCollectionItem)
+    .filter((i): i is NewsItem => i !== null)
+} else {
+    // inline logic unchanged
     const rawItems = Array.isArray(data['inlineItems']) ? data['inlineItems'] : []
     items = rawItems
       .filter((i): i is Record<string, unknown> => typeof i === 'object' && i !== null)

@@ -25,7 +25,7 @@ export default async function NewsPage() {
   return (
     <main className="bg-white min-h-screen pt-24 pb-16">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-8">Announcements & News</h1>
+        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-8"></h1>
         
         <div className="flex flex-col border-t border-slate-100">
           {articles.map((article) => (

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import Script from 'next/script'
 import "../globals.css" // <-- This restores Tailwind to all your frontend pages!
+import { ScrollToTop } from '@saidatech/cms-core/components/ui'
 
 export default function FrontendRootLayout({
   children,
@@ -11,6 +12,7 @@ export default function FrontendRootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         {children}
+        <ScrollToTop />
         <link rel="stylesheet" href="https://sadiatec-assistant.vercel.app/widget-dist/widget.css" />
         {/* <link rel="stylesheet" href="http://localhost:3001/widget-dist/widget.css" /> */}
         <Script

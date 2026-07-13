@@ -70,6 +70,7 @@ export default async function DynamicPage({ params }: Props) {
   if (!isSupportedLocale(locale)) notFound()
 
   const payload = await getCachedPayload()
+
   const result = await payload.find({
     collection: 'pages',
     where: { slug: { equals: slug } },
@@ -80,7 +81,45 @@ export default async function DynamicPage({ params }: Props) {
   const page = result.docs[0]
   if (!page) notFound()
 
-  const blocks = (page.layout ?? []) as RawBlock[]
+  let blocks = (page.layout ?? []) as RawBlock[]
+
+  // === RESOLVE NEWS LIST BLOCK FALLBACK (same as homepage) ===
+  blocks = await Promise.all(
+    blocks.map(async (block) => {
+      if (block.blockType === 'news-list') {
+        const source = block.source as string | undefined
+        const selectedItems = block.selectedItems as any[] | undefined
+
+        if (source === 'collection' && (!selectedItems || selectedItems.length === 0)) {
+          const count = typeof block.count === 'number' ? block.count : 5
+
+          const latest = await payload.find({
+          collection: 'news',
+          where: {
+            // Check if the 'title' field has a value for the current locale
+            // Replace 'title' with any mandatory field in your collection
+            'title': {
+              exists: true,
+              not_equals: null, // Ensure it's not empty
+            },
+          },
+          sort: '-publishedAt',
+          limit: count,
+          depth: 1,
+          locale: locale,          // Tell Payload to return localized data
+          fallbackLocale: false,   // CRITICAL: Prevent fallback to default language
+        })
+
+
+          return { 
+            ...block, 
+            resolvedItems: latest.docs 
+          } as RawBlock
+        }
+      }
+      return block
+    })
+  )
 
   return (
     <>
