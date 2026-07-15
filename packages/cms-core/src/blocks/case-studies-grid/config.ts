@@ -7,6 +7,15 @@ export const CaseStudiesGridBlockConfig: Block = {
   fields: [
     { name: 'eyebrow', type: 'text', localized: true },
     { name: 'heading', type: 'text', localized: true },
+    { name: 'subheadline', type: 'textarea', localized: true, admin: { description: 'Short paragraph under the heading' } },
+    {
+      name: 'button',
+      type: 'group',
+      fields: [
+        { name: 'label', type: 'text', localized: true, defaultValue: 'View all stories' },
+        { name: 'href', type: 'text', admin: { description: 'e.g. /case-studies (locale prefix is added automatically)' } },
+      ],
+    },
     {
       name: 'source',
       type: 'select',

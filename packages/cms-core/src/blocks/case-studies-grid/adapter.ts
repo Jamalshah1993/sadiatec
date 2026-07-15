@@ -29,6 +29,8 @@ function mapCollectionStudy(doc: Record<string, unknown>): CaseStudyCardItem | n
   const photo = doc['photo'] as Record<string, unknown> | null | undefined
   const photoUrl = photo && typeof photo['url'] === 'string' ? photo['url'] : undefined
 
+  const tagline = extractRichText(doc['tagline'])
+
   return {
     name,
     ...(role ? { role } : {}),
@@ -36,6 +38,7 @@ function mapCollectionStudy(doc: Record<string, unknown>): CaseStudyCardItem | n
     ...(extractRichText(doc['challenge']) ? { challenge: extractRichText(doc['challenge']) } : {}),
     ...(extractRichText(doc['solution']) ? { solution: extractRichText(doc['solution']) } : {}),
     ...(photoUrl ? { photoUrl } : {}),
+    ...(tagline ? { tagline } : {}),           // ← Added
   }
 }
 
@@ -53,6 +56,7 @@ function mapInlineStudy(item: Record<string, unknown>): CaseStudyCardItem | null
 
   const challenge = typeof item['challenge'] === 'string' && item['challenge'] ? item['challenge'] : undefined
   const solution = typeof item['solution'] === 'string' && item['solution'] ? item['solution'] : undefined
+  const tagline = typeof item['tagline'] === 'string' && item['tagline'] ? item['tagline'] : undefined
 
   return {
     name,
@@ -61,6 +65,7 @@ function mapInlineStudy(item: Record<string, unknown>): CaseStudyCardItem | null
     ...(challenge ? { challenge } : {}),
     ...(solution ? { solution } : {}),
     ...(photoUrl ? { photoUrl } : {}),
+    ...(tagline ? { tagline } : {}),           // ← Added
   }
 }
 
@@ -93,6 +98,14 @@ export function adaptCaseStudiesGridBlock(raw: unknown): CaseStudiesGridBlockPro
   const solutionLabel = typeof data['solutionLabel'] === 'string' && data['solutionLabel']
     ? data['solutionLabel'] : 'Solution'
 
+  const buttonRaw = data['button'] as Record<string, unknown> | null | undefined
+  const button = buttonRaw
+    ? {
+        ...(typeof buttonRaw['label'] === 'string' && buttonRaw['label'] ? { label: buttonRaw['label'] } : {}),
+        ...(typeof buttonRaw['href'] === 'string' && buttonRaw['href'] ? { href: buttonRaw['href'] } : {}),
+      }
+    : undefined
+
   return {
     studies,
     layout,
@@ -100,5 +113,7 @@ export function adaptCaseStudiesGridBlock(raw: unknown): CaseStudiesGridBlockPro
     solutionLabel,
     ...(typeof data['eyebrow'] === 'string' && data['eyebrow'] ? { eyebrow: data['eyebrow'] } : {}),
     ...(typeof data['heading'] === 'string' && data['heading'] ? { heading: data['heading'] } : {}),
+    ...(typeof data['subheadline'] === 'string' && data['subheadline'] ? { subheadline: data['subheadline'] } : {}),
+    ...(button ? { button } : {}),
   }
 }

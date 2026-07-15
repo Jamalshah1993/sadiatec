@@ -12,7 +12,7 @@ export const Loader = ({ isLoading = true }: { isLoading?: boolean }) => {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 flex items-center justify-center bg-black z-[9999]"
+          className="fixed inset-0 flex items-center justify-center bg-brand-accent z-[9999]"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
         >
