@@ -8,6 +8,7 @@ export interface CaseStudyCardItem {
   challenge?: string
   solution?: string
   photoUrl?: string
+  slug?: string
 }
 
 export interface CaseStudiesGridBlockProps {

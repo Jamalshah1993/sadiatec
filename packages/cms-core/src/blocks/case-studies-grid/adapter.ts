@@ -21,7 +21,7 @@ function extractNodeText(node: unknown): string {
 function mapCollectionStudy(doc: Record<string, unknown>): CaseStudyCardItem | null {
   const name = typeof doc['clientName'] === 'string' ? doc['clientName'] : ''
   if (!name) return null
-
+  const slug = typeof doc['slug'] === 'string' && doc['slug'] ? doc['slug'] : undefined
   const role = typeof doc['role'] === 'string' && doc['role'] ? doc['role'] : undefined
   const metricValue = typeof doc['metricValue'] === 'string' ? doc['metricValue'] : ''
   const metricCaption = typeof doc['metricCaption'] === 'string' ? doc['metricCaption'] : ''
@@ -33,6 +33,7 @@ function mapCollectionStudy(doc: Record<string, unknown>): CaseStudyCardItem | n
 
   return {
     name,
+    ...(slug ? { slug } : {}),
     ...(role ? { role } : {}),
     ...(metricValue && metricCaption ? { metric: { value: metricValue, caption: metricCaption } } : {}),
     ...(extractRichText(doc['challenge']) ? { challenge: extractRichText(doc['challenge']) } : {}),
