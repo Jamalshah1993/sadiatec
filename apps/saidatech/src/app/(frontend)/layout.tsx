@@ -20,6 +20,8 @@ export default function FrontendRootLayout({
           // src="http://localhost:3001/widget-dist/widget.js"
           strategy="lazyOnload"
           data-staff-whatsapp="819099546176"
+          data-avatar="https://sadiatec-assistant.vercel.app/sadiatec-assistant2.png"
+          // data-avatar="http://localhost:3001/sadiatec-assistant2.png"
           data-color="#4f46e5"
         />
       </body>
