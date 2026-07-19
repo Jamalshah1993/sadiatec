@@ -1,27 +1,18 @@
 'use client'
 
 import { useLocale } from 'next-intl'
+import Link from 'next/link'
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { staggerContainer, fadeInUp } from '../../lib/motion'
-import type { HeroBlockProps } from './types'
+import type { HeroBlockProps, SideCard, PromoCard } from './types'
 
-function ChevronLeft() {
-  return (
-    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-    </svg>
-  )
+function withLocale(locale: string, href: string): string {
+  if (!href || href.startsWith('http') || href.startsWith('#')) return href
+  const path = href.startsWith('/') ? href : `/${href}`
+  return path.startsWith(`/${locale}/`) || path === `/${locale}` ? path : `/${locale}${path}`
 }
 
-function ChevronRight() {
-  return (
-    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  )
-}
 
 export function HeroBlock({
   eyebrow,
@@ -31,9 +22,9 @@ export function HeroBlock({
   heroSlides,
   backgroundImageUrl,
   heroImageUrl,
-
+  sideCards,
+  promoCards,
 }: HeroBlockProps & {
-  subheadline?: string
   locale?: string
 }) {
   const [current, setCurrent] = useState(0)
@@ -57,14 +48,6 @@ export function HeroBlock({
     return () => clearInterval(id)
   }, [total])
 
-  const prev = useCallback(() => {
-    setCurrent((i) => (i - 1 + total) % total)
-  }, [total])
-
-  const next = useCallback(() => {
-    setCurrent((i) => (i + 1) % total)
-  }, [total])
-
   const crossFadeVariants = {
     enter: { opacity: 0, scale: 1.05 },
     center: {
@@ -85,148 +68,206 @@ export function HeroBlock({
     },
   }
 
-  const locale = useLocale();
-  const isJapanese = locale === 'ja';
-  const isBangla = locale === 'bn';
+  const locale = useLocale()
+
+  // Placeholder side cards — replace with real CMS content
+  const defaultCards: SideCard[] = [
+    {
+      title: 'Seminar',
+      description: 'Watch our free seminar on system reforms and case studies, at your convenience.',
+      ctaLabel: 'Watch the seminar',
+      ctaHref: '#',
+    },
+    {
+      title: 'Useful Resources',
+      description: 'A document packed with tips for accepting and utilizing foreign talent is available for free.',
+      ctaLabel: 'View helpful resources',
+      ctaHref: '#',
+    },
+    {
+      title: 'Consultation / Inquiry',
+      description: "We will provide proposals tailored to your company's challenges.",
+      ctaLabel: 'For inquiries,click here',
+      ctaHref: '#',
+    },
+  ]
+
+  const cards = sideCards?.length ? sideCards : defaultCards
+
+  // Placeholder promo card content — replace with real CMS content later
+  const defaultPromoCards: PromoCard[] = [
+    {
+      avatarUrl: '/card1.png', // swap with your actual asset path
+      avatarPosition: 'left',
+      headline: 'Introducing Foreign Talent',
+      subheadline: 'Japanese communication support included!Japanese communication support included!',
+      highlight: 'Reliable Onboarding Support',
+      ctaHref: '#',
+    },
+    {
+      avatarUrl: '/card2.png',
+      avatarPosition: 'left',
+      headline: 'System Reforms Explained Simply',
+      subheadline: 'Includes real case studies',
+      highlight: 'Watch Now',
+      ctaHref: '#',
+    },
+    {
+      avatarUrl: '/card3.png',
+      avatarPosition: 'left',
+      headline: 'Proposals Tailored to Your Needs',
+      subheadline: 'Feel free to reach out anytime',
+      highlight: 'Contact Us',
+      ctaHref: '#',
+    },
+  ]
+
+  const resolvedPromoCards = promoCards?.length ? promoCards : defaultPromoCards
 
   return (
     <div aria-label="Hero" role="region" className="flex flex-col bg-white overflow-hidden">
-
-      {/* Heading Strip */}
-      <div className="bg-white px-6 pt-6 pb-3 lg:px-20 lg:pt-8 lg:pb-2">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="text-right"
-        >
-          {eyebrow && (
-            <motion.p
-              variants={fadeInUp}
-              className="mb-1 text-xs font-semibold uppercase tracking-widest text-text-secondary"
-            >
-              {eyebrow}
-            </motion.p>
-          )}
-
-          {/* Headline */}
-          <motion.h1
-            id="hero-heading"
-            variants={fadeInUp}
-            className="ml-auto whitespace-nowrap text-[26px] font-medium tracking-tight text-text-primary md:text-3xl lg:text-[42px]"
-          >
-            {resolvedHeadline}
-          </motion.h1>
-
-          {/* Subheadline */}
-          {subheadline && (
-            <motion.p
-              variants={fadeInUp}
-              className={`ml-auto mb-6 
-      ${isJapanese || isBangla
-                  ? 'max-w-[380px] sm:max-w-[450px] md:max-w-[500px] text-[16px] md:text-[18px] lg:text-[20px] line-clamp-2'
-                  : 'max-w-[550px] sm:max-w-[600px] md:max-w-[650px] text-[14px] md:text-[18px] lg:text-[20px] md:line-clamp-2'
-                } 
-      leading-tight md:leading-[1.35] 
-      text-text-secondary tracking-[-0.1px] break-words`}
-              style={{
-                display: isJapanese || isBangla ? "-webkit-box" : undefined,
-                WebkitLineClamp: (isJapanese || isBangla) ? 2 : undefined,
-                WebkitBoxOrient: isJapanese || isBangla ? "vertical" : undefined,
-                overflow: isJapanese || isBangla ? "hidden" : undefined,
-              }}
-            >
-              {subheadline}
-            </motion.p>
-          )}
-        </motion.div>
-      </div>
-
-      {/* Image Slider - unchanged */}
       {slides.length > 0 && (
-        <div className="w-full px-4 pb-4 md:px-6 md:pb-6 lg:px-10 lg:pb-8">
-          <div className="relative w-full overflow-hidden bg-bg-secondary rounded-2xl md:rounded-3xl aspect-[3/2] md:h-[calc(100vh-160px)] md:min-h-[500px]">
-            <AnimatePresence initial={true} mode="popLayout">
-              <motion.div
-                key={current}
-                variants={crossFadeVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                className="absolute inset-0 w-full h-full"
-              >
-               <Image
-    src={slides[current]?.imageUrl || ''}
-    alt={slides[current]?.alt || ''}
-    fill
-    className="object-cover object-center"
-    priority
-    sizes="(max-width: 768px) 100vw, 95vw"
-  />
-
-                {(slides[current]?.title || slides[current]?.subtitle) && (
-                  <div className="absolute inset-0 bg-black/30 flex flex-col justify-end p-8 sm:p-12 md:p-16 text-left">
-                    <motion.div
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.8 }}
-                      className="max-w-2xl space-y-2 text-white"
-                    >
-                      {slides[current].title && (
-                        <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-tight">
-                          {slides[current].title}
-                        </h2>
-                      )}
-                      {slides[current].subtitle && (
-                        <p className="text-sm sm:text-base md:text-lg text-white/90 font-normal leading-relaxed">
-                          {slides[current].subtitle}
-                        </p>
-                      )}
-                    </motion.div>
+        <div className="w-full pb-4 md:pb-6 lg:pb-8">
+          <div className="flex flex-col lg:flex-row w-full">
+            {/* LEFT 80%: Image Slider */}
+            <div className="relative w-full lg:w-[80%] overflow-hidden bg-bg-secondary aspect-[3/2] lg:aspect-auto lg:h-[calc(100vh-280px)] lg:min-h-[420px]">
+              <AnimatePresence initial={true} mode="popLayout">
+                <motion.div
+                  key={current}
+                  variants={crossFadeVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={slides[current]?.imageUrl || ''}
+                    alt={slides[current]?.alt || ''}
+                    fill
+                    className="object-cover object-center"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 80vw"
+                  />
+                  <div className="absolute inset-0 bg-black/20 p-8 sm:p-12 md:p-16 text-left">
+                    {current !== slides.length - 1 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.8 }}
+                        className="absolute bottom-8 left-8 sm:bottom-12 sm:left-12 md:bottom-16 md:left-16 max-w-3xl space-y-4 text-white"
+                      >
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[0.95] tracking-tight drop-shadow-md">
+                          {resolvedHeadline}
+                        </h1>
+                        {subheadline && (
+                          <div className="mt-2">
+                            <span
+                              className="text-white text-[15px] md:text-xl font-bold leading-relaxed px-3 py-1 rounded-md"
+                              style={{ backgroundColor: 'rgba(56, 189, 248, 0.9)' }}
+                            >
+                              {subheadline}
+                            </span>
+                          </div>
+                        )}
+                      </motion.div>
+                    )}
+                    {(slides[current]?.title || slides[current]?.subtitle) && (
+                      <div className="absolute top-3 right-8 sm:top-3 sm:right-10 md:top-3 md:right-10 max-w-2xl text-white">
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3, duration: 0.8 }}
+                          className="space-y-2"
+                        >
+                          {slides[current].title && (
+                            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight">
+                              {slides[current].title}
+                            </h2>
+                          )}
+                          {slides[current].subtitle && (
+                            <p className="text-sm sm:text-base md:text-lg text-white/90 font-normal leading-relaxed">
+                              {slides[current].subtitle}
+                            </p>
+                          )}
+                        </motion.div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-            {total > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={prev}
-                  aria-label="Previous slide"
-                  className="absolute left-3 top-1/2 z-10 flex h-9 w-9 md:h-11 md:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none"
+            {/* RIGHT 20% on desktop / OVERLAPPING BELOW on mobile: Cards */}
+            <div className="relative z-10 -mt-3 sm:-mt-4 w-full lg:mt-0 lg:w-[20%] bg-transparent lg:bg-primary grid grid-cols-3 gap-2 px-4 sm:px-6 lg:px-3 lg:p-3 lg:flex lg:flex-col lg:gap-3 lg:h-[calc(100vh-280px)] lg:min-h-[420px]">
+              {cards.map((card, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-xl md:rounded-2xl p-3 md:p-4 flex flex-col items-center justify-center text-center gap-1.5 md:gap-2 shadow-lg min-h-[110px] sm:min-h-[130px] lg:min-h-0 lg:flex-1"
                 >
-                  <ChevronLeft />
-                </button>
-                <button
-                  type="button"
-                  onClick={next}
-                  aria-label="Next slide"
-                  className="absolute right-3 top-1/2 z-10 flex h-9 w-9 md:h-11 md:w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-text-primary shadow-md backdrop-blur-sm transition-all hover:bg-white focus-visible:outline-none"
-                >
-                  <ChevronRight />
-                </button>
+                  <h3 className="font-bold text-[11px] md:text-base leading-tight">{card.title}</h3>
+                  <p className="hidden md:block text-xs text-gray-600 leading-relaxed">
+                    {card.description}
+                  </p>
 
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:bottom-6 md:right-8 z-10 flex gap-2" role="tablist">
-                  {slides.map((_, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      role="tab"
-                      aria-selected={i === current}
-                      onClick={() => setCurrent(i)}
-                      className={[
-                        'h-2 w-2 rounded-full transition-all duration-300',
-                        i === current ? 'bg-white w-4' : 'bg-white/50',
-                      ].join(' ')}
-                    />
-                  ))}
+                  <Link
+                    href={withLocale(locale, card.ctaHref)}
+                    className="mt-1 bg-brand-accent hover:bg-brand-accent-hover text-white text-[9px] md:text-xs font-semibold px-2 md:px-4 py-1 md:py-2 rounded-full transition-colors leading-tight"
+                  >
+                    {card.ctaLabel}
+                  </Link>
                 </div>
-              </>
-            )}
+              ))}
+            </div>
           </div>
         </div>
       )}
+
+      {/* Promo Cards Section */}
+      <div className="w-full px-6 md:px-12 lg:px-20 pb-8">
+        {/* Changed grid-cols-1 md:grid-cols-3 to grid-cols-1 lg:grid-cols-3 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {resolvedPromoCards.map((card, i) => (
+            <div
+              key={i}
+              className="relative flex items-start rounded-xl overflow-hidden p-3 md:p-4 gap-3 min-h-[120px] md:min-h-[140px] bg-brand-accent"
+            >
+              {/* Avatar - left position */}
+              {card.avatarUrl && card.avatarPosition !== 'right' && (
+                <div className="flex-shrink-0 w-16 h-16 md:w-25 md:h-30 relative">
+                  <Image
+                    src={card.avatarUrl}
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              )}
+
+              {/* Text content */}
+              <div className="flex-1 min-w-0 text-white">
+                {card.badge && (
+                  <span className="inline-block bg-white/15 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full mb-1">
+                    {card.badge}
+                  </span>
+                )}
+                <h3 className="text-sm md:text-base font-extrabold leading-tight">
+                  {card.headline}
+                </h3>
+                {card.subheadline && (
+                  <p className="text-xs md:text-sm text-white/90 font-medium leading-snug mt-0.5">
+                    {card.subheadline}
+                  </p>
+                )}
+                {card.highlight && (
+                  <p className="text-sm md:text-base font-extrabold mt-1" style={{ color: 'var(--brand-accent, #ffd23f)' }}>
+                    {card.highlight}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

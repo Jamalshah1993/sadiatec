@@ -56,6 +56,54 @@ export const HeroBlockConfig: Block = {
         },
       ],
     },
+     {
+      name: 'sideCards',
+      label: 'Side Cards (Seminar / Resources / Consultation)',
+      type: 'array',
+      maxRows: 3,
+      labels: { singular: 'Side Card', plural: 'Side Cards' },
+      admin: {
+        description: 'The 3 small cards shown next to / below the hero slider.',
+      },
+      fields: [
+        { name: 'title', type: 'text', localized: true, required: true },
+        { name: 'description', type: 'textarea', localized: true },
+        { name: 'ctaLabel', type: 'text', localized: true, required: true },
+        { name: 'ctaHref', type: 'text', required: true, defaultValue: '#' },
+      ],
+    },
+     {
+      name: 'promoCards',
+      label: 'Promo Cards',
+      type: 'array',
+      maxRows: 3,
+      labels: { singular: 'Promo Card', plural: 'Promo Cards' },
+      admin: {
+        description: 'The 3 colored banner cards shown below the hero section.',
+      },
+      fields: [
+        {
+          name: 'avatar',
+          label: 'Avatar / Illustration',
+          type: 'upload',
+          relationTo: 'media',
+        },
+        {
+          name: 'avatarPosition',
+          type: 'select',
+          defaultValue: 'left',
+          options: [
+            { label: 'Left', value: 'left' },
+            { label: 'Right', value: 'right' },
+          ],
+        },
+        { name: 'badge', type: 'text', localized: true },
+        { name: 'headline', type: 'text', localized: true, required: true },
+        { name: 'subheadline', type: 'text', localized: true },
+        { name: 'highlight', type: 'text', localized: true },
+        { name: 'ctaHref', type: 'text', required: true, defaultValue: '#' },
+      ],
+    },
     {
       name: 'showScrollIndicator',
       type: 'checkbox',

@@ -10,6 +10,24 @@ export interface HeroInlineStat {
   label: string
 }
 
+export interface SideCard {
+  icon?: string
+  title: string
+  description: string
+  ctaLabel: string
+  ctaHref: string
+}
+
+export interface PromoCard {
+  avatarUrl?: string
+  avatarPosition?: 'left' | 'right'
+  badge?: string
+  headline: string
+  subheadline?: string
+  highlight?: string
+  ctaHref: string
+}
+
 export interface HeroBlockProps {
   blockType?: 'hero'
   eyebrow?: string
@@ -18,6 +36,8 @@ export interface HeroBlockProps {
   inlineStats?: HeroInlineStat[]
   backgroundImageUrl?: string
   heroSlides?: HeroSlide[]
+  sideCards?: SideCard[]
+  promoCards?: PromoCard[]
   showScrollIndicator?: boolean
   // Legacy support fallback tokens
   heading?: string

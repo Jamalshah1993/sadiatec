@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Loader } from '@saidatech/cms-core/components/ui';
+import { CeoWelcomePopup } from './CeoWelcomePopup';
 
 export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ export const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </div>
+       <CeoWelcomePopup />
     </>
   );
 };
