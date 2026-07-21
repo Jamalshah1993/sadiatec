@@ -63,7 +63,7 @@ const siteConfig: SiteConfig = {
     recruit: true,
     faq: true,
     contact: true,
-    about: true,
+    about: false,
   },
 
   nav: {

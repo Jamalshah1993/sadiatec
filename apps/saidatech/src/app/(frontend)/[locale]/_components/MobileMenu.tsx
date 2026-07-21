@@ -62,7 +62,10 @@ export function MobileMenu({
   onOpenChange,
 }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [openItem, setOpenItem] = useState<string | null>(null)
+  // Track the open accordion by INDEX, not href — hrefs can repeat or be
+  // empty, which was letting more than one panel match the old href-based
+  // state at once. Index is always unique per render.
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [mounted, setMounted] = useState(false)
   const drawerId = useId()
   const reduced = useReducedMotion() ?? false
@@ -86,8 +89,12 @@ export function MobileMenu({
     return () => { document.body.style.overflow = '' }
   }, [isOpen, onOpenChange])
 
-  const close = () => { setIsOpen(false); setOpenItem(null) }
-  const toggleItem = (href: string) => setOpenItem((prev) => (prev === href ? null : href))
+  const close = () => { setIsOpen(false); setOpenIndex(null) }
+  // Clicking the currently-open item closes it; clicking any other item
+  // closes whatever was open and opens the new one — only one at a time.
+  const toggleIndex = (index: number) => {
+    setOpenIndex((prev) => (prev === index ? null : index))
+  }
 
   const portalContent = (
     <AnimatePresence>
@@ -110,7 +117,7 @@ export function MobileMenu({
             initial="closed"
             animate="open"
             exit="closed"
-            className="relative h-full w-80 max-w-[85vw] bg-white shadow-2xl flex flex-col overflow-hidden text-left pointer-events-auto z-10"
+            className="relative h-full w-96 max-w-[90vw] bg-white shadow-2xl flex flex-col overflow-hidden text-left pointer-events-auto z-10"
           >
             {/* Top Header */}
             <div className="flex h-20 items-center justify-between px-5 border-b border-neutral-100 shrink-0 bg-white">
@@ -134,20 +141,16 @@ export function MobileMenu({
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile navigation">
               <ul role="list" className="space-y-1">
-                {navItems.map((item) => {
+                {navItems.map((item, index) => {
                   const hasChildren = (item.children ?? []).length > 0 || (item.megaMenu && (item.megaColumns ?? []).length > 0)
-                  const isExpanded = openItem === item.href
-
-                  const allChildren = item.megaMenu
-                    ? (item.megaColumns ?? []).flatMap((col) => col.items ?? [])
-                    : (item.children ?? [])
+                  const isExpanded = openIndex === index
 
                   return (
-                    <li key={item.href}>
+                    <li key={`${item.href}-${index}`}>
                       {hasChildren ? (
                         <button
                           type="button"
-                          onClick={() => toggleItem(item.href)}
+                          onClick={() => toggleIndex(index)}
                           aria-expanded={isExpanded}
                           className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold text-gray-900 hover:bg-neutral-50 transition-colors min-h-[48px]"
                         >
@@ -165,18 +168,54 @@ export function MobileMenu({
                       {hasChildren && (
                         <AnimatePresence initial={false}>
                           {isExpanded && (
-                            <motion.ul variants={accordion} initial="closed" animate="open" exit="closed" className="overflow-hidden" role="list">
-                              <li className="pl-4 pr-2 pb-2">
-                                <div className="border-l-2 border-brand-primary-light pl-3 space-y-1">
-                                  {allChildren.map((child) => (
-                                    <Link key={child.href} href={child.href} onClick={close} className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:text-brand-accent hover:bg-brand-accent/5 transition-colors min-h-[40px]">
-                                      <span className="h-1 w-1 shrink-0 rounded-full bg-brand-primary" />
-                                      {child.label}
-                                    </Link>
-                                  ))}
+                            <motion.div variants={accordion} initial="closed" animate="open" exit="closed" className="overflow-hidden">
+                              <div className="pl-4 pr-2 pb-2">
+                                <div className="border-l-2 border-brand-primary-light pl-3 space-y-3">
+                                  {item.megaMenu ? (
+                                    // Mega menu on mobile: single vertical list,
+                                    // grouped by column, with the column heading
+                                    // shown as a small label above its items.
+                                    // No side-by-side columns.
+                                    (item.megaColumns ?? []).map((col, colIdx) => {
+                                      const showHeading = col.heading && col.heading.toLowerCase() !== 'more services'
+                                      return (
+                                        <div key={colIdx} className="space-y-1">
+                                          {showHeading && (
+                                            <p className="px-3 pt-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400">
+                                              {col.heading}
+                                            </p>
+                                          )}
+                                          {(col.items ?? []).map((child, childIdx) => (
+                                            <Link
+                                              key={`${child.href}-${colIdx}-${childIdx}`}
+                                              href={child.href}
+                                              onClick={close}
+                                              className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:text-brand-accent hover:bg-brand-accent/5 transition-colors min-h-[40px]"
+                                            >
+                                              <span className="h-1 w-1 shrink-0 rounded-full bg-brand-primary" />
+                                              {child.label}
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )
+                                    })
+                                  ) : (
+                                    // Regular dropdown: flat list, no headings
+                                    (item.children ?? []).map((child, childIdx) => (
+                                      <Link
+                                        key={`${child.href}-${childIdx}`}
+                                        href={child.href}
+                                        onClick={close}
+                                        className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-gray-600 hover:text-brand-accent hover:bg-brand-accent/5 transition-colors min-h-[40px]"
+                                      >
+                                        <span className="h-1 w-1 shrink-0 rounded-full bg-brand-primary" />
+                                        {child.label}
+                                      </Link>
+                                    ))
+                                  )}
                                 </div>
-                              </li>
-                            </motion.ul>
+                              </div>
+                            </motion.div>
                           )}
                         </AnimatePresence>
                       )}

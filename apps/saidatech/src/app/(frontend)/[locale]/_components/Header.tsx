@@ -137,33 +137,7 @@ export async function Header({ locale }: { locale: string }) {
     return resolved
   })
 
-  // Inject About dropdown sub-links from translation keys when the CMS item has none.
-  if (siteConfig.features.about) {
-    const tNav = await getTranslations({ locale, namespace: 'nav' })
-
-    const aboutSubLinks: ResolvedNavChild[] = [
-      { label: tNav('aboutLinks.ceoMessage'), href: '/ceo-message' },
-      { label: tNav('aboutLinks.overview'), href: '/organization-overview' },
-      { label: tNav('aboutLinks.business'), href: '/business-contents' },
-      { label: tNav('aboutLinks.history'), href: '/history' },
-      { label: tNav('aboutLinks.gallery'), href: '/gallery' },
-    ]
-
-    const aboutIndex = resolvedNavItems.findIndex((item) => item.href === '/about')
-
-    if (aboutIndex !== -1) {
-      const aboutItem = resolvedNavItems[aboutIndex]!
-      if (!aboutItem.children?.length) {
-        resolvedNavItems[aboutIndex] = { ...aboutItem, children: aboutSubLinks }
-      }
-    } else {
-      resolvedNavItems.push({
-        label: tNav('about'),
-        href: '/about',
-        children: aboutSubLinks,
-      })
-    }
-  }
+  
 
   const localeLabels: Record<string, string> = { en: '🇺🇸', ja: '🇯🇵', bn: '🇧🇩' }
 

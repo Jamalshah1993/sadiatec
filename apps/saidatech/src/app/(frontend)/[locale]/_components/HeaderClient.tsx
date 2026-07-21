@@ -47,12 +47,12 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
 
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[900px] max-w-[95vw] z-50
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-[1400px] max-w-[95vw] z-50
         opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible
         transition-all duration-200 origin-top pointer-events-none group-hover/item:pointer-events-auto"
     >
-      <div className="bg-white rounded-2xl shadow-2xl border border-neutral-100 p-8 grid grid-cols-12 gap-10 text-left">
-        <div className="col-span-3 relative rounded-2xl overflow-hidden min-h-[300px] bg-neutral-50">
+      <div className="bg-white rounded-2xl shadow-2xl border border-neutral-100 p-12 grid grid-cols-12 gap-12 text-left">
+        <div className="col-span-3 relative rounded-2xl overflow-hidden min-h-[450px] bg-neutral-50">
           {item.featuredImageUrl ? (
             <img
               src={item.featuredImageUrl}
@@ -66,19 +66,32 @@ function MegaMenuPanel({ item }: { item: ResolvedNavItem }) {
           )}
         </div>
 
-        <div className="col-span-9 grid grid-cols-2 gap-10">
+        <div
+          className="col-span-9 gap-12 text-left"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${columns.length}, 1fr)`
+          }}
+        >
           {columns.map((col, ci) => {
             const showHeading = col.heading && col.heading.toLowerCase() !== 'more services'
             return (
-              <div key={ci} className="flex flex-col space-y-6">
+              <div key={ci} className="flex flex-col space-y-8">
                 {showHeading && (
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
+                  <p
+                    className={[
+                      "text-[11px] font-bold uppercase tracking-widest",
+                      ci === 3
+                        ? "text-brand-primary"
+                        : "text-neutral-400"
+                    ].join(" ")}
+                  >
                     {col.heading}
                   </p>
                 )}
-                <ul className="space-y-6">
-                  {(col.items ?? []).map((subItem) => (
-                    <li key={subItem.href}>
+                <ul className="space-y-8">
+                  {(col.items ?? []).map((subItem, subIdx) => (
+                    <li key={`${subItem.href}-${subIdx}`}>
                       <Link
                         href={subItem.href}
                         className="group block text-left navigation-item-wrapper focus:outline-none"
@@ -112,8 +125,8 @@ function DropdownPanel({ items }: { items: { label: string; href: string }[] }) 
         transition-all duration-200 origin-top-left pointer-events-none group-hover/item:pointer-events-auto"
     >
       <ul className="rounded-xl bg-white shadow-xl border border-neutral-100 py-2.5 overflow-hidden">
-        {items.map((child) => (
-          <li key={child.href}>
+        {items.map((child, idx) => (
+          <li key={`${child.href}-${idx}`}>
             <Link
               href={child.href}
               className="block px-5 py-2.5 text-sm text-text-secondary hover:text-brand-accent hover:bg-brand-accent/5 transition-colors"
@@ -177,14 +190,14 @@ export function HeaderClient({
         {/* Navigation remains unchanged */}
         <nav aria-label="Main navigation" className="hidden lg:block h-full">
           <ul className="flex items-center gap-1 xl:gap-4 h-full">
-            {navItems.map((item) => {
+            {navItems.map((item, itemIdx) => {
               const hasMega = item.megaMenu && (item.megaColumns ?? []).length > 0
               const hasDropdown = !hasMega && (item.children ?? []).length > 0
               const active = isActive(item)
               const isLeaf = !hasMega && !hasDropdown
 
               return (
-                <li key={item.href} className="relative group/item h-full flex items-center">
+                <li key={`${item.href}-${itemIdx}`} className="relative group/item h-full flex items-center">
                   <Link
                     href={item.href}
                     aria-current={active && isLeaf ? 'page' : undefined}
