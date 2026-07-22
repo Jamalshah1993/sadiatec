@@ -181,7 +181,7 @@ export function HeaderClient({
       scrolled ? 'border-b border-border-default shadow-sm' : 'border-b border-transparent shadow-none',
     ].join(' ')}>
       <div className={[
-        'flex items-center justify-between w-full px-4 sm:px-6 lg:px-6 xl:px-12 2xl:px-20 transition-all duration-300',
+        'relative flex items-center justify-between w-full px-4 sm:px-6 lg:px-6 xl:px-12 2xl:px-20 transition-all duration-300',
         'h-16 md:h-18 lg:h-20'
       ].join(' ')}>
         <Link href="/" aria-label="Sadia Tec Home" className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm">

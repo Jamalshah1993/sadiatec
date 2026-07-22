@@ -168,7 +168,7 @@ export function SearchBox({ locale, variant, onNavigate }: SearchBoxProps) {
   const listboxId = 'search-results-listbox'
 
   return (
-    <div ref={containerRef} className={variant === 'desktop' ? 'relative flex items-center' : 'relative px-4 py-3 border-b border-neutral-100'}>
+    <div ref={containerRef} className={variant === 'desktop' ? 'flex items-center' : 'relative px-4 py-3 border-b border-neutral-100'}>
       {variant === 'desktop' && !expanded && (
         <button
           type="button"
@@ -181,7 +181,20 @@ export function SearchBox({ locale, variant, onNavigate }: SearchBoxProps) {
       )}
 
       {(variant === 'mobile' || expanded) && (
-        <div className={variant === 'desktop' ? 'relative w-64 xl:w-80' : 'relative w-full'}>
+        <div
+          className={
+            variant === 'desktop'
+              // Below 2xl there isn't room to grow the search input inline
+              // alongside the nav, flags, and CTA button (the actions row
+              // appears from lg, but even at xl the combined nav+search+
+              // flags+CTA width overflows the header) — so it becomes a
+              // full-width dropdown bar anchored to the header row (which is
+              // `relative`) instead of growing inline. Only at 2xl+ is there
+              // enough room to revert to the original inline-growing input.
+              ? 'absolute inset-x-0 top-full mt-2 px-4 sm:px-6 lg:px-6 xl:px-12 2xl:relative 2xl:inset-x-auto 2xl:top-auto 2xl:mt-0 2xl:px-0 2xl:w-72'
+              : 'relative w-full'
+          }
+        >
           <div className="relative flex items-center">
             <SearchIcon className="pointer-events-none absolute left-3 h-4 w-4 text-gray-400" />
             <input
