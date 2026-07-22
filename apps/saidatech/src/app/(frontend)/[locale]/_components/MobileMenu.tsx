@@ -7,6 +7,7 @@ import { useReducedMotion } from 'framer-motion'
 import { Link } from '@/i18n/routing'
 import type { ResolvedNavItem } from './Header'
 import { Jp, Us, Bd } from 'react-flag-icons';
+import { SearchBox } from './SearchBox'
 
 interface MobileMenuProps {
   navItems: ResolvedNavItem[]
@@ -137,6 +138,8 @@ export function MobileMenu({
                 </svg>
               </button>
             </div>
+
+            <SearchBox locale={locale} variant="mobile" onNavigate={close} />
 
             {/* Navigation */}
             <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile navigation">

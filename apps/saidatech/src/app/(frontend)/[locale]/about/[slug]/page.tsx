@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getCachedPayload } from '@/lib/payload'
 import { blockRegistry } from '@saidatech/cms-core/blocks'
+import { ABOUT_PAGE_SLUGS } from '@/lib/about-slugs'
 import siteConfig from '../../../../../../site.config'
 
 export const revalidate = 3600
@@ -18,10 +19,9 @@ type RawBlock = { blockType: string; id?: string } & Record<string, unknown>
 
 export async function generateStaticParams() {
   const locales = siteConfig.locales.enabled as string[]
-  const slugs = ['message-from-the-ceo', 'organization-overview', 'business-contents', 'history']
 
   return locales.flatMap((locale) =>
-    slugs.map((slug) => ({ locale, slug }))
+    ABOUT_PAGE_SLUGS.map((slug) => ({ locale, slug }))
   )
 }
 

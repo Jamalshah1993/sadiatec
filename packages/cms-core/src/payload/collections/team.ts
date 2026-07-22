@@ -7,7 +7,7 @@ export const TeamCollection: CollectionConfig = {
   slug: 'team',
   labels: { singular: 'Team Member', plural: 'Team Members' },
   admin: { useAsTitle: 'name', defaultColumns: ['name', 'title', 'featured', 'sortOrder'] },
-  hooks: { afterChange: [() => { revalidateTag('team') }] },
+  hooks: { afterChange: [() => { revalidateTag('team') }, () => { revalidateTag('search-index') }] },
   fields: [
     { name: 'name', type: 'text', required: true },
     { name: 'title', type: 'text', localized: true, required: true },

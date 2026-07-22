@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { Link } from '@/i18n/routing'
 import { MobileMenu } from './MobileMenu'
+import { SearchBox } from './SearchBox'
 import type { ResolvedNavItem, ResolvedMegaColumn } from './Header'
 import { Jp, Us, Bd } from 'react-flag-icons';
 
@@ -229,6 +230,8 @@ export function HeaderClient({
         </nav>
 
         <div className="hidden lg:flex items-center gap-2 xl:gap-4">
+          <SearchBox locale={locale} variant="desktop" />
+
           {/* Language Flags Container */}
           <div className="hidden lg:flex items-center gap-1.5 xl:gap-3 bg-[#EBF5FF] px-2.5 xl:px-3 py-.5 rounded-2xl border border-gray-200">
             {prioritizedLocales.map((loc) => {

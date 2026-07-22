@@ -7,7 +7,7 @@ export const SeminarsCollection: CollectionConfig = {
   slug: 'seminars',
   labels: { singular: 'Seminar', plural: 'Seminars' },
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'date', 'registrationStatus', 'active'] },
-  hooks: { afterChange: [() => { revalidateTag('seminars') }] },
+  hooks: { afterChange: [() => { revalidateTag('seminars') }, () => { revalidateTag('search-index') }] },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },
     { name: 'date', type: 'date', required: true },

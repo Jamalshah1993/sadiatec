@@ -15,7 +15,7 @@ export const BlogCollection: CollectionConfig = {
     },
   },
   hooks: {
-    afterChange: [() => { revalidateTag('blog') }],
+    afterChange: [() => { revalidateTag('blog') }, () => { revalidateTag('search-index') }],
   },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },

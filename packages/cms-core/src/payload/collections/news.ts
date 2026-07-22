@@ -7,7 +7,7 @@ export const NewsCollection: CollectionConfig = {
   slug: 'news',
   labels: { singular: 'News Article', plural: 'News Articles' },
   admin: { useAsTitle: 'title', defaultColumns: ['title', 'publishedAt', 'slug'] },
-  hooks: { afterChange: [() => { revalidateTag('news') }] },
+  hooks: { afterChange: [() => { revalidateTag('news') }, () => { revalidateTag('search-index') }] },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },
     { name: 'excerpt', type: 'textarea', localized: true },

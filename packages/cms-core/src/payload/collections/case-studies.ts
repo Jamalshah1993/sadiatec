@@ -15,7 +15,7 @@ export const CaseStudiesCollection: CollectionConfig = {
     },
   },
   hooks: {
-    afterChange: [() => { revalidateTag('case-studies') }],
+    afterChange: [() => { revalidateTag('case-studies') }, () => { revalidateTag('search-index') }],
   },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },

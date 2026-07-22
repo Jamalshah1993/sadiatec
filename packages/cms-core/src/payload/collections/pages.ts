@@ -84,7 +84,7 @@ export function PagesCollection(siteConfig: SiteConfig): CollectionConfig {
         return `${base}/${String(doc['slug'] ?? '')}`
       },
     },
-    hooks: { afterChange: [() => { revalidateTag('pages') }] },
+    hooks: { afterChange: [() => { revalidateTag('pages') }, () => { revalidateTag('search-index') }] },
     fields: [
       { name: 'title', type: 'text', localized: true, required: true },
       slugField,

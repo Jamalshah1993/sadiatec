@@ -11,7 +11,7 @@ export const JobsCollection: CollectionConfig = {
     defaultColumns: ['title', 'department', 'employmentType', 'closingDate', 'active'],
   },
   hooks: {
-    afterChange: [() => { revalidateTag('recruit') }],
+    afterChange: [() => { revalidateTag('recruit') }, () => { revalidateTag('search-index') }],
   },
   fields: [
     { name: 'title', type: 'text', localized: true, required: true },

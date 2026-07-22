@@ -11,7 +11,7 @@ export function ServicesCollection(siteConfig: SiteConfig): CollectionConfig {
     labels: { singular: 'Service', plural: 'Services' },
     admin: { useAsTitle: 'title', defaultColumns: ['title', 'active', 'sort'] },
     hooks: {
-      afterChange: [() => { revalidateTag('services') }],
+      afterChange: [() => { revalidateTag('services') }, () => { revalidateTag('search-index') }],
     },
     fields: [
       { name: 'title', type: 'text', localized: true, required: true },
