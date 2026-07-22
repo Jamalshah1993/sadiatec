@@ -135,13 +135,15 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
       className="flex flex-col bg-transparent group text-left w-full min-w-full sm:min-w-[340px] md:min-w-[380px] sm:flex-1 snap-center snap-always px-2 sm:px-0"
     >
       <Link href={withLocale(locale, item.href)} className="block space-y-4 focus-visible:outline-none">
-        <div className="relative aspect-[16/10] max-w-[90%] mx-auto w-full rounded-2xl overflow-hidden bg-white/90 border border-white/20 shadow-md h-[300px] sm:h-[400px] md:h-[450px]">
+        
+        {/* Clean Image */}
+        <div className="relative w-full max-w-[90%] mx-auto rounded-2xl overflow-hidden shadow-md aspect-square h-[300px] sm:h-[400px] md:h-[450px]">
           {item.thumbnail ? (
             <Image
               src={item.thumbnail}
               alt={item.headline}
               fill
-              className="object-cover object-center transition-transform duration-300 group-hover:scale-103"
+              className="object-contain object-center transition-all duration-500 ease-out group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
