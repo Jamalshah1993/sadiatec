@@ -137,21 +137,23 @@ function CarouselCardItem({ item }: { item: NewsItem }) {
       <Link href={withLocale(locale, item.href)} className="block space-y-4 focus-visible:outline-none">
         
         {/* Clean Image */}
-        <div className="relative w-full max-w-[90%] mx-auto rounded-2xl overflow-hidden shadow-md aspect-square h-[300px] sm:h-[400px] md:h-[450px]">
-          {item.thumbnail ? (
-            <Image
-              src={item.thumbnail}
-              alt={item.headline}
-              fill
-              className="object-contain object-center transition-all duration-500 ease-out group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 33vw"
-            />
-          ) : (
-            <div className="w-full h-full bg-slate-100 flex items-center justify-center text-slate-300 text-xs">
-              No Image Available
-            </div>
-          )}
-        </div>
+        {/* Clean Image – now matches image size, no extra space */}
+<div className="relative w-full max-w-[90%] mx-auto rounded-2xl overflow-hidden shadow-md">
+  {item.thumbnail ? (
+    <Image
+      src={item.thumbnail}
+      alt={item.headline}
+      width={800}          // any reasonable intrinsic width
+      height={600}         // any reasonable intrinsic height
+      className="w-full h-auto object-contain transition-all duration-500 ease-out group-hover:scale-105"
+      sizes="(max-width: 768px) 100vw, 33vw"
+    />
+  ) : (
+    <div className="w-full aspect-[4/3] bg-slate-100 flex items-center justify-center text-slate-300 text-xs">
+      No Image Available
+    </div>
+  )}
+</div>
 
         <div className="flex items-center gap-3 pt-2 pl-[7.5%]">
           {item.category && (
