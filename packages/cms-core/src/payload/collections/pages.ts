@@ -7,7 +7,7 @@ import { HeroBlockConfig } from '../../blocks/hero/config'
 import { StatsBlockConfig } from '../../blocks/stats/config'
 import { ServicesGridBlockConfig } from '../../blocks/services-grid/config'
 import { BentoGridBlockConfig } from '../../blocks/bento-grid/config'
-import { CaseStudyCarouselBlockConfig } from '../../blocks/case-study-carousel/config'
+import { CaseStudyCarouselBlockConfig } from '../../verticals/recruitment/blocks/case-study-carousel/config'
 import { TimelineBlockConfig } from '../../blocks/timeline/config'
 import { LogoCloudBlockConfig } from '../../blocks/logo-cloud/config'
 import { CTABannerBlockConfig } from '../../blocks/cta-banner/config'
@@ -18,9 +18,9 @@ import { TeamGridBlockConfig } from '../../blocks/team-grid/config'
 import { EventListBlockConfig } from '../../blocks/event-list/config'
 import { GalleryBlockConfig } from '../../blocks/gallery/config'
 import { HoursLocationBlockConfig } from '../../blocks/hours-location/config'
-import { CaseStudiesGridBlockConfig } from '../../blocks/case-studies-grid/config'
+import { CaseStudiesGridBlockConfig } from '../../verticals/recruitment/blocks/case-studies-grid/config'
 import { CompanyProfileBlockConfig } from '../../blocks/company-profile/config'
-import { ComplianceGridBlockConfig } from '../../blocks/compliance-grid/config'
+import { ComplianceGridBlockConfig } from '../../verticals/recruitment/blocks/compliance-grid/config'
 import { DownloadsGridBlockConfig } from '../../blocks/downloads-grid/config'
 import { BlogTeaserBlockConfig } from '../../blocks/blog-teaser/config'
 import { NewsListBlockConfig } from '../../blocks/news-list/config'
@@ -29,10 +29,10 @@ import { ImageTextSplitBlockConfig } from '../../blocks/image-text-split/config'
 import { StatsBarBlockConfig } from '../../blocks/stats-bar/config'
 import { CEOMessageBlockConfig } from '../../blocks/ceo-message/config'
 import { AffiliatesBlockConfig } from '../../blocks/affiliates/config'
-import { BusinessLineListBlockConfig } from '../../blocks/business-line-list/config'
+import { BusinessLineListBlockConfig } from '../../verticals/recruitment/blocks/business-line-list/config'
 import { GalleryGridBlockConfig } from '../../blocks/gallery-grid/config'
 import { HistoryBlockConfig } from '../../blocks/history/config'
-import { PlacementStatisticsBlockConfig } from '../../blocks/placement-statistics/config'
+import { PlacementStatisticsBlockConfig } from '../../verticals/recruitment/blocks/placement-statistics/config'
 import { ContactInfoCardBlockConfig } from '../../blocks/contact-info-card/config'
 import { MissionStatementBlockConfig } from '../../blocks/mission-statement/config'
 
@@ -42,7 +42,6 @@ export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
     StatsBlockConfig,
     ServicesGridBlockConfig,
     BentoGridBlockConfig,
-    ...(siteConfig.features.testimonials ? [CaseStudyCarouselBlockConfig] : []),
     TimelineBlockConfig,
     LogoCloudBlockConfig,
     CTABannerBlockConfig,
@@ -53,8 +52,7 @@ export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
     ...(siteConfig.features.events ? [EventListBlockConfig] : []),
     ...(siteConfig.features.gallery ? [GalleryBlockConfig] : []),
     ...(siteConfig.features.locations ? [HoursLocationBlockConfig] : []),
-    ...(siteConfig.features.caseStudies ? [CaseStudiesGridBlockConfig] : []),
-    ...(siteConfig.features.company ? [CompanyProfileBlockConfig, ComplianceGridBlockConfig] : []),
+    ...(siteConfig.features.company ? [CompanyProfileBlockConfig] : []),
     ...(siteConfig.features.downloads ? [DownloadsGridBlockConfig] : []),
     ...(siteConfig.features.blog ? [BlogTeaserBlockConfig] : []),
     NewsListBlockConfig,
@@ -63,12 +61,18 @@ export function buildAvailableBlocks(siteConfig: SiteConfig): Block[] {
     StatsBarBlockConfig,
     CEOMessageBlockConfig,
     AffiliatesBlockConfig,
-    BusinessLineListBlockConfig,
     GalleryGridBlockConfig,
     HistoryBlockConfig,
-    PlacementStatisticsBlockConfig,
     ContactInfoCardBlockConfig,
     MissionStatementBlockConfig,
+    // Recruitment vertical: these five blocks move together as one unit.
+    ...(siteConfig.verticals.recruitment ? [
+      CaseStudyCarouselBlockConfig,
+      CaseStudiesGridBlockConfig,
+      ComplianceGridBlockConfig,
+      BusinessLineListBlockConfig,
+      PlacementStatisticsBlockConfig,
+    ] : []),
   ]
 }
 

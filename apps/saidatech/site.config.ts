@@ -1,5 +1,10 @@
 import type { SiteConfig } from '@saidatech/cms-core/schema'
 
+// Single source of truth for the recruitment vertical (jobs, seminars, case-studies
+// collections + their blocks). features.jobListings/seminars mirror it below rather
+// than being toggled independently, so the vertical can't be half-enabled.
+const recruitmentVertical = true
+
 const siteConfig: SiteConfig = {
   site: {
     name: 'Sadiatec',
@@ -54,12 +59,16 @@ const siteConfig: SiteConfig = {
     direction: { en: 'ltr', ja: 'ltr', bn: 'ltr' },
   },
 
+  verticals: {
+    recruitment: recruitmentVertical,
+  },
+
   features: {
     aiAgent: true,
     bookingWidget: false,
-    jobListings: true,
+    jobListings: recruitmentVertical,
     events: false,
-    seminars: true,
+    seminars: recruitmentVertical,
     gallery: false,
     testimonials: true,
     downloads: true,

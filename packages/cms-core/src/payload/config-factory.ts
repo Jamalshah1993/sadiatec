@@ -15,12 +15,12 @@ import { NewsCollection } from './collections/news'
 import { UsersCollection } from './collections/users'
 import { TestimonialsCollection } from './collections/testimonials'
 import { EventsCollection } from './collections/events'
-import { SeminarsCollection } from './collections/seminars'
+import { SeminarsCollection } from '../verticals/recruitment/collections/seminars'
 import { GalleryCollection } from './collections/gallery'
 import { DownloadsCollection } from './collections/downloads'
-import { JobsCollection } from './collections/jobs'
+import { JobsCollection } from '../verticals/recruitment/collections/jobs'
 import { TeamCollection } from './collections/team'
-import { CaseStudiesCollection } from './collections/case-studies'
+import { CaseStudiesCollection } from '../verticals/recruitment/collections/case-studies'
 import { BlogCollection } from './collections/blog'
 import { InquiriesCollection } from './collections/inquiries'
 import { FormSubmissionsCollection } from './collections/form-submissions'
@@ -81,14 +81,13 @@ export function buildCmsConfig(
 
   const optional: CollectionConfig[] = [
     ...(siteConfig.features.blog ? [BlogCollection] : []),
-    ...(siteConfig.features.caseStudies ? [CaseStudiesCollection] : []),
     ...(siteConfig.features.testimonials ? [TestimonialsCollection] : []),
     ...(siteConfig.features.events ? [EventsCollection] : []),
-    ...(siteConfig.features.seminars ? [SeminarsCollection] : []),
     ...(siteConfig.features.gallery ? [GalleryCollection] : []),
     ...(siteConfig.features.downloads ? [DownloadsCollection] : []),
-    ...(siteConfig.features.jobListings ? [JobsCollection] : []),
     ...(siteConfig.features.team ? [TeamCollection] : []),
+    // Recruitment vertical: jobs, seminars, case-studies move together as one unit.
+    ...(siteConfig.verticals.recruitment ? [JobsCollection, SeminarsCollection, CaseStudiesCollection] : []),
   ]
 
   const collections = [...alwaysOn, ...optional].map(withAdminDelete)

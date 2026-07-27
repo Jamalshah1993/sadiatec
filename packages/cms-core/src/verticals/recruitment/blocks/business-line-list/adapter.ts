@@ -1,5 +1,5 @@
 import type { BusinessLineListBlockProps, BusinessLineItem, BusinessLineFeature } from './types'
-import { extractRichText } from '../../lib/extract-rich-text'
+import { extractRichText } from '../../../../lib/extract-rich-text'
 
 function mapItem(raw: Record<string, unknown>): BusinessLineItem | null {
   const title = typeof raw['title'] === 'string' ? raw['title'] : ''

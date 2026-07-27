@@ -93,6 +93,10 @@ const featuresSchema = z.object({
   about: z.boolean(),
 })
 
+const verticalsSchema = z.object({
+  recruitment: z.boolean(),
+})
+
 const navSchema = z.object({
   legalLinks: z.array(
     z.object({
@@ -159,6 +163,7 @@ export const siteConfigSchema = z.object({
   brand: brandSchema,
   locales: localesSchema,
   features: featuresSchema,
+  verticals: verticalsSchema,
   nav: navSchema,
   contact: contactSchema,
   forms: formsSchema,

@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { SectionEyebrow } from '../../components/ui'
-import { staggerContainer, fadeInUp } from '../../lib/motion'
+import { SectionEyebrow } from '../../../../components/ui'
+import { staggerContainer, fadeInUp } from '../../../../lib/motion'
 import type { ComplianceGridBlockProps, ComplianceIcon } from './types'
 
 const ICON_PATHS: Record<ComplianceIcon, string> = {

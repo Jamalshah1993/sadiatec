@@ -1,7 +1,7 @@
-import { safeRevalidateTag as revalidateTag } from '../lib/revalidate'
+import { safeRevalidateTag as revalidateTag } from '../../../payload/lib/revalidate'
 import type { CollectionConfig } from 'payload'
-import { aiVisibleField } from '../fields/ai-visible'
-import { slugField } from '../fields/slug'
+import { aiVisibleField } from '../../../payload/fields/ai-visible'
+import { slugField } from '../../../payload/fields/slug'
 
 export const CaseStudiesCollection: CollectionConfig = {
   slug: 'case-studies',
