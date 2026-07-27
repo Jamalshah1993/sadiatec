@@ -55,7 +55,7 @@ function OverlapRow({ service, index }: RowProps) {
 
       <div
         className={[
-          'w-full md:w-[44%] bg-[#EBF5FF] p-5 sm:p-7 md:p-8 rounded-2xl md:shadow-md text-left space-y-3 z-10',
+          'w-full md:w-[44%] bg-[var(--color-surface-alt)] p-5 sm:p-7 md:p-8 rounded-2xl md:shadow-md text-left space-y-3 z-10',
           'mt-[-30px] md:mt-0 mx-4 sm:mx-6 md:mx-0 md:absolute md:top-1/2 md:-translate-y-1/2',
           isEven ? 'md:left-0' : 'md:right-0'
         ].join(' ')}
@@ -81,7 +81,7 @@ function OverlapRow({ service, index }: RowProps) {
           <div className="pt-2">
             <Link
               href={withLocale(locale, service.cta.href)}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-[#5EA6E6] hover:bg-[#4B93D3] active:scale-[0.98] text-white text-[12px] font-medium rounded-lg transition-all duration-200 shadow-sm group focus:outline-none"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-button-accent)] hover:bg-[var(--color-button-accent-hover)] active:scale-[0.98] text-white text-[12px] font-medium rounded-lg transition-all duration-200 shadow-sm group focus:outline-none"
             >
               <span>{service.cta.label}</span>
               <svg 
@@ -128,7 +128,7 @@ function CorporateBannerRow({ service }: RowProps) {
       <div className="md:col-span-9 text-left space-y-4 flex flex-col justify-center">
         <div className="space-y-1.5">
           {service.subheadline && (
-            <span className="inline-block px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#5EA6E6] bg-blue-50/60 rounded">
+            <span className="inline-block px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[var(--color-button-accent)] bg-blue-50/60 rounded">
               {service.subheadline}
             </span>
           )}
@@ -147,7 +147,7 @@ function CorporateBannerRow({ service }: RowProps) {
           <div className="pt-1">
             <Link
               href={withLocale(locale, service.cta.href)}
-              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[#5EA6E6] hover:bg-[#4B93D3] active:scale-[0.98] text-white text-[13px] font-semibold rounded-full transition-all duration-200 shadow-sm group focus:outline-none"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-[var(--color-button-accent)] hover:bg-[var(--color-button-accent-hover)] active:scale-[0.98] text-white text-[13px] font-semibold rounded-full transition-all duration-200 shadow-sm group focus:outline-none"
             >
               <span>{service.cta.label}</span>
               <svg 
@@ -181,7 +181,7 @@ export function ServicesGridBlock({
     <section 
       className={[
         'overflow-hidden',
-        isCorporateLayout ? 'pt-8 pb-20 md:pt-10 md:pb-24 bg-[#F8FAFC]' : 'pt-12 pb-20 md:pt-16 md:pb-24 bg-white'
+        isCorporateLayout ? 'pt-8 pb-20 md:pt-10 md:pb-24 bg-[var(--color-surface-subtle)]' : 'pt-12 pb-20 md:pt-16 md:pb-24 bg-white'
       ].join(' ')}
     >
       <div className="mx-auto max-w-full px-6 md:px-16 lg:px-24">

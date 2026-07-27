@@ -29,6 +29,16 @@ const brandColorsSchema = z.object({
   error: z.string(),
   success: z.string(),
   warning: z.string(),
+  surfaceAlt: z.string().optional(),
+  surfaceSubtle: z.string().optional(),
+  surfaceFaint: z.string().optional(),
+  textSecondary: z.string().optional(),
+  headingDark: z.string().optional(),
+  deepAccent: z.string().optional(),
+  iconAccent: z.string().optional(),
+  buttonAccent: z.string().optional(),
+  buttonAccentHover: z.string().optional(),
+  priceHighlight: z.string().optional(),
 })
 
 const perLocaleTypographySchema = z.object({
@@ -120,12 +130,20 @@ const seoSchema = z.object({
   sitemapIncludeCollections: z.array(z.string()),
 })
 
+const chatWidgetSchema = z.object({
+  url: z.string(),
+  whatsappNumber: z.string(),
+  avatarUrl: z.string(),
+  color: z.string(),
+})
+
 const integrationsSchema = z.object({
   googleAnalyticsId: z.string().optional(),
   turnstileSiteKey: z.string().optional(),
   resendFromEmail: z.string().email(),
   bookingProviderUrl: z.string().optional(),
   mapsApiKey: z.string().optional(),
+  chatWidget: chatWidgetSchema.optional(),
 })
 
 // ---------------------------------------------------------------------------

@@ -34,8 +34,8 @@ const baseConfig = buildCmsConfig(siteConfig, undefined, db)
 
 const allowedOrigins = [
   process.env.NEXT_PUBLIC_SERVER_URL,
-  'https://www.sadiatec.com',
-  'https://sadiatec.com',
+  `https://www.${siteConfig.site.domain}`,
+  `https://${siteConfig.site.domain}`,
   'https://sadiatec-saidatech-qffo.vercel.app', // your current vercel domain
   'http://localhost:3000',
   'http://localhost:3001',

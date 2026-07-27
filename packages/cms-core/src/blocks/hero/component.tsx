@@ -259,7 +259,7 @@ export function HeroBlock({
                   </p>
                 )}
                 {card.highlight && (
-                  <p className="text-sm md:text-base font-extrabold mt-1" style={{ color: 'var(--brand-accent, #ffd23f)' }}>
+                  <p className="text-sm md:text-base font-extrabold mt-1" style={{ color: 'var(--color-price-highlight)' }}>
                     {card.highlight}
                   </p>
                 )}

@@ -145,7 +145,7 @@ export async function Footer({ locale }: FooterProps) {
           <div className="lg:col-span-5 flex flex-col space-y-6 text-left">
             <Link href="/" className="inline-block select-none focus:outline-none mb-2">
               <span className="text-3xl font-bold tracking-wider text-white">
-                Sadiatec Co., Ltd
+                {siteConfig.site.name} Co., Ltd
               </span>
             </Link>
             

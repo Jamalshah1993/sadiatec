@@ -126,7 +126,7 @@ export function PageHeroBlock({
   return (
     <section
       aria-labelledby="page-hero-heading"
-      className={`relative flex w-full flex-col justify-between overflow-hidden ${mhClass} bg-[#2b7bb9] pb-0`}
+      className={`relative flex w-full flex-col justify-between overflow-hidden ${mhClass} bg-[var(--color-deep-accent)] pb-0`}
     >
       {/* Main Content Title Block Area */}
       <div className="relative mx-auto w-full max-w-7xl px-4 pt-4 pb-3 md:pt-10 md:pb-6 sm:px-6 lg:px-8 z-10">

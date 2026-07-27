@@ -57,9 +57,9 @@ const t = (labels[locale] || labels['en']) as { motto: string; mottoBreak: strin
   const bg = bgMap[backgroundStyle] ?? bgMap['white']
   const isDarkBg = backgroundStyle === 'black'
   
-  const textColor = isDarkBg ? 'text-white/80' : 'text-[#555555]'
-  const headingColor = isDarkBg ? 'text-white' : 'text-[#223344]'
-  const nameColor = isDarkBg ? 'text-white/90' : 'text-[#333333]'
+  const textColor = isDarkBg ? 'text-white/80' : 'text-[var(--color-text-secondary)]'
+  const headingColor = isDarkBg ? 'text-white' : 'text-[var(--color-heading-dark)]'
+  const nameColor = isDarkBg ? 'text-white/90' : 'text-[var(--color-text)]'
   const subtitleColor = isDarkBg ? 'text-neutral-400' : 'text-neutral-500'
 
   const portraitEl = (
@@ -79,7 +79,7 @@ const t = (labels[locale] || labels['en']) as { motto: string; mottoBreak: strin
     <div className="flex flex-1 flex-col justify-start text-left pt-2">
       {/* 3. Render Dynamic Motto */}
       <h2 
-        className="text-2xl sm:text-3xl font-bold tracking-tight text-[#2b7bb9] leading-snug mb-5"
+        className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--color-deep-accent)] leading-snug mb-5"
         dangerouslySetInnerHTML={{ __html: t.mottoBreak }} 
       />
 

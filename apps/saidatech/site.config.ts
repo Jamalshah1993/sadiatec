@@ -2,7 +2,7 @@ import type { SiteConfig } from '@saidatech/cms-core/schema'
 
 const siteConfig: SiteConfig = {
   site: {
-    name: 'Saidatec',
+    name: 'Sadiatec',
     tagline: {
       en: 'Your Career, Our Mission',
       ja: 'あなたのキャリア、私たちの使命',
@@ -26,6 +26,16 @@ const siteConfig: SiteConfig = {
       error: '#dc2626',
       success: '#16a34a',
       warning: '#d97706',
+      surfaceAlt: '#EBF5FF',
+      surfaceSubtle: '#F8FAFC',
+      surfaceFaint: '#FBFBFC',
+      textSecondary: '#555555',
+      headingDark: '#223344',
+      deepAccent: '#2b7bb9',
+      iconAccent: '#2B70A6',
+      buttonAccent: '#5EA6E6',
+      buttonAccentHover: '#4B93D3',
+      priceHighlight: '#ffd23f',
     },
     typography: {
       fontSans: 'Lato',
@@ -45,7 +55,7 @@ const siteConfig: SiteConfig = {
   },
 
   features: {
-    aiAgent: false,
+    aiAgent: true,
     bookingWidget: false,
     jobListings: true,
     events: false,
@@ -107,6 +117,12 @@ const siteConfig: SiteConfig = {
 
   integrations: {
     resendFromEmail: 'notifications@sadiatec.com',
+    chatWidget: {
+      url: 'https://sadiatec-assistant.vercel.app/widget-dist/widget.js',
+      whatsappNumber: '819099546176',
+      avatarUrl: 'https://sadiatec-assistant.vercel.app/sadiatec-assistant2.png',
+      color: '#4f46e5',
+    },
   },
 }
 

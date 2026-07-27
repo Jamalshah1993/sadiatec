@@ -2,28 +2,33 @@ import type { ReactNode } from 'react'
 import Script from 'next/script'
 import "../globals.css" // <-- This restores Tailwind to all your frontend pages!
 import { ScrollToTop } from '@saidatech/cms-core/components/ui'
+import siteConfig from '../../../site.config'
 
 export default function FrontendRootLayout({
   children,
 }: {
   children: ReactNode
 }) {
+  const chatWidget = siteConfig.integrations.chatWidget
+  const showChatWidget = siteConfig.features.aiAgent && chatWidget
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
         {children}
         <ScrollToTop />
-        <link rel="stylesheet" href="https://sadiatec-assistant.vercel.app/widget-dist/widget.css" />
-        {/* <link rel="stylesheet" href="http://localhost:3001/widget-dist/widget.css" /> */}
-        <Script
-          src="https://sadiatec-assistant.vercel.app/widget-dist/widget.js"
-          // src="http://localhost:3001/widget-dist/widget.js"
-          strategy="lazyOnload"
-          data-staff-whatsapp="819099546176"
-          data-avatar="https://sadiatec-assistant.vercel.app/sadiatec-assistant2.png"
-          // data-avatar="http://localhost:3001/sadiatec-assistant2.png"
-          data-color="#4f46e5"
-        />
+        {showChatWidget && (
+          <>
+            <link rel="stylesheet" href={chatWidget.url.replace(/widget\.js$/, 'widget.css')} />
+            <Script
+              src={chatWidget.url}
+              strategy="lazyOnload"
+              data-staff-whatsapp={chatWidget.whatsappNumber}
+              data-avatar={chatWidget.avatarUrl}
+              data-color={chatWidget.color}
+            />
+          </>
+        )}
       </body>
     </html>
   )

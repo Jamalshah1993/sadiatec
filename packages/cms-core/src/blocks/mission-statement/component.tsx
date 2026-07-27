@@ -19,7 +19,7 @@ export function MissionStatementBlock({
 }: MissionStatementBlockProps) {
   
   return (
-    <section className="relative w-full overflow-hidden bg-[#EBF5FF] py-16 px-6 md:py-24 md:px-12 lg:px-20">
+    <section className="relative w-full overflow-hidden bg-[var(--color-surface-alt)] py-16 px-6 md:py-24 md:px-12 lg:px-20">
       <motion.div 
         variants={staggerContainer}
         initial="hidden"

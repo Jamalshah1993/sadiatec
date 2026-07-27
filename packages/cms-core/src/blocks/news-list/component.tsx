@@ -82,7 +82,7 @@ function ListLayoutView({ heading, items, viewAllCta }: NewsListBlockProps) {
   )
 
   return (
-    <section aria-labelledby="news-split-heading" className="bg-[#F6F6F6] py-20 md:py-28">
+    <section aria-labelledby="news-split-heading" className="bg-[var(--color-surface)] py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8 items-start">
           <div className="lg:col-span-5 flex flex-col items-start space-y-8 lg:sticky lg:top-12">

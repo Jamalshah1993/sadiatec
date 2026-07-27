@@ -84,7 +84,7 @@ function LicenseIcon({ icon, title }: { icon: ComplianceIcon; title: string }) {
 
   // Fallback
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EBF5FF] text-[#2B70A6]">
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface-alt)] text-[var(--color-icon-accent)]">
       <svg aria-hidden="true" className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d={ICON_PATHS[icon]} />
       </svg>
@@ -148,7 +148,7 @@ export function ComplianceGridBlock({
             <ul className="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2" role="list">
               {commitments.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <svg aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#2B70A6] stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-icon-accent)] stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d={ICON_PATHS.shield} />
                   </svg>
                   <span className="text-[15px] leading-relaxed font-normal text-gray-700">{item}</span>

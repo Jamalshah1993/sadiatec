@@ -1,5 +1,3 @@
-export * from './colors'
-export * from './typography'
 export * from './spacing'
 export * from './breakpoints'
 export * from './radii'
@@ -22,6 +20,16 @@ export function buildCssVariables(siteConfig: SiteConfig): CSSProperties {
     '--color-error': colors.error,
     '--color-success': colors.success,
     '--color-warning': colors.warning,
+    ...(colors.surfaceAlt && { '--color-surface-alt': colors.surfaceAlt }),
+    ...(colors.surfaceSubtle && { '--color-surface-subtle': colors.surfaceSubtle }),
+    ...(colors.surfaceFaint && { '--color-surface-faint': colors.surfaceFaint }),
+    ...(colors.textSecondary && { '--color-text-secondary': colors.textSecondary }),
+    ...(colors.headingDark && { '--color-heading-dark': colors.headingDark }),
+    ...(colors.deepAccent && { '--color-deep-accent': colors.deepAccent }),
+    ...(colors.iconAccent && { '--color-icon-accent': colors.iconAccent }),
+    ...(colors.buttonAccent && { '--color-button-accent': colors.buttonAccent }),
+    ...(colors.buttonAccentHover && { '--color-button-accent-hover': colors.buttonAccentHover }),
+    ...(colors.priceHighlight && { '--color-price-highlight': colors.priceHighlight }),
     '--font-sans': `${typography.fontSans}, system-ui, sans-serif`,
     '--font-serif': `${typography.fontSerif ?? 'Georgia'}, serif`,
     '--font-mono': `${typography.fontMono ?? 'ui-monospace'}, monospace`,

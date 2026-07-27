@@ -8,6 +8,7 @@ import { MobileMenu } from './MobileMenu'
 import { SearchBox } from './SearchBox'
 import type { ResolvedNavItem, ResolvedMegaColumn } from './Header'
 import { Jp, Us, Bd } from 'react-flag-icons';
+import siteConfig from '../../../../../site.config'
 
 interface HeaderClientProps {
   navItems: ResolvedNavItem[]
@@ -24,7 +25,7 @@ function Logo({ dark, imageUrl }: { dark: boolean; imageUrl?: string | null | un
     return (
       <span className="text-2xl tracking-wide select-none">
         <span className={`font-light transition-colors duration-300 ${dark ? 'text-brand-accent' : 'text-white'}`}>
-          Sadiatec
+          {siteConfig.site.name}
         </span>
       </span>
     )
