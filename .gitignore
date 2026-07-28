@@ -37,6 +37,8 @@ coverage/
 # payload cms
 .payload/
 
+local.db
+
 # temporary files
 tmp/
 temp/
@@ -46,3 +48,4 @@ public/uploads/
 
 # turbo
 .turbo/
+
