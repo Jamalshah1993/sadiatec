@@ -17,6 +17,30 @@ function Row({ icon, children }: { icon: ReactNode; children: ReactNode }) {
   )
 }
 
+function getYoutubeEmbedUrl(url: string) {
+  try {
+    const parsed = new URL(url)
+
+    // youtu.be/VIDEO_ID
+    if (parsed.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed${parsed.pathname}`
+    }
+
+    // youtube.com/watch?v=VIDEO_ID
+    if (
+      parsed.hostname.includes('youtube.com') &&
+      parsed.pathname === '/watch'
+    ) {
+      const id = parsed.searchParams.get('v')
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+
+    return null
+  } catch {
+    return null
+  }
+}
+
 export function ContactInfoCardBlock({
   heading,
   subheading,
@@ -29,7 +53,7 @@ export function ContactInfoCardBlock({
   links,
   note,
 }: ContactInfoCardBlockProps) {
- const hasContent =
+  const hasContent =
     heading || subheading || address || tel || fax || phone || email || officeHours ||
     (links && links.length > 0) || note
   if (!hasContent) return null
@@ -145,22 +169,44 @@ export function ContactInfoCardBlock({
                 }
               >
                 <ul className="space-y-1.5">
-                  {links.map((link, idx) => (
-                    <li key={idx}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-medium text-(--color-primary) hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-primary)"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
+                  {links.map((link, idx) => {
+                    const youtubeEmbed = getYoutubeEmbedUrl(link.url)
+
+                    return (
+                      <li key={idx}>
+                        {youtubeEmbed ? (
+                          <div className="space-y-3">
+                            <p className="text-sm font-medium text-(--color-primary)">
+                              {link.label}
+                            </p>
+
+                            <div className="mt-3 max-w-3xl overflow-hidden rounded-xl border">
+                              <iframe
+                                src={youtubeEmbed}
+                                title={link.label}
+                                className="aspect-video w-full"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            </div>
+                          </div>
+                        ) : (
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-medium text-(--color-primary) hover:underline"
+                          >
+                            {link.label}
+                          </a>
+                        )}
+                      </li>
+                    )
+                  })}
                 </ul>
               </Row>
             )}
-            
+
           </dl>
           {note && (
             <p className="mt-6 rounded-lg bg-(--color-neutral-100) p-4 text-sm leading-relaxed text-(--color-muted) whitespace-pre-line">
