@@ -6,10 +6,11 @@ import { motion } from 'framer-motion'
 import { staggerContainer, fadeInUp } from '../../lib/motion'
 import type { MissionStatementBlockProps, MissionPhotoSize } from './types'
 
+// Compact dynamic sizing for mobile and desktop
 const sizeMap: Record<MissionPhotoSize, string> = {
-  small: 'h-[90px] md:h-[110px] lg:h-[130px] w-[130px] md:w-[160px] lg:w-[190px]',
-  medium: 'h-[130px] md:h-[150px] lg:h-[180px] w-[180px] md:w-[210px] lg:w-[250px]',
-  large: 'h-[170px] md:h-[200px] lg:h-[220px] w-[240px] md:w-[280px] lg:w-[310px]',
+  small: 'h-[90px] w-[50%] sm:w-[45%] md:h-[120px] lg:h-[140px] md:w-auto md:flex-1 md:max-w-[200px]',
+  medium: 'h-[110px] w-[60%] sm:w-[55%] md:h-[150px] lg:h-[180px] md:w-auto md:flex-1 md:max-w-[250px]',
+  large: 'h-[130px] w-[70%] sm:w-[65%] md:h-[180px] lg:h-[210px] md:w-auto md:flex-1 md:max-w-[300px]',
 }
 
 export function MissionStatementBlock({
@@ -19,16 +20,16 @@ export function MissionStatementBlock({
 }: MissionStatementBlockProps) {
   
   return (
-    <section className="relative w-full overflow-hidden bg-[var(--color-surface-alt)] py-16 px-6 md:py-24 md:px-12 lg:px-20">
+    <section className="relative w-full overflow-hidden bg-[var(--color-surface-alt)] py-12 px-6 md:py-20 md:px-12 lg:px-20">
       <motion.div 
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
-        className="relative z-10 max-w-7xl mx-auto"
+        className="relative z-10 max-w-7xl mx-auto w-full"
       >
-        {/* Updated Layout: Title on left, Details on right (pushed down) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 items-start mb-16 md:mb-24">
+        {/* Title & Details Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start mb-10 md:mb-20">
           
           {/* Title Column */}
           <motion.div variants={fadeInUp} className="flex flex-col">
@@ -37,7 +38,7 @@ export function MissionStatementBlock({
             </h2>
           </motion.div>
 
-          {/* Details Column (Pushed down with md:pt-16) */}
+          {/* Details Column */}
           <motion.div variants={fadeInUp} className="flex flex-col md:pt-16">
             <p className="text-[16px] md:text-[18px] text-gray-600 font-normal leading-relaxed whitespace-pre-line">
               {missionBody}
@@ -45,34 +46,35 @@ export function MissionStatementBlock({
           </motion.div>
         </div>
 
-        {/* Gallery Section remains the same */}
+        {/* Compact Staggered Gallery */}
         {photos && photos.length > 0 && (
           <motion.div 
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="relative mt-16 w-full flex flex-col md:flex-row md:flex-wrap items-center justify-center gap-6"
+            className="relative mt-6 md:mt-16 w-full flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-6 lg:gap-8"
           >
             {photos.map((photo, i) => {
-              const mobileMargins = [
-                "mr-auto ml-4",
-                "ml-auto mr-4 -mt-16",
-                "mr-auto ml-10 -mt-10",
-                "ml-auto mr-6 -mt-12"
-              ];
+              // Alternating alignment with reduced height & width footprint
+              const mobilePositions = [
+                'self-start ml-2',
+                'self-end mr-2 -mt-2 md:mt-0',
+                'self-start ml-4 -mt-2 md:mt-0',
+                'self-end mr-4 -mt-2 md:mt-0',
+              ]
 
               return (
                 <motion.div
                   key={i}
                   variants={fadeInUp}
-                  whileHover={{ scale: 1.04, y: -6 }}
+                  whileHover={{ scale: 1.04, y: -4 }}
                   transition={{ type: "spring", stiffness: 260, damping: 25 }}
                   className={`
-                    relative rounded-[24px] overflow-hidden shadow-sm bg-slate-50 z-10
+                    relative rounded-[20px] md:rounded-[24px] overflow-hidden shadow-sm bg-slate-50 z-10
                     ${sizeMap[photo.size]}
-                    md:mt-0 md:ml-0 md:mr-0
-                    ${mobileMargins[i] || ""}
+                    ${mobilePositions[i % 4]}
+                    md:self-auto md:ml-0 md:mr-0
                   `}
                 >
                   <Image
@@ -80,7 +82,7 @@ export function MissionStatementBlock({
                     alt={photo.alt || 'Gallery Presentation Image'}
                     fill
                     className="object-cover pointer-events-none"
-                    sizes="(max-width: 768px) 50vw, 25vw"
+                    sizes="(max-width: 768px) 60vw, 25vw"
                   />
                 </motion.div>
               )
